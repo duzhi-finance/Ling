@@ -3,302 +3,308 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#5F7F92">
-<title>業務營地</title>
+<meta name="theme-color" content="#F8F7F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="業務日誌">
+<title>業務日誌</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Noto+Serif+TC:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ============================================================
+   Design tokens — Muted Editorial
+   ============================================================ */
 :root{
-  --pink:#C9938A; --soft-pink:#E8C4BC; --light-pink:#F5E6E3;
-  --blue:#7A9BAD; --soft-blue:#B8CFDA; --light-blue:#E3EDF3;
-  --sage:#9AAE9B; --light-sage:#E8F0E8;
-  --cream:#FAF3EE; --bg:#FAFAF8; --dark:#37352F; --medium:#5A5248; --gray:#9B9A97;
-  --primary:#5F7F92; --primary-dark:#4A6778;
-  --oat:#F3ECE3; --sand:#EADFD2;
-  --gold:#C3A26A; --light-gold:#F6EEDD; --orange:#E0915A; --light-orange:#FBEBDD;
-  --card:#FFFFFF; --line:#EEE8E1;
-  --shadow:0 2px 10px rgba(55,53,47,.06), 0 1px 2px rgba(55,53,47,.04);
-  --shadow-lg:0 12px 40px rgba(55,53,47,.16);
-  --r:16px; --r-sm:10px;
+  color-scheme: light;
+  --bg:#F8F7F4; --paper:#FFFFFF; --kpi:#F7F6F4; --soft:#FAFAF8;
+  --ink:#2B2B2B; --ink-2:#4A4A4A; --muted:#8E8E93; --muted-2:#B0B0B0; --label:rgba(43,43,43,.46);
+  --line:#ECEBE8; --line-2:#E3E1DD;
+  --rose:#C89B95; --rose-ink:#9E6F69; --blush:#E8D8D5;
+  --blue-ink:#5E7084; --gold:#D4AF37; --milk:#C8B8A6;
+  --warn-bg:#F6EEEC; --warn-ink:#9E625A;
+  --radius:16px; --r:10px; --shadow:0 2px 10px rgba(0,0,0,.02);
+  --serif:'Noto Serif TC','Songti TC','MingLiU',serif;
+  --latin:'Cormorant Garamond','Playfair Display','Noto Serif TC',serif;
+  --nav-h:64px; --side:0px; --safe-b:env(safe-area-inset-bottom,0px);
 }
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--dark);font-family:'Noto Sans TC',system-ui,-apple-system,'PingFang TC','Microsoft JhengHei',sans-serif;font-size:15px;line-height:1.7;min-height:100vh}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--serif);font-weight:400;font-size:14.5px;line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:.01em;font-variant-numeric:lining-nums;font-feature-settings:"lnum" 1}
 button,input,select,textarea{font:inherit;color:inherit}
-button{cursor:pointer}
-h1,h2,h3,h4{margin:0;font-weight:700;line-height:1.35}
-a{color:var(--primary)}
+button{cursor:pointer;background:none;border:0;padding:0}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:400;letter-spacing:.05em;margin:0;color:var(--ink)}
+.wrap{max-width:720px;margin:0 auto;padding:0 18px calc(var(--nav-h) + var(--safe-b) + 120px)}
+.muted{color:var(--muted)}
+.small{font-size:12.5px}
+.xs{font-size:11.5px}
 .hidden{display:none!important}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row.between{justify-content:space-between}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.en,.sub{font-family:var(--latin);font-style:italic;font-weight:400;color:var(--muted)}
+.num{font-family:var(--latin);font-weight:500;font-variant-numeric:lining-nums tabular-nums}
 
-/* ===== Header & nav ===== */
-.topbar{position:sticky;top:0;z-index:50;background:rgba(250,250,248,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.topbar-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:10px 16px}
-.brand{display:flex;align-items:center;gap:8px;font-weight:900;font-size:18px;color:var(--primary-dark);white-space:nowrap}
-.brand .logo{width:32px;height:32px;border-radius:10px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:17px}
-.brand small{font-weight:500;color:var(--gray);font-size:12px;display:block;line-height:1}
-.nav{display:flex;gap:4px;margin-left:12px}
-.nav a{text-decoration:none;color:var(--medium);padding:7px 12px;border-radius:999px;font-weight:500;font-size:14px;white-space:nowrap}
-.nav a.on{background:var(--light-blue);color:var(--primary-dark);font-weight:700}
-.top-actions{margin-left:auto;display:flex;align-items:center;gap:6px}
-.icon-btn{position:relative;border:0;background:transparent;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:19px}
-.icon-btn:hover{background:var(--oat)}
-.badge-dot{position:absolute;top:3px;right:3px;min-width:17px;height:17px;padding:0 4px;border-radius:9px;background:var(--orange);color:#fff;font-size:11px;font-weight:700;line-height:17px;text-align:center}
-.me-btn{display:flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:999px;padding:4px 10px 4px 4px;font-size:14px;font-weight:500}
-.me-btn .av{width:28px;height:28px;font-size:16px}
-.bottom-nav{display:none}
-@media (max-width:760px){
-  .nav{display:none}
-  .brand small{display:none}
-  .bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
-  .bottom-nav a{flex:1;text-decoration:none;color:var(--gray);display:flex;flex-direction:column;align-items:center;font-size:11px;gap:1px;padding:4px 0;border-radius:10px}
-  .bottom-nav a span{font-size:20px;line-height:1.2;filter:grayscale(.6);opacity:.8}
-  .bottom-nav a.on{color:var(--primary-dark);font-weight:700}
-  .bottom-nav a.on span{filter:none;opacity:1}
-  body{padding-bottom:78px}
-  .me-btn .nm{display:none}
-  .me-btn{padding:4px}
+/* masthead */
+.mast{padding:34px 0 20px;margin-bottom:10px}
+.mast-top{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.kicker{font-family:var(--latin);font-size:12px;letter-spacing:.3em;color:var(--label);text-transform:uppercase}
+.mast h1{font-size:30px;margin:8px 0 0;line-height:1.25;letter-spacing:.06em}
+.mast .sub{font-size:14.5px;letter-spacing:.04em}
+.mast-acts{display:flex;gap:6px;align-items:center}
+.round{position:relative;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:center;color:var(--ink-2)}
+.round .dot{position:absolute;top:6px;right:7px;width:6px;height:6px;border-radius:50%;background:var(--rose)}
+.me-chip{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:3px 12px 3px 3px;font-size:12.5px;color:var(--ink-2);letter-spacing:.05em}
+.me-chip .avatar{width:28px;height:28px;font-size:13px}
+.me-chip{white-space:nowrap}
+.mast-top{align-items:flex-start}
+@media (max-width:480px){.me-chip{padding:3px}.me-chip .nm{display:none}.kicker{font-size:11px;letter-spacing:.22em}}
+
+/* sections & cards */
+.sec{margin:34px 0}
+.sec-h{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:12px}
+.sec-h h2{font-size:18px;font-weight:400}
+.sec-h .en{font-size:14px;margin-left:8px;letter-spacing:.03em}
+.sec-h .aside{font-size:11.5px;color:var(--muted)}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow)}
+.pad{padding:20px}
+.hr{height:1px;background:var(--line);margin:18px 0;border:0}
+
+/* chips / badges */
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;margin-bottom:12px}
+.chips::-webkit-scrollbar{display:none}
+.chips.wrapc{flex-wrap:wrap;overflow:visible}
+.chip{flex:none;border:1px solid var(--line);background:var(--paper);border-radius:99px;padding:5px 15px;font-size:12.5px;color:var(--ink-2);white-space:nowrap;letter-spacing:.04em}
+.chip.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:11px;padding:1px 9px;border-radius:99px;white-space:nowrap;line-height:1.7;background:var(--soft);border:1px solid var(--line);color:var(--ink-2);letter-spacing:.04em}
+.st:before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;flex:none}
+.st.done{color:var(--muted)}
+.st.blue{color:var(--blue-ink)}
+.st.warn{background:var(--warn-bg);border-color:#EEDDD9;color:var(--warn-ink)}
+.st.gold{color:#9C8330}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--r);padding:9px 18px;font-size:13.5px;border:1px solid var(--line-2);background:var(--paper);color:var(--ink);letter-spacing:.05em;text-decoration:none;white-space:nowrap}
+.btn.dark{background:var(--ink);border-color:var(--ink);color:#fff}
+.btn.sm{padding:4px 12px;font-size:12px;border-radius:8px}
+.btn.block{width:100%}
+.btn:active{transform:scale(.98)}
+.linkbtn{font-size:12px;color:var(--muted);letter-spacing:.04em;display:inline-flex;align-items:center;gap:4px}
+.linkbtn:hover{color:var(--ink)}
+.linkbtn.warn{color:var(--warn-ink)}
+.btn-line{display:inline-flex;align-items:center;justify-content:center;padding:11px 28px;border:1px solid var(--ink);border-radius:10px;background:transparent;color:var(--ink);font-size:13.5px;letter-spacing:.18em}
+.btn-line:active{background:var(--ink);color:#fff}
+
+/* icons */
+.ic{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px;flex:none}
+
+/* avatar */
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--kpi);flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:18px;color:var(--ink-2)}
+.av-ring{position:relative;flex:none;padding:4px;border-radius:50%;border:1px solid var(--gold);display:block}
+.av-ring .avatar{width:76px;height:76px;font-size:28px}
+
+/* identity card */
+.idc{padding:0;overflow:hidden}
+.idc-band{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line)}
+.idc-band .k{font-family:var(--latin);font-size:11px;letter-spacing:.32em;color:var(--label)}
+.idc-top{display:flex;gap:18px;align-items:center;padding:20px 20px 4px}
+.idc-name{font-family:var(--serif);font-size:24px;letter-spacing:.16em;line-height:1.2}
+.idc-sub{font-size:12.5px;color:var(--muted);margin-top:4px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:14px 20px 20px}
+.kpi{background:var(--kpi);border-radius:12px;padding:12px 6px 10px;text-align:center}
+.kpi .v{font-family:var(--latin);font-weight:500;font-size:24px;line-height:1.2;white-space:nowrap;font-variant-numeric:lining-nums tabular-nums}
+.kpi .v small{font-family:var(--serif);font-size:10.5px;color:var(--muted);margin-left:2px;font-weight:400}
+.kpi .l{font-size:10.5px;color:var(--label);margin-top:4px;letter-spacing:.06em}
+@media (max-width:400px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* today box */
+.today-box{background:var(--paper);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;border:1px solid var(--line);box-shadow:inset 3px 0 0 var(--rose)}
+.today-h{display:flex;align-items:center;gap:10px;margin-bottom:4px}
+.today-h .bell{width:28px;height:28px;border-radius:50%;background:var(--warn-bg);color:var(--warn-ink);display:flex;align-items:center;justify-content:center;flex:none}
+.today-h b{font-family:var(--serif);font-size:16px;font-weight:400;letter-spacing:.05em}
+.today-row{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.today-row .t{flex:1;min-width:0;font-size:13.5px}
+.today-row .t .muted{font-size:11.5px;font-weight:300;display:block}
+.today-row .lb{width:44px;flex:none;font-size:11px;color:var(--label);letter-spacing:.1em}
+
+/* entry (journal card) */
+.entry{padding:18px 20px;position:relative}
+.entry+.entry{margin-top:12px}
+.entry-top{display:flex;gap:14px;align-items:center}
+.entry-top .avatar{width:40px;height:40px;font-size:15px}
+.entry-name{font-family:var(--serif);font-size:16px;letter-spacing:.08em}
+.entry-meta{font-size:11.5px;color:var(--muted);font-weight:300}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:14px 0 4px}
+.metric{background:var(--kpi);border-radius:10px;padding:8px 6px;text-align:center}
+.metric .v{font-family:var(--latin);font-weight:500;font-size:20px;line-height:1.1}
+.metric .l{font-size:10.5px;color:var(--label);letter-spacing:.08em}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px;margin:12px 0 0}
+.kv dt{color:var(--label);font-size:11px;letter-spacing:.06em;white-space:nowrap;padding-top:2px}
+.kv dd{margin:0;word-break:break-word;white-space:pre-wrap;color:var(--ink)}
+.advice{display:flex;gap:12px;padding:12px 14px;border-radius:12px;background:var(--soft);border:1px solid var(--line);margin-top:14px;font-size:13px}
+.advice .ic{color:var(--gold);margin-top:3px}
+.advice b{font-weight:500}
+.entry-foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px;padding-top:10px;border-top:1px solid var(--line);font-size:11.5px;gap:8px;flex-wrap:wrap}
+
+/* timeline */
+.month-h{font-family:var(--latin);font-weight:500;font-size:13px;letter-spacing:.24em;color:var(--muted-2);margin:28px 0 12px 30px}
+.tl{position:relative;padding-left:30px}
+.tl:before{content:"";position:absolute;left:9px;top:8px;bottom:8px;width:1px;background:var(--line-2)}
+.tl-item{position:relative;margin-bottom:12px}
+.tl-item .card{box-shadow:inset 2px 0 0 var(--gold),var(--shadow)}
+.tl-item.reviewed .card{box-shadow:inset 2px 0 0 var(--ink),var(--shadow)}
+.tl-item .pin{position:absolute;left:-25px;top:26px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px var(--bg)}
+.tl-item.reviewed .pin{background:var(--ink)}
+.rec-top{display:flex;gap:16px;align-items:flex-start}
+.rec-date{text-align:center;flex:none;width:44px}
+.rec-date .dd{font-family:var(--latin);font-weight:500;font-size:32px;line-height:1}
+.rec-date .mm{font-size:10px;color:var(--label);letter-spacing:.12em;margin-top:4px}
+.rec-main{flex:1;min-width:0}
+.rec-cat{font-family:var(--serif);font-size:17px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;letter-spacing:.05em}
+.rec-cat .en{font-size:13px}
+@media (max-width:420px){.rec-top{gap:10px}.rec-date{width:34px}.rec-date .dd{font-size:26px}}
+
+/* goals grid */
+.ggrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:18px}
+.gcell{position:relative;aspect-ratio:1/1;border:1px solid var(--line);border-radius:12px;background:#fff;display:flex;flex-direction:column;justify-content:space-between;padding:10px 10px 9px;text-align:left;transition:background .2s,color .2s,border-color .2s}
+.gcell .n{font-family:var(--latin);font-style:italic;font-size:13px;color:var(--muted-2)}
+.gcell .t{font-size:13px;line-height:1.45;color:var(--ink-2);letter-spacing:.03em}
+.gcell .ck{position:absolute;top:9px;right:9px;width:18px;height:18px;border-radius:50%;border:1px solid var(--line-2);display:flex;align-items:center;justify-content:center}
+.gcell .ck .ic{width:11px;height:11px}
+.gcell.done{background:var(--ink);border-color:var(--ink)}
+.gcell.done .t{color:#fff}
+.gcell.done .n{color:rgba(255,255,255,.5)}
+.gcell.done .ck{border-color:rgba(255,255,255,.5);color:#fff}
+.gcell.inline{box-shadow:inset 0 0 0 1px var(--gold)}
+.gcell[disabled]{cursor:default}
+@media (max-width:420px){.gcell .t{font-size:12px}.ggrid{padding:12px;gap:6px}}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;width:36px;flex:none}
+.mini i{aspect-ratio:1/1;border-radius:2px;background:var(--line)}
+.mini i.on{background:var(--ink)}
+
+/* list items */
+.list-item{display:flex;align-items:center;gap:14px;padding:14px 18px}
+.list-item+.list-item{border-top:1px solid var(--line)}
+.list-item .grow{flex:1;min-width:0}
+.list-item .avatar{width:40px;height:40px;font-size:15px}
+.list-item .nm{font-size:15px;letter-spacing:.05em}
+.bar{height:2px;border-radius:2px;background:#ECEBE8;overflow:hidden;margin:8px 0 4px}
+.bar span{display:block;height:100%;background:var(--ink);border-radius:2px}
+.leg-row{padding:8px 0;font-size:13px}
+.leg-row+.leg-row{border-top:1px solid var(--line)}
+.leg-row .v{font-family:var(--latin);font-weight:500;font-size:17px}
+
+/* forms */
+.field{margin-bottom:20px}
+.field>label,.flabel{display:block;font-size:11.5px;color:var(--label);letter-spacing:.1em;margin-bottom:6px}
+.flabel .en{font-size:12.5px;margin-left:6px;letter-spacing:.03em;color:var(--muted-2)}
+.inp{width:100%;border:1px solid var(--line);background:#FFFFFF;border-radius:var(--r);padding:10px 14px;font-size:16px;font-weight:300;color:var(--ink);outline:none;appearance:none;-webkit-appearance:none;transition:border-color .2s,box-shadow .2s;min-height:44px}
+.inp::placeholder{color:#C9C9CD}
+.inp:focus{border-color:#CFCBC4;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+textarea.inp{min-height:80px;resize:vertical;line-height:1.7}
+select.inp{background:#FFFFFF url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 14px center;padding-right:34px}
+select.inline{border:1px solid var(--line);border-radius:99px;padding:4px 28px 4px 12px;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%238E8E93' stroke-width='1.2'/%3E%3C/svg%3E") no-repeat right 11px center;appearance:none;-webkit-appearance:none;font-size:12.5px;min-height:32px}
+.opts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.opts.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.opt{position:relative;display:block}
+.opt input{position:absolute;opacity:0;pointer-events:none}
+.opt span{display:flex;align-items:center;justify-content:center;gap:4px;height:40px;border:1px solid var(--line);border-radius:var(--r);padding:0 6px;font-size:12.5px;letter-spacing:.04em;background:#FFFFFF;color:var(--ink-2);transition:all .18s;white-space:nowrap;cursor:pointer}
+.opt input:checked+span{background:var(--ink);color:#FFFFFF;border-color:var(--ink)}
+.opt input:focus-visible+span{box-shadow:0 0 0 2px rgba(212,175,55,.4)}
+.hint{font-size:11px;color:var(--muted-2);margin-top:6px;line-height:1.7;font-weight:300}
+.divider-t{font-family:var(--latin);font-size:12px;letter-spacing:.3em;color:var(--muted-2);text-align:center;margin:8px 0 20px;display:flex;align-items:center;gap:14px;text-transform:uppercase}
+.divider-t:before,.divider-t:after{content:"";flex:1;height:1px;background:var(--line)}
+.stepper{border:1px solid var(--line);border-radius:12px;background:#fff;padding:10px 6px;text-align:center}
+.stepper .lb{font-size:11.5px;color:var(--label);letter-spacing:.1em}
+.stepper .ctl{display:flex;align-items:center;justify-content:center;gap:2px;margin-top:4px}
+.stepper .ctl button{width:30px;height:30px;border-radius:50%;border:1px solid var(--line);color:var(--ink-2);font-size:16px;font-weight:300;display:flex;align-items:center;justify-content:center;flex:none}
+.stepper .ctl input{width:40px;text-align:center;border:0;background:transparent;font-family:var(--latin);font-weight:500;font-size:26px;color:var(--ink);outline:none;-moz-appearance:textfield;padding:0}
+.stepper .ctl input::-webkit-outer-spin-button,.stepper .ctl input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* empty */
+.empty{padding:30px 20px;text-align:center;color:var(--muted);font-size:13px;font-weight:300}
+.empty .serif{color:var(--ink);font-size:16px;display:block;margin-bottom:4px;font-weight:400}
+.empty .kick{display:block;font-family:var(--latin);font-style:italic;font-size:15px;letter-spacing:.06em;color:var(--muted);margin-bottom:6px}
+.note{display:flex;gap:10px;font-size:12px;color:var(--muted);line-height:1.8;padding:16px 18px;border:1px solid var(--line);background:var(--paper);border-radius:var(--radius);margin-top:28px;font-weight:300}
+.note b{color:var(--ink-2);font-weight:400}
+.note .ic{color:var(--gold);margin-top:3px}
+
+/* sheet (modal) */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(43,43,43,.22);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s}
+.modal.open{opacity:1;pointer-events:auto}
+.sheet{background:#FFFFFF;width:100%;max-width:600px;max-height:92vh;max-height:92dvh;overflow-y:auto;border-radius:16px 16px 0 0;border:1px solid var(--line);border-bottom:0;padding:10px 22px calc(22px + var(--safe-b));transform:translateY(24px);transition:transform .3s cubic-bezier(.2,.8,.2,1);overscroll-behavior:contain;box-shadow:0 -4px 24px rgba(0,0,0,.04)}
+.sheet.wide{max-width:900px}
+.modal.open .sheet{transform:none}
+.sheet .grab{width:36px;height:3px;background:#E5E5E5;border-radius:3px;margin:4px auto 16px}
+.sheet-h{position:relative;margin-bottom:22px;padding:0 40px 12px 0;border-bottom:1px solid var(--line)}
+.sheet-h h3{font-size:21px;letter-spacing:.06em;line-height:1.3}
+.sheet-h .en{display:block;font-size:14.5px;letter-spacing:.04em;color:var(--muted-2);margin-bottom:3px}
+.sheet-h .close{position:absolute;top:-2px;right:-6px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:22px;font-weight:200;line-height:1}
+.sheet-actions{position:sticky;bottom:calc(-22px - var(--safe-b));background:#FFFFFF;padding:12px 0 calc(12px + var(--safe-b));margin:8px 0 calc(-22px - var(--safe-b));border-top:1px solid var(--line);display:flex;gap:8px;align-items:center}
+.btn-text{flex:0 0 auto;padding:12px 14px;font-size:13.5px;color:var(--muted);letter-spacing:.1em}
+.btn-text.warn{color:var(--warn-ink);margin-right:auto;padding-left:0}
+.btn-save{flex:1;height:48px;border-radius:var(--r);background:var(--ink);color:#FFFFFF;font-size:14px;letter-spacing:.12em}
+.btn-save:active{background:#000}
+.sheet.full{max-height:100vh;max-height:100dvh;height:100dvh;border-radius:0;border:0;padding-top:calc(10px + env(safe-area-inset-top,0px))}
+@media (min-width:700px){.modal{align-items:center}.sheet{border-radius:16px;border-bottom:1px solid var(--line);max-height:86vh}.sheet.full{height:auto;max-height:92vh;border-radius:16px;border:1px solid var(--line)}}
+
+/* nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.92);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--line);padding-bottom:var(--safe-b)}
+.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));height:var(--nav-h)}
+.nav .brand{display:none}
+.nav button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:10px;color:var(--muted-2);letter-spacing:.08em}
+.nav button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav button.on{color:var(--ink)}
+.fab{position:fixed;z-index:41;right:max(18px,calc(50% - 360px + 18px));bottom:calc(var(--nav-h) + var(--safe-b) + 18px);width:50px;height:50px;border-radius:50%;background:var(--ink);color:#fff;font-size:24px;font-weight:200;box-shadow:0 4px 14px rgba(0,0,0,.10);display:flex;align-items:center;justify-content:center}
+@media (min-width:1024px){
+  :root{--side:232px}
+  body{padding-left:var(--side)}
+  .nav{top:0;bottom:0;right:auto;width:var(--side);border-top:0;border-right:1px solid var(--line);background:#fff;padding:30px 0}
+  .nav .in{display:flex!important;flex-direction:column;height:auto;gap:4px;padding:0 16px}
+  .nav .brand{display:block;font-family:var(--serif);font-size:21px;letter-spacing:.1em;padding:0 14px 26px}
+  .nav .brand small{display:block;font-family:var(--latin);font-style:italic;font-size:13px;color:var(--muted-2);letter-spacing:.04em}
+  .nav button{flex-direction:row;justify-content:flex-start;gap:12px;padding:10px 14px;border-radius:var(--r);font-size:13.5px;color:var(--muted)}
+  .nav button.on{background:var(--kpi);color:var(--ink)}
+  .fab{right:40px;bottom:40px}
+  .wrap{padding-bottom:120px}
 }
 
-/* ===== Layout ===== */
-main{max-width:1080px;margin:0 auto;padding:20px 16px 40px}
-.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:4px 0 18px;flex-wrap:wrap}
-.page-head h1{font-size:24px}
-.page-head p{margin:2px 0 0;color:var(--gray);font-size:14px}
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
-.split{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px;align-items:start}
-@media (max-width:900px){.split{grid-template-columns:1fr}}
-@media (max-width:760px){.g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:1fr}.g2{grid-template-columns:1fr}.page-head h1{font-size:21px}}
-.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:18px;border:1px solid rgba(238,232,225,.7)}
-.card.tint{background:var(--cream)}
-.card-title{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
-.card-title h3{font-size:16px}
-.muted{color:var(--gray)}
-.small{font-size:13px}
-.xs{font-size:12px}
-.row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.between{justify-content:space-between}
-.stack>*+*{margin-top:12px}
-hr.sep{border:0;border-top:1px dashed var(--line);margin:14px 0}
+/* dialog / toast / notice */
+.dialog{position:fixed;inset:0;z-index:90;background:rgba(43,43,43,.25);display:none;align-items:center;justify-content:center;padding:24px}
+.dialog.open{display:flex}
+.dialog .box{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 20px 14px;max-width:360px;width:100%;box-shadow:0 10px 40px rgba(0,0,0,.08)}
+.dialog .msg{white-space:pre-wrap;font-size:14px;margin-bottom:18px}
+.dialog .acts{display:flex;justify-content:flex-end;gap:6px}
+.toast{position:fixed;left:calc(50% + var(--side)/2);bottom:calc(var(--nav-h) + var(--safe-b) + 90px);transform:translateX(-50%) translateY(10px);background:var(--ink);color:#fff;padding:9px 18px;border-radius:99px;font-size:12.5px;opacity:0;transition:all .25s;z-index:95;pointer-events:none;max-width:88vw;text-align:center;letter-spacing:.04em}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.notice{position:fixed;z-index:96;left:calc(50% + var(--side)/2);top:18px;transform:translateX(-50%);width:min(92vw,420px);background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.08),inset 3px 0 0 var(--rose);padding:14px 16px;display:flex;gap:12px;font-size:13px}
+.notice .ic{color:var(--warn-ink);margin-top:3px}
+.notice b{font-weight:500}
+.notif{display:flex;gap:12px;padding:12px 0;border-top:1px solid var(--line);font-size:13px}
+.notif:first-child{border-top:0}
+.notif .ic{color:var(--muted);margin-top:3px}
+.notif.unread .ic{color:var(--gold)}
+.notif .tm{font-size:11px;color:var(--muted-2);font-weight:300}
 
-/* ===== Buttons & inputs ===== */
-.btn{border:0;border-radius:12px;padding:9px 16px;font-weight:700;font-size:14px;background:var(--oat);color:var(--dark);display:inline-flex;align-items:center;gap:6px;justify-content:center;transition:transform .1s, background .15s;text-decoration:none;white-space:nowrap}
-.btn:hover{background:var(--sand)}
-.btn:active{transform:scale(.97)}
-.btn.primary{background:var(--primary);color:#fff}
-.btn.primary:hover{background:var(--primary-dark)}
-.btn.gold{background:var(--gold);color:#fff}
-.btn.orange{background:var(--orange);color:#fff}
-.btn.ghost{background:transparent;border:1px solid var(--line)}
-.btn.ghost:hover{background:var(--oat)}
-.btn.danger{background:var(--light-pink);color:#A2584C}
-.btn.sm{padding:5px 11px;font-size:13px;border-radius:10px}
-.btn.block{width:100%}
-.btn.big{padding:16px 20px;font-size:17px;border-radius:16px}
-.btn[disabled]{opacity:.5;pointer-events:none}
-label.f{display:block;font-weight:700;font-size:14px;margin-bottom:6px;color:var(--medium)}
-.field{margin-bottom:18px}
-.input,select.input,textarea.input{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:10px 12px;outline:none;transition:border .15s, box-shadow .15s}
-.input:focus{border-color:var(--soft-blue);box-shadow:0 0 0 3px var(--light-blue)}
-textarea.input{min-height:74px;resize:vertical;line-height:1.6}
-.chips{display:flex;flex-wrap:wrap;gap:6px}
-.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;color:var(--medium)}
-.chip:hover{background:var(--oat)}
-.chip.on{background:var(--primary);border-color:var(--primary);color:#fff}
-.seg{display:inline-flex;background:var(--oat);border-radius:12px;padding:3px;gap:2px;flex-wrap:wrap}
-.seg button{border:0;background:transparent;border-radius:9px;padding:6px 14px;font-size:14px;font-weight:500;color:var(--medium)}
-.seg button.on{background:#fff;color:var(--primary-dark);font-weight:700;box-shadow:var(--shadow)}
-
-/* ===== Avatars, tags, stamps ===== */
-.av{width:40px;height:40px;border-radius:50%;background:var(--light-blue);display:grid;place-items:center;font-size:21px;flex-shrink:0}
-.tag{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;background:var(--oat);color:var(--medium);white-space:nowrap}
-.tag.blue{background:var(--light-blue);color:var(--primary-dark)}
-.tag.sage{background:var(--light-sage);color:#5E7A60}
-.tag.gold{background:var(--light-gold);color:#8E6F37}
-.tag.orange{background:var(--light-orange);color:#B0602A}
-.tag.pink{background:var(--light-pink);color:#A2584C}
-.stamp{display:inline-grid;place-items:center;width:64px;height:64px;border-radius:50%;border:3px double currentColor;font-weight:900;font-size:14px;transform:rotate(-14deg);letter-spacing:1px;line-height:1.1;text-align:center;flex-shrink:0;background:rgba(255,255,255,.6)}
-.stamp.s-pass{color:var(--primary)}
-.stamp.s-great{color:var(--gold)}
-.stamp.s-hero{color:var(--orange)}
-.stamp.sm{width:48px;height:48px;font-size:11px;border-width:3px}
-.stars{color:var(--gold);letter-spacing:1px}
-
-/* ===== Home ===== */
-.announce{background:linear-gradient(135deg,var(--primary) 0%,#7C9AAC 100%);color:#fff;border:0}
-.announce .muted{color:rgba(255,255,255,.75)}
-.announce-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.15)}
-.announce-item:last-child{border-bottom:0}
-.dinner-mini{background:rgba(255,255,255,.14);border-radius:12px;padding:10px 12px;margin-top:10px}
-.streak-card{background:linear-gradient(160deg,#FFF9F2 0%,var(--light-gold) 100%);border:1px solid #F0E3CB}
-.fire{font-size:40px;line-height:1}
-.streak-num{font-size:34px;font-weight:900;color:#B0602A;line-height:1}
-.exp-bar{height:12px;background:rgba(195,162,106,.18);border-radius:999px;overflow:hidden}
-.exp-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--orange));border-radius:999px;transition:width .6s}
-.week-dots{display:flex;gap:6px}
-.week-dots div{flex:1;text-align:center;font-size:11px;color:var(--gray)}
-.week-dots b{display:grid;place-items:center;height:28px;border-radius:9px;background:rgba(255,255,255,.7);font-size:14px;margin-bottom:2px;border:1px dashed #E7D8BD}
-.week-dots b.done{background:var(--orange);border:0;color:#fff}
-.week-dots b.today{outline:2px solid var(--gold);outline-offset:1px}
-.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.quick a{text-decoration:none;color:var(--dark);background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 12px;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;font-weight:700;border:1px solid rgba(238,232,225,.7);transition:transform .15s}
-.quick a:hover{transform:translateY(-2px)}
-.quick a .e{font-size:28px}
-.quick a small{font-weight:400;color:var(--gray);font-size:12px}
-.kpi .v{font-size:28px;font-weight:900;color:var(--primary-dark);line-height:1.2}
-.kpi .l{font-size:13px;color:var(--gray);font-weight:500}
-.kpi .s{font-size:12px;color:var(--gray)}
-.kpi .ic{font-size:20px}
-@media (max-width:760px){.quick a{padding:12px 6px;font-size:13px}.quick a .e{font-size:24px}.kpi .v{font-size:24px}}
-
-/* ===== Feed ===== */
-.post{position:relative}
-.post-head{display:flex;gap:10px;align-items:center}
-.post-head .who{font-weight:700}
-.nums{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
-.num-pill{background:var(--light-blue);border-radius:10px;padding:4px 10px;font-size:13px;color:var(--primary-dark)}
-.num-pill b{font-size:15px;margin-left:2px}
-.post-body p{margin:4px 0}
-.post-body .k{font-weight:700;color:var(--medium);font-size:13px;margin-right:4px}
-.post .stamp-float{position:absolute;right:16px;top:14px}
-.review-box{margin-top:10px;background:var(--cream);border-radius:12px;padding:10px 12px;font-size:14px;border-left:3px solid var(--gold)}
-.reacts{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;align-items:center}
-.react{border:1px solid var(--line);background:#fff;border-radius:999px;padding:2px 10px;font-size:13px}
-.react.on{background:var(--light-gold);border-color:#E7D2A8}
-.post.has-stamp .post-body{padding-right:70px}
-@media (max-width:760px){.post.has-stamp .post-body{padding-right:0}.post .stamp-float{top:10px;right:10px}.post .stamp-float .stamp{width:48px;height:48px;font-size:11px}}
-
-/* ===== Log form ===== */
-.stepper-wrap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.stepper{background:var(--cream);border-radius:14px;padding:12px;text-align:center}
-.stepper .lb{font-weight:700;font-size:14px;color:var(--medium)}
-.stepper .ctl{display:flex;align-items:center;justify-content:center;gap:6px;margin:6px 0}
-.stepper .ctl button{width:36px;height:36px;border-radius:50%;border:0;background:#fff;box-shadow:var(--shadow);font-size:20px;font-weight:700;color:var(--primary)}
-.stepper .ctl input{width:56px;text-align:center;border:0;background:transparent;font-size:28px;font-weight:900;color:var(--primary-dark);outline:none;-moz-appearance:textfield}
-.stepper .ctl input::-webkit-outer-spin-button,.stepper .ctl input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
-.stepper input[type=range]{width:100%;accent-color:var(--primary)}
-@media (max-width:520px){.stepper-wrap{grid-template-columns:1fr}.stepper{display:grid;grid-template-columns:70px 1fr;align-items:center;text-align:left;padding:8px 12px}.stepper .ctl{justify-content:flex-end;margin:0}.stepper input[type=range]{grid-column:1/-1}}
-.dinner-opt{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dinner-opt button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:12px;font-weight:700;font-size:15px}
-.dinner-opt button.on{border-color:var(--orange);background:var(--light-orange);color:#A0562A}
-.submit-bar{position:sticky;bottom:12px;z-index:5}
-@media (max-width:760px){.submit-bar{bottom:84px}}
-
-/* ===== Bingo ===== */
-.bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:460px;margin:0 auto;perspective:900px}
-.cell{position:relative;aspect-ratio:1/1;border:0;padding:0;background:transparent;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.2,.2,1)}
-.cell .face{position:absolute;inset:0;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px;backface-visibility:hidden;-webkit-backface-visibility:hidden;text-align:center;box-shadow:var(--shadow)}
-.cell .front{background:#fff;border:2px dashed var(--soft-blue)}
-.cell .front .n{font-size:11px;color:var(--gray);font-weight:700}
-.cell .front .t{font-size:14px;font-weight:700;color:var(--medium);line-height:1.35}
-.cell .back{background:linear-gradient(145deg,var(--light-gold),#F3DDBF);transform:rotateY(180deg);border:2px solid #E7CFA2}
-.cell .back .t{font-size:12px;color:#8E6F37;font-weight:500;line-height:1.3;margin-top:4px}
-.cell .clear{border:3px double #C2622A;color:#C2622A;font-weight:900;font-size:15px;padding:2px 8px;border-radius:8px;transform:rotate(-12deg);letter-spacing:2px;background:rgba(255,255,255,.5)}
-.cell.done{transform:rotateY(180deg)}
-.cell.inline .back{box-shadow:0 0 0 3px var(--orange),0 6px 20px rgba(224,145,90,.45)}
-.cell[disabled]{cursor:default}
-@media (max-width:520px){.cell .front .t{font-size:12px}.cell .clear{font-size:12px}.cell .back .t{font-size:10.5px}}
-.lines-badge{font-size:40px;font-weight:900;color:var(--orange);line-height:1}
-.reward{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed var(--line)}
-.reward:last-child{border-bottom:0}
-.reward .ico{width:40px;height:40px;border-radius:12px;background:var(--oat);display:grid;place-items:center;font-size:20px;flex-shrink:0;filter:grayscale(1);opacity:.6}
-.reward.unlocked .ico{background:var(--light-gold);filter:none;opacity:1}
-.pbar{height:8px;background:var(--oat);border-radius:999px;overflow:hidden;margin-top:4px}
-.pbar i{display:block;height:100%;background:var(--primary);border-radius:999px}
-.reward.unlocked .pbar i{background:linear-gradient(90deg,var(--gold),var(--orange))}
-.dims{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:760px){.dims{grid-template-columns:1fr}}
-.dim{border-radius:14px;padding:12px}
-.dim h4{font-size:14px;margin-bottom:6px}
-.dim.d1{background:var(--light-blue)}.dim.d2{background:var(--light-sage)}.dim.d3{background:var(--light-pink)}.dim.d4{background:var(--light-gold)}
-.dim textarea{background:rgba(255,255,255,.8);border-color:transparent}
-.mini-bingo{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;width:66px}
-.mini-bingo i{aspect-ratio:1/1;border-radius:4px;background:var(--oat)}
-.mini-bingo i.on{background:var(--orange)}
-
-/* ===== List / table ===== */
-.filters{display:grid;grid-template-columns:2fr repeat(4,minmax(0,1fr));gap:10px}
-@media (max-width:900px){.filters{grid-template-columns:1fr 1fr}.filters .search{grid-column:1/-1}}
-.tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
-table.tbl{width:100%;border-collapse:collapse;font-size:14px}
-.tbl th{text-align:left;font-size:12px;color:var(--gray);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
-.tbl td{padding:10px;border-bottom:1px solid var(--line);vertical-align:top}
-.tbl tr:hover td{background:#FDFBF8}
-.clip{max-width:260px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
-.list-cards{display:none}
-@media (max-width:760px){.tbl-wrap.resp{display:none}.list-cards{display:grid;gap:12px}}
-.empty{text-align:center;padding:36px 12px;color:var(--gray)}
-.empty .e{font-size:40px}
-
-/* ===== HQ ===== */
-.hq-log{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:16px}
-@media (max-width:900px){.hq-log{grid-template-columns:1fr}}
-.grade-panel{background:var(--cream);border-radius:14px;padding:12px}
-.stamp-pick{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-.stamp-pick button{border:2px solid transparent;background:#fff;border-radius:12px;padding:8px 4px;font-weight:700;font-size:13px}
-.stamp-pick button.s-pass{color:var(--primary)}.stamp-pick button.s-great{color:#9E7F45}.stamp-pick button.s-hero{color:#C0662D}
-.stamp-pick button.on{border-color:currentColor;background:#FFFDF8}
-.star-pick button{border:0;background:transparent;font-size:22px;padding:0 2px;filter:grayscale(1);opacity:.35}
-.star-pick button.on{filter:none;opacity:1}
-.help-flag{background:var(--light-orange);color:#A0562A;border-radius:10px;padding:6px 10px;font-size:13px;font-weight:700}
-.dinner-table td,.dinner-table th{padding:8px 10px}
-
-/* ===== Modal / toast / celebrate ===== */
-.overlay{position:fixed;inset:0;background:rgba(55,53,47,.42);z-index:100;display:flex;align-items:center;justify-content:center;padding:16px;animation:fade .2s}
-.modal{background:var(--bg);border-radius:20px;box-shadow:var(--shadow-lg);width:100%;max-width:560px;max-height:calc(100vh - 32px);overflow:auto;padding:20px;animation:pop .25s cubic-bezier(.3,1.4,.5,1)}
-.modal.wide{max-width:1000px}
-.modal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px}
-.modal-head h3{font-size:18px}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
-.toasts{position:fixed;top:66px;left:50%;transform:translateX(-50%);z-index:200;display:flex;flex-direction:column;gap:8px;width:min(92vw,420px);pointer-events:none}
-.toast{pointer-events:auto;background:var(--dark);color:#fff;border-radius:14px;padding:12px 14px;box-shadow:var(--shadow-lg);font-size:14px;animation:pop .25s;display:flex;gap:10px;align-items:flex-start}
-.toast.gold{background:linear-gradient(135deg,#8E6F37,var(--gold))}
-.toast .x{margin-left:auto;background:transparent;border:0;color:#fff;opacity:.7;font-size:16px}
-.toast .btn{margin-top:6px}
-.celebrate{position:fixed;inset:0;z-index:150;display:flex;align-items:center;justify-content:center;background:rgba(55,53,47,.35);animation:fade .2s;padding:16px}
-.celebrate-card{background:#fff;border-radius:24px;padding:28px 24px;text-align:center;max-width:360px;width:100%;box-shadow:var(--shadow-lg);animation:bounceIn .6s cubic-bezier(.3,1.6,.5,1);position:relative}
-.celebrate-card .big{font-size:60px;line-height:1}
-.celebrate-card h2{font-size:24px;margin:10px 0 4px;color:var(--primary-dark)}
-.celebrate-card .gain{display:inline-block;margin:10px 0;background:var(--light-gold);color:#8E6F37;font-weight:900;padding:6px 16px;border-radius:999px;font-size:18px}
-.celebrate-card .stamp{position:absolute;right:16px;top:14px;animation:stampIn .5s .35s both}
-@keyframes bounceIn{0%{opacity:0;transform:scale(.4)}100%{opacity:1;transform:scale(1)}}
-@keyframes stampIn{0%{opacity:0;transform:scale(2.4) rotate(-14deg)}100%{opacity:1;transform:scale(1) rotate(-14deg)}}
-.confetti{position:fixed;top:-12px;width:9px;height:14px;z-index:160;border-radius:2px;pointer-events:none;animation:fall linear forwards}
-@keyframes fall{to{transform:translateY(105vh) rotate(720deg)}}
-.notif{display:flex;gap:10px;padding:12px;border-radius:12px;background:#fff;margin-bottom:8px;border:1px solid var(--line)}
-.notif.unread{border-color:var(--gold);background:#FFFCF6}
-.notif .ic{font-size:22px}
-
-/* ===== Review card print ===== */
-.review-card{background:#fff;border-radius:18px;padding:18px;border:1px solid var(--line)}
 @media print{
-  body *{visibility:hidden}
-  .print-area,.print-area *{visibility:visible}
-  .print-area{position:absolute;left:0;top:0;width:100%}
-  .no-print{display:none!important}
+  body{padding:0!important;background:#fff}
+  .nav,.fab,.mast-acts,.no-print,.toast,.notice{display:none!important}
+  .wrap{max-width:none;padding:0}
 }
 </style>
 </head>
 <body>
-<header class="topbar">
-  <div class="topbar-in">
-    <div class="brand"><div class="logo">⛺</div><div><span id="teamName">業務營地</span><small>每日戰績・賓果・復盤</small></div></div>
-    <nav class="nav" id="nav"></nav>
-    <div class="top-actions">
-      <button class="icon-btn" onclick="App.openInbox()" title="通知" aria-label="通知">🔔<span id="bell" class="badge-dot hidden"></span></button>
-      <button class="icon-btn" onclick="location.hash='#settings'" title="設定與備份" aria-label="設定與備份">⚙️</button>
-      <button class="me-btn" onclick="App.openSwitch()" id="meBtn"></button>
-    </div>
-  </div>
-</header>
-<main id="app"></main>
-<nav class="bottom-nav" id="bnav"></nav>
-<div class="toasts" id="toasts"></div>
-<div id="layer"></div>
+<main class="wrap" id="view"></main>
+
+<button class="fab" id="fab" onclick="App.openLog()" aria-label="填寫日報">+</button>
+
+<nav class="nav"><div class="in" id="nav"></div></nav>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+<div class="dialog" id="dialog"><div class="box"><div class="msg"></div><div class="acts"><button class="btn-text" data-r="0">取消</button><button class="btn dark" data-r="1">確定</button></div></div></div>
+<div class="toast" id="toast"></div>
+<input type="file" id="importFile" accept="application/json,.json" class="hidden">
 
 <script>
 (function(){
@@ -307,29 +313,37 @@ table.tbl{width:100%;border-collapse:collapse;font-size:14px}
    常數與工具
    ========================================================= */
 const KEY = 'ling-camp-v1';
-const STAMPS = {
-  '合格':  {cls:'s-pass',  exp:5,  emoji:'✅', text:'合格'},
-  '優秀':  {cls:'s-great', exp:10, emoji:'🌟', text:'優秀'},
-  '神隊友':{cls:'s-hero',  exp:20, emoji:'🦸', text:'神隊友'}
-};
+const GRADES = ['合格','優秀','神隊友'];
 const HELP_OPTS = ['無','需主管陪訪','理賠諮詢','保單檢視','其他'];
-const REACTS = ['👏','🔥','💪'];
-const QUICK_COMMENTS = ['表現極佳！繼續保持！','節奏穩定，很棒 👍','今天的面談超有料 🔥','需要支援隨時說，我陪你！','明日重點很清楚，衝！','謝謝你幫團隊補位 🙌'];
-const LEVELS = [['見習新秀',0],['行動派',200],['開拓者',500],['攻城手',900],['王牌戰將',1400],['傳奇領隊',2000],['殿堂之星',3000]];
+const PHRASES = ['節奏穩定，繼續保持。','今天的面談很紮實。','需要支援隨時告訴我。','明日重點很清楚。','謝謝你幫團隊補位。'];
 const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-const REWARD_TYPES = {
-  'personal-lines':   {label:'個人賓果連線數', unit:'條', scope:'個人'},
-  'personal-cells':   {label:'個人賓果完成格數', unit:'格', scope:'個人'},
-  'personal-meetings':{label:'個人本期面談數', unit:'次', scope:'個人'},
-  'team-meetings':    {label:'全區本期面談數', unit:'次', scope:'全區'},
-  'team-logs':        {label:'全區本期戰報數', unit:'份', scope:'全區'},
-  'team-lines':       {label:'全區賓果連線總數', unit:'條', scope:'全區'}
+const DIMS = [['exp','體驗上','Experience','這兩週印象最深的一個經驗'],['learn','學習上','Learning','學到的新方法或觀念'],['improve','再提升','Improvement','哪裡可以做得更好'],['next','我的下一步','Next Step','接下來兩週具體要做的一件事']];
+
+const IC = {
+  home:'<path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/>',
+  journal:'<path d="M6 3v18"/><circle cx="6" cy="7" r="2"/><circle cx="6" cy="17" r="2"/><path d="M11 7h9M11 17h9M11 12h6"/>',
+  grid:'<rect x="3.5" y="3.5" width="17" height="17" rx="2"/><path d="M9.2 3.5v17M14.8 3.5v17M3.5 9.2h17M3.5 14.8h17"/>',
+  desk:'<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 10h6M9 14h6M9 18h3"/>',
+  settings:'<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+  bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l1.5 2h-15z"/><path d="M10 20.5a2 2 0 0 0 4 0"/>',
+  meal:'<path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3 4-3 8h3"/>',
+  pen:'<path d="M4 20l4-1 11-11-3-3L5 16z"/><path d="M14 6l3 3"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  quote:'<path d="M7 8h4v4c0 2.5-1.5 4-4 4.5M15 8h4v4c0 2.5-1.5 4-4 4.5"/>',
+  copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>',
+  down:'<path d="M12 4v11M7 10l5 5 5-5M5 20h14"/>',
+  up:'<path d="M12 20V9M7 14l5-5 5 5M5 4h14"/>',
+  print:'<path d="M7 9V4h10v5"/><rect x="4" y="9" width="16" height="8" rx="1.5"/><path d="M7 14h10v6H7z"/>',
+  mega:'<path d="M4 10v4h3l7 4V6l-7 4z"/><path d="M17.5 9.5a3.5 3.5 0 0 1 0 5"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v5.5M12 7.5v.01"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  send:'<path d="M4 12l16-8-6 16-2.5-6.5z"/>'
 };
-const AVATARS = ['🦊','🐯','🐰','🐻','🐼','🐨','🦁','🐶','🐱','🐧','🦉','🐳','🌻','🚀','⭐','🍀'];
+const ic = (n, cls) => '<svg class="ic '+(cls||'')+'" viewBox="0 0 24 24">'+(IC[n]||'')+'</svg>';
 
 const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const nl2br = s => esc(s).replace(/\n/g,'<br>');
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2,7);
 const pad = n => String(n).padStart(2,'0');
 const dstr = d => d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());
@@ -339,1248 +353,812 @@ const addDays = (s,n) => { const d = parseD(s); d.setDate(d.getDate()+n); return
 const nowHM = () => { const d = new Date(); return pad(d.getHours())+':'+pad(d.getMinutes()); };
 const fmtTime = iso => { if(!iso) return ''; const d = new Date(iso); return pad(d.getHours())+':'+pad(d.getMinutes()); };
 const WD = ['日','一','二','三','四','五','六'];
+const WDE = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
 const fmtDate = s => { const d = parseD(s); return (d.getMonth()+1)+'/'+d.getDate()+'（'+WD[d.getDay()]+'）'; };
+const kickDate = s => { const d = parseD(s); return d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' · '+WDE[d.getDay()]; };
 const isWeekend = s => { const w = parseD(s).getDay(); return w===0 || w===6; };
-const clamp = (n,a,b) => Math.max(a, Math.min(b, n));
+const initial = name => (name||'?').trim().charAt(0);
 
 /* =========================================================
    資料層
    ========================================================= */
 let S = null;
-
 function cycleLabel(start){
   const d = parseD(start), y = d.getFullYear(), q = Math.floor(d.getMonth()/3)+1;
-  const qs = new Date(y,(q-1)*3,1);
-  const n = Math.floor((d - qs)/(14*864e5))+1;
+  const n = Math.floor((d - new Date(y,(q-1)*3,1))/(14*864e5))+1;
   return y+' Q'+q+'-W'+n;
 }
-function mondayOf(s){ const d = parseD(s); const w = (d.getDay()+6)%7; d.setDate(d.getDate()-w); return dstr(d); }
-
+function mondayOf(s){ const d = parseD(s); d.setDate(d.getDate()-((d.getDay()+6)%7)); return dstr(d); }
 function defaultSettings(){
-  return {
-    teamName:'業務營地', dinnerCutoff:'16:00', remindTime:'20:00', expPerLog:20, skipWeekend:true,
-    dinnerMenu:['雞腿便當','排骨便當','素食便當','鯖魚便當','牛肉麵','沙拉輕食']
-  };
+  return {teamName:'業務日誌', dinnerCutoff:'16:00', remindTime:'20:00', skipWeekend:true,
+    dinnerMenu:['雞腿便當','排骨便當','素食便當','鯖魚便當','牛肉麵','沙拉輕食']};
 }
-
 function seed(withDemo){
   const t = today();
   const members = [
-    {id:'L1', name:'陳主管', avatar:'🦉', role:'leader'},
-    {id:'m1', name:'小安', avatar:'🦊', role:'member'},
-    {id:'m2', name:'阿哲', avatar:'🐯', role:'member'},
-    {id:'m3', name:'佳佳', avatar:'🐰', role:'member'},
-    {id:'m4', name:'志明', avatar:'🐻', role:'member'},
-    {id:'m5', name:'美玲', avatar:'🐼', role:'member'}
+    {id:'L1', name:'陳主管', role:'leader'},
+    {id:'m1', name:'林小安', role:'member'},
+    {id:'m2', name:'王哲', role:'member'},
+    {id:'m3', name:'張佳佳', role:'member'},
+    {id:'m4', name:'李志明', role:'member'},
+    {id:'m5', name:'吳美玲', role:'member'}
   ];
   const start = mondayOf(t);
-  const cycle = {
-    id:'c1', label:cycleLabel(start), start, end:addDays(start,13),
-    goals:['完成 3 次陪訪','新件簽單 1 件','面談 10 次','轉介紹 2 位','保單健檢 3 份','參加 2 次夜訓','連續回報 10 天','分享 1 則成功故事','約訪 15 次'],
-    rewards:[
-      {id:'r1', name:'主管請手搖飲', icon:'🧋', type:'personal-lines', target:1},
-      {id:'r2', name:'下午茶券一張', icon:'🍰', type:'personal-lines', target:3},
-      {id:'r3', name:'神秘大禮包',   icon:'🎁', type:'personal-cells', target:9},
-      {id:'r4', name:'全區披薩派對', icon:'🍕', type:'team-meetings',  target:60},
-      {id:'r5', name:'主管請喝下午茶', icon:'☕', type:'team-logs',    target:50}
-    ]
-  };
   const st = {
-    v:1, settings:defaultSettings(), members: withDemo ? members : [members[0]],
+    v:2, settings:defaultSettings(), members: withDemo ? members : [members[0]],
     currentUserId: withDemo ? 'm1' : 'L1',
-    announcements:[], logs:[], dinners:{}, cycles:[cycle], cards:[], notifications:[], runs:{}
+    announcements:[], logs:[], dinners:{}, notifications:[], runs:{}, cards:[],
+    cycles:[{id:'c1', label:cycleLabel(start), start, end:addDays(start,13),
+      goals:['完成 3 次陪訪','新件簽單 1 件','面談 10 次','轉介紹 2 位','保單健檢 3 份','參加 2 次夜訓','連續回報 10 天','分享 1 則成功案例','約訪 15 次']}]
   };
-  st.announcements.push({id:uid(), date:t, icon:'📢', text:'明早 09:00 早會｜地點：12F 大會議室，請帶本週名單'});
-  st.announcements.push({id:uid(), date:t, icon:'🎯', text:'本週主題：轉介紹話術演練，夜訓 19:00 開始'});
+  st.announcements.push({id:uid(), date:t, text:'明早 09:00 早會｜12F 大會議室，請帶本週名單'});
+  st.announcements.push({id:uid(), date:t, text:'本週主題：轉介紹話術演練，夜訓 19:00 開始'});
   if(!withDemo) return st;
 
-  // 示範戰報（決定性亂數）
-  let seedN = 7;
-  const rnd = () => { seedN = (seedN*9301+49297)%233280; return seedN/233280; };
-  const results = ['完成 2 位老客戶保單健檢','新客戶 A 同意下週面談','簽下一張醫療險！','拿到 3 位轉介紹名單','陪同學長完成理賠說明','整理客戶名單 30 筆','重新聯繫 5 位舊客戶'];
-  const progress = ['王先生家庭保障規劃書已送出','李小姐等待體檢報告','張家三口 儲蓄險比較中','陳老闆 團保需求訪談完成','林太太 考慮長照險'];
+  let sn = 7; const rnd = () => { sn = (sn*9301+49297)%233280; return sn/233280; };
+  const pick = a => a[Math.floor(rnd()*a.length)];
+  const results = ['完成 2 位老客戶保單健檢','新客戶同意下週面談','簽下一張醫療險','取得 3 位轉介紹名單','陪同學長完成理賠說明','整理客戶名單 30 筆','重新聯繫 5 位舊客戶'];
+  const progress = ['王先生家庭保障規劃書已送出','李小姐等待體檢報告','張家三口儲蓄險比較中','陳老闆團保需求訪談完成','林太太考慮長照險'];
   const tomorrow = ['上午約 2 位面談','追蹤李小姐體檢','準備轉介紹話術','整理明日拜訪路線','複習理賠流程'];
-  const comments = ['表現極佳！繼續保持！','節奏穩定，很棒 👍','今天的面談超有料 🔥','需要支援隨時說，我陪你！'];
-  const stampKeys = Object.keys(STAMPS);
+  const comments = ['節奏穩定，繼續保持。','今天的面談很紮實。','需要支援隨時告訴我。','明日重點很清楚。'];
   const mem = members.filter(m=>m.role==='member');
   for(let back=12; back>=0; back--){
     const d = addDays(t,-back);
     if(isWeekend(d)) continue;
     mem.forEach((m,i) => {
-      if(back===0 && i>=3) return;              // 今天只有 3 人送出
-      if(back>0 && rnd()<0.15 && i!==0) return; // 偶爾漏報（小安全勤）
-      const hr = 17+Math.floor(rnd()*4);
-      const sub = parseD(d); sub.setHours(hr, Math.floor(rnd()*60));
-      const log = {
-        id:uid(), date:d, userId:m.id, submittedAt:sub.toISOString(),
+      if(back===0 && i>=3) return;
+      if(back>0 && rnd()<0.15 && i!==0) return;
+      const sub = parseD(d); sub.setHours(17+Math.floor(rnd()*4), Math.floor(rnd()*60));
+      const log = {id:uid(), date:d, userId:m.id, submittedAt:sub.toISOString(),
         contacts:5+Math.floor(rnd()*15), appointments:1+Math.floor(rnd()*5), meetings:Math.floor(rnd()*4),
-        caseProgress:progress[Math.floor(rnd()*progress.length)], result:results[Math.floor(rnd()*results.length)],
-        help: rnd()<0.25 ? HELP_OPTS[1+Math.floor(rnd()*3)] : '無', helpNote:'',
-        tomorrow:tomorrow[Math.floor(rnd()*tomorrow.length)],
-        review:{status:'未看'}, reactions:{}
-      };
-      if(back>0 || i===0){
-        const sk = stampKeys[Math.floor(rnd()*3)];
-        log.review = {status:'已批改', stamp:sk, stars:1+Math.floor(rnd()*3), comment:comments[Math.floor(rnd()*comments.length)], reviewedAt:sub.toISOString()};
-      }
-      if(rnd()<0.5) log.reactions['👏'] = ['m2','m3'].filter(x=>x!==m.id);
-      if(rnd()<0.3) log.reactions['🔥'] = ['L1'];
+        caseProgress:pick(progress), result:pick(results), help: rnd()<0.25 ? HELP_OPTS[1+Math.floor(rnd()*3)] : '無', helpNote:'',
+        tomorrow:pick(tomorrow), review:{status:'未看'}};
+      if(back>0 || i===0) log.review = {status:'已批改', stamp:GRADES[Math.floor(rnd()*3)], comment:pick(comments), reviewedAt:sub.toISOString()};
       st.logs.push(log);
     });
   }
-  // 今晚晚餐
-  st.dinners[t] = {
-    m1:{eat:true, item:'雞腿便當', note:'飯少', at:new Date().toISOString()},
-    m2:{eat:true, item:'排骨便當', note:'', at:new Date().toISOString()},
-    m3:{eat:false, item:'', note:'', at:new Date().toISOString()},
-    m4:{eat:true, item:'素食便當', note:'不要辣', at:new Date().toISOString()}
-  };
-  // 賓果卡
-  const doneSets = {m1:[0,1,2,4],m2:[0,4,8,3],m3:[1,4],m4:[2,5,8,0,4,6],m5:[]};
-  mem.forEach(m => {
-    const done = Array(9).fill(false); (doneSets[m.id]||[]).forEach(i=>done[i]=true);
-    st.cards.push({id:uid(), cycleId:'c1', userId:m.id, done, review:{exp:'',learn:'',improve:'',next:''}, updatedAt:new Date().toISOString()});
-  });
-  const c2 = st.cards.find(c=>c.userId==='m2');
-  c2.review = {exp:'第一次獨立完成家庭保障規劃，客戶當場說謝謝，很有成就感。', learn:'需求面談要先聽 70%、說 30%。', improve:'約訪量偏低，需要固定時段打電話。', next:'每天 10:00–11:00 固定約訪時段，目標每週 8 次約訪。'};
-  st.notifications.push({id:uid(), userId:'m1', icon:'🖋️', text:'主管已為你的今日戰報簽章：『表現極佳！繼續保持！』', time:new Date().toISOString(), read:false});
+  const now = new Date().toISOString();
+  st.dinners[t] = {m1:{eat:true,item:'雞腿便當',note:'飯少',at:now}, m2:{eat:true,item:'排骨便當',note:'',at:now}, m3:{eat:false,item:'',note:'',at:now}, m4:{eat:true,item:'素食便當',note:'不要辣',at:now}};
+  const sets = {m1:[0,1,2,4], m2:[0,4,8,3], m3:[1,4], m4:[2,5,8,0,4,6], m5:[]};
+  mem.forEach(m => { const done = Array(9).fill(false); sets[m.id].forEach(i=>done[i]=true);
+    st.cards.push({id:uid(), cycleId:'c1', userId:m.id, done, review:{exp:'',learn:'',improve:'',next:''}, updatedAt:now}); });
+  st.cards.find(c=>c.userId==='m2').review = {exp:'第一次獨立完成家庭保障規劃，客戶當場道謝。', learn:'需求面談先聽七成、說三成。', improve:'約訪量偏低，需要固定時段打電話。', next:'每天 10:00–11:00 固定約訪，目標每週 8 次約訪。'};
+  st.notifications.push({id:uid(), userId:'m1', type:'review', text:'主管已回覆你今日的日報：「優秀」節奏穩定，繼續保持。', time:now, read:false});
   return st;
 }
-
-function load(){
-  try{
-    const raw = localStorage.getItem(KEY);
-    if(raw){ S = JSON.parse(raw); }
-  }catch(e){ S = null; }
-  if(!S || !S.members){ S = seed(true); save(); }
+function normalize(cur){
   S.settings = Object.assign(defaultSettings(), S.settings||{});
   ['announcements','logs','cycles','cards','notifications','members'].forEach(k=>{ if(!Array.isArray(S[k])) S[k]=[]; });
   S.dinners = S.dinners || {}; S.runs = S.runs || {};
+  S.logs.forEach(l=>{ l.review = l.review || {status:'未看'}; });
+  if(cur && S.members.find(m=>m.id===cur)) S.currentUserId = cur;
   if(!S.members.find(m=>m.id===S.currentUserId)) S.currentUserId = (S.members[0]||{}).id;
 }
-function save(){
-  try{ localStorage.setItem(KEY, JSON.stringify(S)); }
-  catch(e){ toast('⚠️ 儲存失敗：瀏覽器儲存空間可能已滿，請先匯出備份'); }
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw) S = JSON.parse(raw); }catch(e){ S = null; }
+  if(!S || !Array.isArray(S.members) || !S.members.length) S = seed(true);
+  if(S.settings && S.settings.teamName==='業務營地') S.settings.teamName = '業務日誌';
+  normalize(); save();
 }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ toast('儲存失敗，瀏覽器空間可能已滿，請先匯出備份'); } }
 
 /* ---------- 查詢 / 計算 ---------- */
 const me = () => S.members.find(m=>m.id===S.currentUserId) || S.members[0];
 const isLeader = () => (me()||{}).role === 'leader';
-const member = id => S.members.find(m=>m.id===id) || {id, name:'（已移除）', avatar:'👤', role:'member'};
-const teamMembers = () => S.members.filter(m=>m.role==='member');
-const logOf = (uidv, d) => S.logs.find(l=>l.userId===uidv && l.date===d);
-const logsOf = uidv => S.logs.filter(l=>l.userId===uidv);
-
+const member = id => S.members.find(m=>m.id===id) || {id, name:'（已移除）', role:'member'};
+const team = () => S.members.filter(m=>m.role==='member');
+const logOf = (u,d) => S.logs.find(l=>l.userId===u && l.date===d);
+const reviewed = l => !!(l.review && l.review.status==='已批改');
 function streakOf(userId){
-  const dates = new Set(logsOf(userId).map(l=>l.date));
+  const dates = new Set(S.logs.filter(l=>l.userId===userId).map(l=>l.date));
   let d = today(), n = 0;
   if(!dates.has(d)) d = addDays(d,-1);
   for(let i=0;i<500;i++){
-    if(dates.has(d)){ n++; }
-    else if(!(S.settings.skipWeekend && isWeekend(d))) break;
+    if(dates.has(d)) n++; else if(!(S.settings.skipWeekend && isWeekend(d))) break;
     d = addDays(d,-1);
   }
   return n;
 }
-function linesOf(done){ return LINES.filter(l=>l.every(i=>done[i])).length; }
+const linesOf = done => LINES.filter(l=>l.every(i=>done[i])).length;
 function lineCells(done){ const s = new Set(); LINES.forEach(l=>{ if(l.every(i=>done[i])) l.forEach(i=>s.add(i)); }); return s; }
-function reviewComplete(r){ return r && ['exp','learn','improve','next'].every(k=>(r[k]||'').trim()); }
-
-function expOf(userId){
-  let e = 0; const b = {logs:0, stamps:0, stars:0, bingo:0, review:0, streak:0};
-  logsOf(userId).forEach(l => {
-    b.logs += S.settings.expPerLog;
-    if(l.review && l.review.status==='已批改'){
-      b.stamps += (STAMPS[l.review.stamp]||{exp:0}).exp;
-      b.stars += (l.review.stars||0)*2;
-    }
-  });
-  S.cards.filter(c=>c.userId===userId).forEach(c => {
-    b.bingo += linesOf(c.done)*30 + c.done.filter(Boolean).length*5;
-    if(reviewComplete(c.review)) b.review += 40;
-  });
-  b.streak = Math.floor(streakOf(userId)/5)*25;
-  e = Object.values(b).reduce((a,v)=>a+v,0);
-  return {total:e, b};
-}
-function levelOf(exp){
-  let i = 0; while(i+1<LEVELS.length && exp>=LEVELS[i+1][1]) i++;
-  const cur = LEVELS[i], nxt = LEVELS[i+1];
-  const pct = nxt ? (exp-cur[1])/(nxt[1]-cur[1])*100 : 100;
-  return {lv:i+1, title:cur[0], next:nxt?nxt[1]:null, pct:clamp(pct,0,100)};
-}
-
+const reviewDone = r => !!r && DIMS.every(([k])=>(r[k]||'').trim());
 function currentCycle(){
-  const t = today();
-  const sorted = S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1);
-  return sorted.find(c=>c.start<=t && c.end>=t) || sorted[0] || null;
+  const t = today(), s = S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1);
+  return s.find(c=>c.start<=t && c.end>=t) || s[0] || null;
 }
-function cardOf(userId, cycleId){
+function cardOf(userId, cycleId, create){
   let c = S.cards.find(x=>x.userId===userId && x.cycleId===cycleId);
-  if(!c){ c = {id:uid(), cycleId, userId, done:Array(9).fill(false), review:{exp:'',learn:'',improve:'',next:''}, updatedAt:new Date().toISOString()}; S.cards.push(c); }
+  if(!c && create){ c = {id:uid(), cycleId, userId, done:Array(9).fill(false), review:{exp:'',learn:'',improve:'',next:''}, updatedAt:new Date().toISOString()}; S.cards.push(c); }
   return c;
 }
-function rewardProgress(r, userId, cycle){
-  const inCycle = l => l.date>=cycle.start && l.date<=cycle.end;
-  let cur = 0;
-  const card = S.cards.find(x=>x.userId===userId && x.cycleId===cycle.id);
-  switch(r.type){
-    case 'personal-lines': cur = card ? linesOf(card.done) : 0; break;
-    case 'personal-cells': cur = card ? card.done.filter(Boolean).length : 0; break;
-    case 'personal-meetings': cur = S.logs.filter(l=>l.userId===userId && inCycle(l)).reduce((a,l)=>a+(+l.meetings||0),0); break;
-    case 'team-meetings': cur = S.logs.filter(inCycle).reduce((a,l)=>a+(+l.meetings||0),0); break;
-    case 'team-logs': cur = S.logs.filter(inCycle).length; break;
-    case 'team-lines': cur = S.cards.filter(c=>c.cycleId===cycle.id).reduce((a,c)=>a+linesOf(c.done),0); break;
-  }
-  return {cur, target:+r.target||1, ok: cur >= (+r.target||1)};
-}
+const emptyCard = () => ({done:Array(9).fill(false), review:{}});
 function dinnerSummary(d){
-  const list = Object.entries(S.dinners[d]||{}).map(([u,v])=>Object.assign({userId:u},v));
-  const eat = list.filter(x=>x.eat);
-  const items = {};
-  eat.forEach(x=>{ const k = x.item || '未指定'; items[k] = (items[k]||0)+1; });
-  const notReplied = S.members.filter(m=>!(S.dinners[d]||{})[m.id]);
-  return {eat, no:list.filter(x=>!x.eat), items, notReplied};
+  const obj = S.dinners[d]||{};
+  const list = Object.entries(obj).map(([u,v])=>Object.assign({userId:u},v)).filter(x=>S.members.find(m=>m.id===x.userId));
+  const eat = list.filter(x=>x.eat), items = {};
+  eat.forEach(x=>{ const k = x.item||'未指定'; items[k] = (items[k]||0)+1; });
+  return {eat, no:list.filter(x=>!x.eat), items, notReplied:S.members.filter(m=>!obj[m.id])};
 }
 function dinnerText(d){
   const s = dinnerSummary(d);
-  let t = '🍱 '+fmtDate(d)+' 夜訓晚餐｜共 '+s.eat.length+' 份\n';
-  t += '— 品項統計 —\n' + (Object.entries(s.items).map(([k,v])=>'・'+k+' × '+v).join('\n') || '（無）') + '\n';
-  t += '— 訂餐名單 —\n' + (s.eat.map((x,i)=>(i+1)+'. '+member(x.userId).name+'｜'+(x.item||'未指定')+(x.note?'（'+x.note+'）':'')).join('\n') || '（無）');
-  if(s.no.length) t += '\n— 不吃 —\n' + s.no.map(x=>member(x.userId).name).join('、');
+  let t = fmtDate(d)+' 夜訓晚餐｜共 '+s.eat.length+' 份\n';
+  t += '【品項】\n'+(Object.entries(s.items).map(([k,v])=>k+' × '+v).join('\n')||'（無）')+'\n';
+  t += '【名單】\n'+(s.eat.map((x,i)=>(i+1)+'. '+member(x.userId).name+'｜'+(x.item||'未指定')+(x.note?'（'+x.note+'）':'')).join('\n')||'（無）');
+  if(s.no.length) t += '\n【不吃】'+s.no.map(x=>member(x.userId).name).join('、');
   return t;
 }
-function notify(userId, icon, text){
-  S.notifications.unshift({id:uid(), userId, icon, text, time:new Date().toISOString(), read:false});
+function setDinner(userId, d, eat, item, note){
+  S.dinners[d] = S.dinners[d] || {};
+  S.dinners[d][userId] = {eat, item:eat?item:'', note:eat?note:'', at:new Date().toISOString(), late: d===today() && nowHM()>=S.settings.dinnerCutoff};
+}
+function notify(userId, type, text){
+  S.notifications.unshift({id:uid(), userId, type, text, time:new Date().toISOString(), read:false});
   if(S.notifications.length>300) S.notifications.length = 300;
 }
 
 /* =========================================================
-   UI 基礎：toast / modal / 慶祝動畫
+   UI 基礎
    ========================================================= */
-function toast(html, opts){
-  opts = opts||{};
+let toastT;
+function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(()=>t.classList.remove('on'), 2400); }
+function notice(title, body, actLabel, act){
   const el = document.createElement('div');
-  el.className = 'toast'+(opts.gold?' gold':'');
-  el.innerHTML = '<div style="flex:1">'+html+'</div><button class="x" aria-label="關閉">✕</button>';
-  el.querySelector('.x').onclick = () => el.remove();
-  $('#toasts').appendChild(el);
-  setTimeout(()=>el.remove(), opts.ms || 3200);
-  return el;
-}
-function openModal(html, wide){
-  const layer = $('#layer');
-  layer.innerHTML = '<div class="overlay" id="ov"><div class="modal'+(wide?' wide':'')+'" role="dialog">'+html+'</div></div>';
-  $('#ov').addEventListener('click', e=>{ if(e.target.id==='ov') closeModal(); });
-}
-function closeModal(){ $('#layer').innerHTML = ''; }
-function confetti(n){
-  const colors = ['#C3A26A','#E0915A','#7A9BAD','#9AAE9B','#C9938A','#B8CFDA'];
-  for(let i=0;i<(n||60);i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = Math.random()*100+'vw';
-    c.style.background = colors[i%colors.length];
-    c.style.animationDuration = (1.8+Math.random()*1.8)+'s';
-    c.style.animationDelay = (Math.random()*0.4)+'s';
-    c.style.opacity = .9;
-    document.body.appendChild(c);
-    setTimeout(()=>c.remove(), 4200);
-  }
-}
-function celebrate(html){
-  const el = document.createElement('div');
-  el.className = 'celebrate';
-  el.innerHTML = '<div class="celebrate-card">'+html+'<div style="margin-top:14px"><button class="btn primary block" id="celOk">太好了！</button></div></div>';
+  el.className = 'notice';
+  el.innerHTML = ic('bell')+'<div style="flex:1"><b>'+esc(title)+'</b><div class="small muted" style="margin:2px 0 8px">'+esc(body)+'</div><div class="row">'+(actLabel?'<button class="btn dark sm" data-a="1">'+esc(actLabel)+'</button>':'')+'<button class="btn sm" data-a="0">知道了</button></div></div>';
+  el.onclick = e => { const b = e.target.closest('button'); if(!b) return; if(b.dataset.a==='1' && act) act(); el.remove(); };
   document.body.appendChild(el);
-  confetti(70);
-  const close = () => el.remove();
-  el.querySelector('#celOk').onclick = close;
-  el.addEventListener('click', e=>{ if(e.target===el) close(); });
+  setTimeout(()=>el.remove(), 15000);
 }
+function ask(msg, okLabel){
+  return new Promise(res=>{
+    const d = $('#dialog'); d.querySelector('.msg').textContent = msg;
+    d.querySelector('[data-r="1"]').textContent = okLabel || '確定';
+    d.classList.add('open');
+    d.onclick = e => { const b = e.target.closest('[data-r]'); if(!b) return; d.classList.remove('open'); res(b.dataset.r==='1'); };
+  });
+}
+function openSheet(o){
+  const sh = $('#sheet');
+  sh.className = 'sheet'+(o.full?' full':'')+(o.wide?' wide':'');
+  sh.innerHTML = '<div class="grab"></div><div class="sheet-h"><span class="en">'+esc(o.en||'')+'</span><h3>'+esc(o.title)+'</h3><button class="close" onclick="App.closeSheet()" aria-label="關閉">×</button></div>'+o.body+(o.actions?'<div class="sheet-actions">'+o.actions+'</div>':'');
+  sh.scrollTop = 0;
+  $('#modal').classList.add('open');
+}
+function closeSheet(){ $('#modal').classList.remove('open'); }
+$('#modal').addEventListener('click', e=>{ if(e.target.id==='modal') closeSheet(); });
 function copyText(t){
-  const done = () => toast('📋 已複製到剪貼簿');
-  if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(t).then(done, ()=>fallback());
-  } else fallback();
-  function fallback(){
-    const ta = document.createElement('textarea'); ta.value = t; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.select();
-    try{ document.execCommand('copy'); done(); }catch(e){ toast('無法自動複製，請手動選取'); }
-    ta.remove();
-  }
+  const ok = () => toast('已複製到剪貼簿');
+  const fb = () => { const ta = document.createElement('textarea'); ta.value = t; ta.style.cssText='position:fixed;opacity:0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); ok(); }catch(e){ toast('無法複製，請手動選取'); } ta.remove(); };
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(t).then(ok, fb); else fb();
 }
 function download(name, content, type){
-  const blob = new Blob([content], {type: type||'text/plain;charset=utf-8'});
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob); a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
+  a.href = URL.createObjectURL(new Blob([content], {type:type||'text/plain;charset=utf-8'})); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 1000);
 }
 const csvCell = v => '"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+const avatar = m => '<div class="avatar">'+esc(initial(m.name))+'</div>';
+const gradeBadge = l => reviewed(l) ? '<span class="st '+(l.review.stamp==='神隊友'?'gold':l.review.stamp==='優秀'?'blue':'done')+'">'+esc(l.review.stamp)+'</span>' : '<span class="st warn">待回饋</span>';
+const kpi = (v,l) => '<div class="kpi"><div class="v">'+v+'</div><div class="l">'+l+'</div></div>';
+
+function mast(kicker, title, sub){
+  const unread = S.notifications.filter(n=>n.userId===me().id && !n.read).length;
+  return '<header class="mast"><div class="mast-top"><div class="kicker">'+esc(kicker)+'</div><div class="mast-acts">'
+    + '<button class="round" onclick="App.inbox()" aria-label="通知">'+ic('bell')+(unread?'<span class="dot"></span>':'')+'</button>'
+    + '<button class="me-chip" onclick="App.switchSheet()" aria-label="切換身分">'+avatar(me())+'<span class="nm">'+esc(me().name)+'</span></button></div></div>'
+    + '<h1>'+esc(title)+'</h1><div class="sub">'+esc(sub)+'</div></header>';
+}
+function sech(zh, en, aside){ return '<div class="sec-h"><h2>'+esc(zh)+'<span class="en">'+esc(en)+'</span></h2>'+(aside?'<span class="aside">'+aside+'</span>':'')+'</div>'; }
 
 /* =========================================================
-   外框：導覽列 / 身分
+   導覽
    ========================================================= */
 function navItems(){
-  const items = [['home','🏕️','營地大廳'],['log','✍️','寫戰報'],['bingo','🎯','賓果復盤'],['list','📚','戰報清單']];
-  if(isLeader()) items.push(['hq','🧭','指揮台']);
-  return items;
+  const it = [['home','home','首頁'],['journal','journal','紀錄'],['goals','grid','目標']];
+  if(isLeader()) it.push(['desk','desk','主管']);
+  it.push(['settings','settings','設定']);
+  return it;
 }
-function renderShell(route){
-  $('#teamName').textContent = S.settings.teamName;
+function renderNav(r){
+  const it = navItems(), n = $('#nav');
+  n.style.gridTemplateColumns = 'repeat('+it.length+',minmax(0,1fr))';
+  n.innerHTML = '<div class="brand">'+esc(S.settings.teamName)+'<small>Daily Log &amp; Review</small></div>'
+    + it.map(([k,i,t])=>'<button class="'+(r===k?'on':'')+'" onclick="location.hash=\'#'+k+'\'"><svg viewBox="0 0 24 24">'+IC[i]+'</svg>'+t+'</button>').join('');
   document.title = S.settings.teamName;
-  const items = navItems();
-  $('#nav').innerHTML = items.map(([k,e,t])=>'<a href="#'+k+'" class="'+(route===k?'on':'')+'">'+e+' '+t+'</a>').join('');
-  $('#bnav').innerHTML = items.map(([k,e,t])=>'<a href="#'+k+'" class="'+(route===k?'on':'')+'"><span>'+e+'</span>'+t+'</a>').join('');
-  const m = me();
-  $('#meBtn').innerHTML = '<span class="av">'+esc(m.avatar)+'</span><span class="nm">'+esc(m.name)+(m.role==='leader'?'・主管':'')+'</span>';
-  const unread = S.notifications.filter(n=>n.userId===m.id && !n.read).length;
-  const bell = $('#bell');
-  bell.textContent = unread; bell.classList.toggle('hidden', !unread);
 }
 
 /* =========================================================
-   頁面：營地大廳
+   首頁
    ========================================================= */
 function pageHome(){
-  const m = me(), t = today();
-  const anns = S.announcements.filter(a=>a.date===t);
-  const upcoming = S.announcements.filter(a=>a.date>t).sort((a,b)=>a.date<b.date?-1:1).slice(0,2);
-  const ds = dinnerSummary(t);
-  const myDinner = (S.dinners[t]||{})[m.id];
-  const cutoffPassed = nowHM() >= S.settings.dinnerCutoff;
-  const mems = teamMembers();
-  const todayLogs = S.logs.filter(l=>l.date===t);
-  const reported = mems.filter(x=>logOf(x.id,t)).length;
-  const meetingsToday = todayLogs.reduce((a,l)=>a+(+l.meetings||0),0);
-  const pending = todayLogs.filter(l=>l.review.status!=='已批改').length;
-  const cyc = currentCycle();
-  const myCard = cyc ? S.cards.find(c=>c.userId===m.id && c.cycleId===cyc.id) : null;
-  const myLines = myCard ? linesOf(myCard.done) : 0;
+  const m = me(), t = today(), leader = m.role==='leader';
+  const hr = new Date().getHours();
+  let h = mast('Today · '+kickDate(t), (hr<11?'早安':hr<18?'午安':'晚安')+'，'+m.name, leader?'Team Overview':'Daily Log & Review');
+  const mem = team(), tl = S.logs.filter(l=>l.date===t), ds = dinnerSummary(t), cyc = currentCycle();
 
-  let h = '';
-  h += '<div class="page-head"><div><h1>🏕️ 早安，'+esc(m.name)+'</h1><p>'+fmtDate(t)+'・今天也用自己的節奏前進</p></div></div>';
-
-  // 公告 + 連勝
-  h += '<div class="split">';
-  h += '<div class="card announce"><div class="card-title"><h3>📢 今日公告</h3><span class="muted xs">'+fmtDate(t)+'</span></div>';
-  if(anns.length) h += anns.map(a=>'<div class="announce-item"><span>'+esc(a.icon||'📌')+'</span><div>'+nl2br(a.text)+'</div></div>').join('');
-  else h += '<div class="muted small">今天沒有特別公告，照自己的節奏衝 💪</div>';
-  if(upcoming.length) h += '<div class="xs" style="margin-top:6px;opacity:.85">接下來：'+upcoming.map(a=>fmtDate(a.date)+' '+esc(a.text)).join('｜')+'</div>';
-  h += '<div class="dinner-mini"><div class="row between"><b>🍱 今晚夜訓晚餐</b><span class="xs">'+(cutoffPassed?'已過 '+S.settings.dinnerCutoff+' 統計時間':S.settings.dinnerCutoff+' 自動統計')+'</span></div>';
-  h += '<div class="small" style="margin:4px 0 8px">已訂 <b style="font-size:18px">'+ds.eat.length+'</b> 份'+(Object.keys(ds.items).length?'：'+Object.entries(ds.items).map(([k,v])=>esc(k)+'×'+v).join('、'):'')+'</div>';
-  h += '<div class="row"><span class="small">我：'+(myDinner?(myDinner.eat?'✅ 要吃・'+esc(myDinner.item||'未指定'):'🙅 不吃'):'尚未登記')+'</span>';
-  h += '<button class="btn sm" style="margin-left:auto" onclick="App.dinnerModal()">'+(myDinner?'修改':'登記晚餐')+'</button></div></div>';
-  h += '</div>';
-
-  if(m.role==='leader'){
-    h += '<div class="card streak-card"><div class="card-title"><h3>🧭 主管今日概況</h3></div>';
-    h += '<div class="stack"><div class="row"><div class="fire">📝</div><div><div class="streak-num">'+reported+'/'+mems.length+'</div><div class="small muted">已送出今日戰報</div></div></div>';
-    h += '<div class="small">待批改 <b>'+pending+'</b> 份・需要協助 <b>'+todayLogs.filter(l=>l.help&&l.help!=='無').length+'</b> 位</div>';
-    h += '<a class="btn primary block" href="#hq">前往指揮台批改 →</a></div></div>';
+  h += '<div class="card idc"><div class="idc-band"><span class="k">'+(leader?'TEAM LEADER':'MEMBER')+'</span><span class="st">'+esc(S.settings.teamName)+'</span></div>';
+  h += '<div class="idc-top"><span class="av-ring">'+avatar(m)+'</span><div><div class="idc-name">'+esc(m.name)+'</div>';
+  h += '<div class="idc-sub">'+(leader ? '今日 '+tl.length+' / '+mem.length+' 位同仁已回報' : (logOf(m.id,t)?'今日日報已送出':'今日日報尚未填寫'))+'</div></div></div><div class="kpis">';
+  if(leader){
+    h += kpi(tl.length+'<small>/'+mem.length+'</small>','今日回報') + kpi(tl.filter(l=>!reviewed(l)).length,'待回饋')
+      + kpi(tl.reduce((a,l)=>a+(+l.meetings||0),0),'今日面談') + kpi(ds.eat.length+'<small>份</small>','今晚晚餐');
   } else {
-    h += streakCard(m);
-  }
-  h += '</div>';
-
-  // 快捷入口
-  const todayDone = !!logOf(m.id,t);
-  h += '<div class="quick" style="margin-top:16px">';
-  h += '<a href="#log"><span class="e">'+(todayDone?'✅':'✍️')+'</span>'+(todayDone?'修改今日戰報':'填寫今日戰報')+'<small>'+(todayDone?'已領取今日 EXP':'1–2 分鐘・+'+S.settings.expPerLog+' EXP')+'</small></a>';
-  h += '<a href="javascript:void 0" onclick="App.dinnerModal()"><span class="e">🍱</span>訂晚餐登記<small>'+S.settings.dinnerCutoff+' 前登記</small></a>';
-  h += '<a href="#bingo"><span class="e">🎯</span>看我的賓果卡<small>'+(cyc?'目前 '+myLines+' 連線':'尚未設定')+'</small></a>';
-  h += '</div>';
-
-  // KPI
-  h += '<div class="grid g4" style="margin-top:16px">';
-  h += kpi('📝','今日回報', reported+'<span class="small muted">/'+mems.length+'</span>', mems.length?Math.round(reported/mems.length*100)+'% 同仁已送出':'');
-  h += kpi('🤝','今日全區面談', meetingsToday, '約訪 '+todayLogs.reduce((a,l)=>a+(+l.appointments||0),0)+'・聯絡 '+todayLogs.reduce((a,l)=>a+(+l.contacts||0),0));
-  h += kpi('🍱','今晚晚餐', ds.eat.length+'<span class="small muted"> 份</span>', ds.notReplied.length+' 人未登記');
-  if(m.role==='leader') h += kpi('🖋️','待批改', pending, '點指揮台一鍵蓋章');
-  else h += kpi('🎯','本期賓果', myLines+'<span class="small muted"> 連線</span>', (myCard?myCard.done.filter(Boolean).length:0)+'/9 格已完成');
-  h += '</div>';
-
-  // 動態牆
-  h += '<div class="card-title" style="margin-top:26px"><h3 style="font-size:18px">📣 團隊動態牆</h3>';
-  h += '<div class="seg" id="feedSeg"><button data-f="today" class="'+(feedFilter==='today'?'on':'')+'">今天</button><button data-f="3d" class="'+(feedFilter==='3d'?'on':'')+'">近 3 天</button><button data-f="star" class="'+(feedFilter==='star'?'on':'')+'">神隊友</button></div></div>';
-  let feed = S.logs.slice();
-  if(feedFilter==='today') feed = feed.filter(l=>l.date===t);
-  else if(feedFilter==='3d') feed = feed.filter(l=>l.date>=addDays(t,-2));
-  else feed = feed.filter(l=>l.review.stamp==='神隊友').slice(0);
-  feed.sort((a,b)=>a.submittedAt<b.submittedAt?1:-1);
-  feed = feed.slice(0,30);
-  h += '<div class="grid g2" id="feed">';
-  h += feed.length ? feed.map(postCard).join('') : '<div class="card empty" style="grid-column:1/-1"><div class="e">🌱</div>還沒有動態，成為今天第一個分享的人吧！</div>';
-  h += '</div>';
-  return h;
-}
-let feedFilter = 'today';
-
-function kpi(ic,l,v,s){ return '<div class="card kpi"><div class="row between"><span class="l">'+l+'</span><span class="ic">'+ic+'</span></div><div class="v">'+v+'</div><div class="s">'+esc(s)+'</div></div>'; }
-
-function streakCard(m){
-  const st = streakOf(m.id), ex = expOf(m.id), lv = levelOf(ex.total), t = today();
-  const doneToday = !!logOf(m.id,t);
-  let h = '<div class="card streak-card"><div class="card-title"><h3>🔥 我的連勝牆</h3><button class="btn sm ghost" onclick="App.expRules()">EXP 怎麼算？</button></div>';
-  h += '<div class="row" style="gap:14px"><div class="fire">'+(st>0?'🔥':'🌱')+'</div><div><div class="streak-num">'+st+' <span style="font-size:15px">天</span></div><div class="small muted">連續打卡'+(doneToday?'・今日已完成 ✅':'・今天還沒打卡喔')+'</div></div>';
-  h += '<div style="margin-left:auto;text-align:right"><span class="tag gold">Lv.'+lv.lv+' '+lv.title+'</span><div class="xs muted" style="margin-top:4px">'+ex.total+' EXP</div></div></div>';
-  h += '<div style="margin:12px 0 4px" class="exp-bar"><i style="width:'+lv.pct+'%"></i></div>';
-  h += '<div class="xs muted">'+(lv.next?'距離下一級還差 '+(lv.next-ex.total)+' EXP':'已達最高等級 👑')+'</div>';
-  // 近 7 天
-  h += '<div class="week-dots" style="margin-top:12px">';
-  for(let i=6;i>=0;i--){
-    const d = addDays(t,-i), ok = !!logOf(m.id,d);
-    h += '<div><b class="'+(ok?'done':'')+(i===0?' today':'')+'">'+(ok?'✓':(isWeekend(d)?'·':''))+'</b>'+WD[parseD(d).getDay()]+'</div>';
+    const ws = mondayOf(t), mine = S.logs.filter(l=>l.userId===m.id), card = cyc ? cardOf(m.id, cyc.id) : null;
+    h += kpi(mine.filter(l=>l.date.slice(0,7)===t.slice(0,7)).length+'<small>份</small>','本月日報')
+      + kpi(streakOf(m.id)+'<small>天</small>','連續回報')
+      + kpi(mine.filter(l=>l.date>=ws).reduce((a,l)=>a+(+l.meetings||0),0)+'<small>次</small>','本週面談')
+      + kpi((card?card.done.filter(Boolean).length:0)+'<small>/9</small>','雙週目標');
   }
   h += '</div></div>';
+
+  const anns = S.announcements.filter(a=>a.date===t), myD = (S.dinners[t]||{})[m.id];
+  h += '<div class="sec"><div class="today-box"><div class="today-h"><span class="bell">'+ic('bell')+'</span><b>今日提醒</b></div>';
+  if(anns.length) anns.forEach(a=>{ h += '<div class="today-row"><span class="lb">公告</span><div class="t">'+esc(a.text)+'</div></div>'; });
+  else h += '<div class="today-row"><span class="lb">公告</span><div class="t"><span class="muted">今日沒有公告</span></div></div>';
+  h += '<div class="today-row"><span class="lb">晚餐</span><div class="t">'+(myD?(myD.eat?'已登記・'+esc(myD.item||'未指定'):'已登記・不吃'):'尚未登記')+'<span class="muted">目前 '+ds.eat.length+' 份'+(Object.keys(ds.items).length?'：'+Object.entries(ds.items).map(([k,v])=>esc(k)+' '+v).join('、'):'')+'・'+S.settings.dinnerCutoff+' 統計</span></div><button class="btn sm" onclick="App.dinnerSheet()">'+(myD?'修改':'登記')+'</button></div>';
+  if(leader){
+    const miss = mem.filter(x=>!logOf(x.id,t));
+    h += '<div class="today-row"><span class="lb">未回報</span><div class="t">'+(miss.length?esc(miss.map(x=>x.name).join('、')):'全員已回報')+'</div>'+(tl.some(l=>!reviewed(l))?'<button class="btn sm dark" onclick="location.hash=\'#desk\'">前往回饋</button>':'')+'</div>';
+  } else {
+    const my = logOf(m.id,t);
+    h += '<div class="today-row"><span class="lb">日報</span><div class="t">'+(my?'已於 '+fmtTime(my.submittedAt)+' 送出'+(reviewed(my)?'・主管已回饋':''):'今日尚未填寫')+'</div><button class="btn sm '+(my?'':'dark')+'" onclick="App.openLog()">'+(my?'查看 / 修改':'填寫')+'</button></div>';
+  }
+  h += '</div></div>';
+
+  h += '<div class="sec">'+sech('團隊今日','Today’s Journal', tl.length+' 份');
+  const list = tl.slice().sort((a,b)=>a.submittedAt<b.submittedAt?1:-1);
+  h += list.length ? list.map(entryCard).join('') : '<div class="card empty"><span class="kick">Nothing yet</span><span class="serif">今天還沒有日報</span>完成一天的工作後，花一兩分鐘記錄下來。</div>';
+  return h + '</div>';
+}
+function entryBody(l, hideReview){
+  let h = '<div class="metrics"><div class="metric"><div class="v">'+(+l.contacts||0)+'</div><div class="l">聯絡</div></div><div class="metric"><div class="v">'+(+l.appointments||0)+'</div><div class="l">約訪</div></div><div class="metric"><div class="v">'+(+l.meetings||0)+'</div><div class="l">面談</div></div></div>';
+  h += '<dl class="kv">';
+  if(l.result) h += '<dt>今日成果</dt><dd>'+esc(l.result)+'</dd>';
+  if(l.caseProgress) h += '<dt>案件進度</dt><dd>'+esc(l.caseProgress)+'</dd>';
+  if(l.tomorrow) h += '<dt>明日重點</dt><dd>'+esc(l.tomorrow)+'</dd>';
+  if(l.help && l.help!=='無') h += '<dt>需要協助</dt><dd><span class="st warn">'+esc(l.help)+'</span>'+(l.helpNote?' '+esc(l.helpNote):'')+'</dd>';
+  h += '</dl>';
+  if(!hideReview && reviewed(l)) h += '<div class="advice">'+ic('quote')+'<div><b>主管回饋・'+esc(l.review.stamp)+'</b>'+(l.review.comment?'<div>'+esc(l.review.comment)+'</div>':'')+'</div></div>';
   return h;
 }
-
-function postCard(l){
-  const u = member(l.userId), r = l.review || {}, m = me();
-  const st = r.status==='已批改' ? STAMPS[r.stamp] : null;
-  let h = '<div class="card post'+(st?' has-stamp':'')+'">';
-  if(st) h += '<div class="stamp-float"><div class="stamp '+st.cls+'">'+st.text+'</div></div>';
-  h += '<div class="post-head"><div class="av">'+esc(u.avatar)+'</div><div><div class="who">'+esc(u.name)+'</div><div class="xs muted">'+fmtDate(l.date)+' '+fmtTime(l.submittedAt)+' 送出</div></div></div>';
-  h += '<div class="post-body">';
-  h += '<div class="nums"><span class="num-pill">📞 聯絡<b>'+(+l.contacts||0)+'</b></span><span class="num-pill">📅 約訪<b>'+(+l.appointments||0)+'</b></span><span class="num-pill">🤝 面談<b>'+(+l.meetings||0)+'</b></span></div>';
-  if(l.result) h += '<p><span class="k">🏆 今日成果</span>'+nl2br(l.result)+'</p>';
-  if(l.caseProgress) h += '<p><span class="k">📂 案件進度</span>'+nl2br(l.caseProgress)+'</p>';
-  if(l.tomorrow) h += '<p><span class="k">🎯 明日重點</span>'+nl2br(l.tomorrow)+'</p>';
-  if(l.help && l.help!=='無') h += '<p><span class="tag orange">🙋 '+esc(l.help)+'</span> <span class="small">'+esc(l.helpNote||'')+'</span></p>';
-  h += '</div>';
-  if(st) h += '<div class="review-box"><b>🖋️ 主管批註</b> <span class="stars">'+'⭐'.repeat(r.stars||0)+'</span><div>'+nl2br(r.comment||'')+'</div></div>';
-  h += '<div class="reacts">';
-  REACTS.forEach(e=>{
-    const arr = (l.reactions||{})[e] || [];
-    h += '<button class="react'+(arr.includes(m.id)?' on':'')+'" onclick="App.react(\''+l.id+'\',\''+e+'\')">'+e+' '+(arr.length||'')+'</button>';
-  });
-  if(isLeader()) h += '<button class="btn sm '+(st?'ghost':'gold')+'" style="margin-left:auto" onclick="App.gradeModal(\''+l.id+'\')">'+(st?'修改批註':'🖋️ 蓋章')+'</button>';
-  h += '</div></div>';
+function entryActions(l){
+  let h = '';
+  if(isLeader() || l.userId===me().id) h += '<button class="linkbtn" onclick="App.openLog(\''+l.id+'\')">'+ic('pen')+'編輯</button>';
+  if(isLeader()) h += '<button class="linkbtn" onclick="App.reviewSheet(\''+l.id+'\')">'+ic('quote')+(reviewed(l)?'修改回饋':'回饋')+'</button>';
   return h;
+}
+function entryCard(l){
+  const u = member(l.userId);
+  let h = '<div class="card entry"><div class="entry-top">'+avatar(u)+'<div style="flex:1;min-width:0"><div class="entry-name">'+esc(u.name)+'</div><div class="entry-meta">'+fmtDate(l.date)+' '+fmtTime(l.submittedAt)+' 送出</div></div>'+gradeBadge(l)+'</div>';
+  h += entryBody(l);
+  const acts = entryActions(l);
+  if(acts) h += '<div class="entry-foot"><span class="muted">'+(l.updatedAt?'已修改':'')+'</span><div class="row">'+acts+'</div></div>';
+  return h + '</div>';
 }
 
 /* =========================================================
-   頁面：日戰報填寫
+   日報表單（Sheet）
    ========================================================= */
-let logDraft = null;
-function pageLog(param){
+let draft = null;
+function logForm(id){
   const m = me(), t = today();
-  let existing = null;
-  if(param) existing = S.logs.find(l=>l.id===param);
-  if(!existing && !param) existing = logOf(m.id, t);
-  const editingOther = existing && existing.userId !== m.id;
-  if(editingOther && !isLeader()) return '<div class="card empty"><div class="e">🔒</div>只能修改自己的戰報喔</div>';
-  const base = existing || {date:t, contacts:0, appointments:0, meetings:0, caseProgress:'', result:'', help:'無', helpNote:'', tomorrow:''};
-  const owner = existing ? member(existing.userId) : m;
-  const dinnerDate = base.date;
-  const dn = (S.dinners[dinnerDate]||{})[owner.id] || null;
-  logDraft = {id: existing?existing.id:null, userId:owner.id, dinnerEat: dn?dn.eat:null, dinnerItem: dn?dn.item:'', help: base.help||'無'};
+  const ex = id ? S.logs.find(l=>l.id===id) : logOf(m.id,t);
+  if(ex && ex.userId!==m.id && !isLeader()){ toast('只能修改自己的日報'); return; }
+  const base = ex || {date:t, contacts:0, appointments:0, meetings:0, result:'', caseProgress:'', help:'無', helpNote:'', tomorrow:''};
+  const owner = ex ? member(ex.userId) : m;
+  const dn = (S.dinners[base.date]||{})[owner.id];
+  draft = {id: ex?ex.id:null, userId: owner.id};
 
-  let h = '<div class="page-head"><div><h1>✍️ '+(existing?'修改戰報':'今日戰報')+'</h1><p>'+(existing?esc(owner.name)+'・'+fmtDate(base.date)+' 的紀錄':'1–2 分鐘完成，送出就能領取 +'+S.settings.expPerLog+' EXP')+'</p></div>';
-  if(existing) h += '<a class="btn ghost sm" href="#list">← 回清單</a>';
-  h += '</div>';
-  h += '<form id="logForm" onsubmit="return false" style="max-width:760px">';
-
-  h += '<div class="card" style="margin-bottom:16px"><div class="card-title"><h3>📊 今日行程數據</h3><input type="date" class="input" style="width:auto" id="fDate" value="'+esc(base.date)+'" max="'+t+'"></div>';
-  h += '<div class="stepper-wrap">';
-  [['contacts','📞 聯絡',30],['appointments','📅 約訪',15],['meetings','🤝 面談',10]].forEach(([k,lb,max])=>{
-    const v = +base[k]||0;
-    h += '<div class="stepper"><div class="lb">'+lb+'</div><div class="ctl"><button type="button" onclick="App.step(\''+k+'\',-1)" aria-label="減少">−</button><input type="number" inputmode="numeric" min="0" id="f_'+k+'" value="'+v+'" oninput="App.syncRange(\''+k+'\')"><button type="button" onclick="App.step(\''+k+'\',1)" aria-label="增加">＋</button></div>';
-    h += '<input type="range" min="0" max="'+Math.max(max,v)+'" value="'+v+'" id="r_'+k+'" oninput="App.syncNum(\''+k+'\')"></div>';
+  let b = '';
+  if(ex && owner.id!==m.id) b += '<div class="note" style="margin:0 0 20px">'+ic('info')+'<div>你正在修改 <b>'+esc(owner.name)+'</b> 的日報</div></div>';
+  b += '<div class="field"><label>日期</label><input type="date" class="inp" id="fDate" value="'+base.date+'" max="'+t+'"></div>';
+  b += '<div class="divider-t">Activity</div><div class="grid3" style="margin-bottom:20px;gap:8px">';
+  [['contacts','聯絡'],['appointments','約訪'],['meetings','面談']].forEach(([k,lb])=>{
+    b += '<div class="stepper"><div class="lb">'+lb+'</div><div class="ctl"><button type="button" onclick="App.step(\''+k+'\',-1)" aria-label="減少">−</button><input type="number" inputmode="numeric" min="0" id="f_'+k+'" value="'+(+base[k]||0)+'"><button type="button" onclick="App.step(\''+k+'\',1)" aria-label="增加">+</button></div></div>';
   });
-  h += '</div></div>';
+  b += '</div><div class="divider-t">Progress</div>';
+  b += '<div class="field"><label>今日成果</label><textarea class="inp" id="fResult" placeholder="例：完成 2 位客戶保單健檢">'+esc(base.result)+'</textarea></div>';
+  b += '<div class="field"><label>案件進度</label><textarea class="inp" id="fProgress" placeholder="例：王先生規劃書已送出，等待回覆">'+esc(base.caseProgress)+'</textarea></div>';
+  b += '<div class="divider-t">Plan</div>';
+  const hv = base.help || '無';
+  b += '<div class="field"><label>需要協助</label><div class="opts">'+HELP_OPTS.map(o=>'<label class="opt"><input type="radio" name="help" value="'+o+'"'+(hv===o?' checked':'')+' onchange="App.helpToggle()"><span>'+o+'</span></label>').join('')+'</div>';
+  b += '<input class="inp'+(hv==='無'?' hidden':'')+'" id="fHelpNote" style="margin-top:8px" placeholder="簡單說明狀況（選填）" value="'+esc(base.helpNote)+'"></div>';
+  b += '<div class="field"><label>明日重點</label><textarea class="inp" id="fTomorrow" placeholder="例：上午約 2 位面談">'+esc(base.tomorrow)+'</textarea></div>';
+  b += '<div class="divider-t">Dinner</div>' + dinnerFields(dn, 'f');
+  if(nowHM()>=S.settings.dinnerCutoff && base.date===t) b += '<div class="hint">已過 '+S.settings.dinnerCutoff+' 統計時間，登記後會標記為晚登記，請另外告知訂餐負責人。</div>';
 
-  h += '<div class="card" style="margin-bottom:16px"><div class="card-title"><h3>🏆 進度與成果</h3></div>';
-  h += '<div class="field"><label class="f" for="fResult">今日成果</label><textarea class="input" id="fResult" placeholder="例：完成 2 位客戶保單健檢、拿到 1 位轉介紹">'+esc(base.result)+'</textarea></div>';
-  h += '<div class="field" style="margin-bottom:0"><label class="f" for="fProgress">案件進度</label><textarea class="input" id="fProgress" placeholder="例：王先生規劃書已送出，等待回覆">'+esc(base.caseProgress)+'</textarea></div></div>';
-
-  h += '<div class="card" style="margin-bottom:16px"><div class="card-title"><h3>🧭 規劃與求助</h3></div>';
-  h += '<div class="field"><label class="f">需要協助</label><div class="chips" id="helpChips">'+HELP_OPTS.map(o=>'<button type="button" class="chip'+(logDraft.help===o?' on':'')+'" data-v="'+o+'">'+(o==='無'?'🙆 無':o)+'</button>').join('')+'</div>';
-  h += '<input class="input'+(logDraft.help==='無'?' hidden':'')+'" id="fHelpNote" style="margin-top:8px" placeholder="簡單說明一下狀況（選填）" value="'+esc(base.helpNote)+'"></div>';
-  h += '<div class="field" style="margin-bottom:0"><label class="f" for="fTomorrow">明日重點</label><textarea class="input" id="fTomorrow" placeholder="例：上午約 2 位面談、下午追蹤體檢報告">'+esc(base.tomorrow)+'</textarea></div></div>';
-
-  h += '<div class="card" style="margin-bottom:16px"><div class="card-title"><h3>🍱 夜訓訂晚餐</h3><span class="xs muted">'+S.settings.dinnerCutoff+' 自動統計</span></div>';
-  h += '<div class="dinner-opt" id="dinnerOpt"><button type="button" data-v="1" class="'+(logDraft.dinnerEat===true?'on':'')+'">🍱 要吃</button><button type="button" data-v="0" class="'+(logDraft.dinnerEat===false?'on':'')+'">🙅 不吃</button></div>';
-  h += '<div id="dinnerMore" class="'+(logDraft.dinnerEat?'':'hidden')+'" style="margin-top:12px"><div class="chips" id="menuChips">'+S.settings.dinnerMenu.map(x=>'<button type="button" class="chip'+(logDraft.dinnerItem===x?' on':'')+'" data-v="'+esc(x)+'">'+esc(x)+'</button>').join('')+'</div>';
-  h += '<input class="input" id="fDinnerNote" style="margin-top:8px" placeholder="備註：口味、飯量、其他品項…" value="'+esc(dn?dn.note:'')+'"></div>';
-  if(nowHM()>=S.settings.dinnerCutoff && base.date===t) h += '<div class="xs muted" style="margin-top:8px">⏰ 已過統計時間，登記後系統會標記為「晚鳥」，記得跟訂餐負責人說一聲</div>';
-  h += '</div>';
-
-  h += '<div class="submit-bar"><button type="button" class="btn primary big block" onclick="App.submitLog()">'+(existing?'💾 儲存修改':'🎁 送出並領取經驗值')+'</button></div>';
-  h += '</form>';
-  return h;
+  const acts = (ex?'<button class="btn-text warn" onclick="App.delLog(\''+ex.id+'\')">刪除</button>':'<button class="btn-text" onclick="App.closeSheet()">取消</button>')+'<button class="btn-save" onclick="App.submitLog()">'+(ex?'儲存修改':'送出日報')+'</button>';
+  openSheet({en:'Daily Log', title: ex ? (owner.id===m.id?'修改日報':owner.name+' 的日報') : '今日日報', body:b, actions:acts, full:true});
 }
-function bindLog(){
-  const hc = $('#helpChips'); if(!hc) return;
-  hc.onclick = e => { const b = e.target.closest('.chip'); if(!b) return;
-    logDraft.help = b.dataset.v; hc.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on', x===b));
-    $('#fHelpNote').classList.toggle('hidden', logDraft.help==='無'); };
-  $('#dinnerOpt').onclick = e => { const b = e.target.closest('button'); if(!b) return;
-    logDraft.dinnerEat = b.dataset.v==='1';
-    $('#dinnerOpt').querySelectorAll('button').forEach(x=>x.classList.toggle('on', x===b));
-    $('#dinnerMore').classList.toggle('hidden', !logDraft.dinnerEat); };
-  $('#menuChips').onclick = e => { const b = e.target.closest('.chip'); if(!b) return;
-    logDraft.dinnerItem = logDraft.dinnerItem===b.dataset.v ? '' : b.dataset.v;
-    $('#menuChips').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on', x.dataset.v===logDraft.dinnerItem)); };
+function dinnerFields(dn, p){
+  const eat = dn ? (dn.eat?'1':'0') : '';
+  let b = '<div class="field"><label>夜訓晚餐</label><div class="opts two"><label class="opt"><input type="radio" name="'+p+'eat" value="1"'+(eat==='1'?' checked':'')+' onchange="App.eatToggle(\''+p+'\')"><span>要吃</span></label><label class="opt"><input type="radio" name="'+p+'eat" value="0"'+(eat==='0'?' checked':'')+' onchange="App.eatToggle(\''+p+'\')"><span>不吃</span></label></div></div>';
+  b += '<div id="'+p+'DinnerMore" class="'+(eat==='1'?'':'hidden')+'"><div class="field"><label>品項</label><select class="inp" id="'+p+'Item"><option value="">未指定</option>'+S.settings.dinnerMenu.map(x=>'<option'+(dn&&dn.item===x?' selected':'')+'>'+esc(x)+'</option>').join('')+'</select></div>';
+  b += '<div class="field"><label>備註</label><input class="inp" id="'+p+'Note" placeholder="口味、飯量、其他品項" value="'+esc(dn?dn.note:'')+'"></div></div>';
+  return b;
 }
-function setDinner(userId, d, eat, item, note){
-  S.dinners[d] = S.dinners[d] || {};
-  S.dinners[d][userId] = {eat, item: eat?item:'', note: eat?note:'', at:new Date().toISOString(), late: d===today() && nowHM()>=S.settings.dinnerCutoff};
+function readDinner(p){
+  const r = document.querySelector('input[name="'+p+'eat"]:checked');
+  return r ? {eat:r.value==='1', item:$('#'+p+'Item').value, note:$('#'+p+'Note').value.trim()} : null;
 }
 
 /* =========================================================
-   頁面：賓果與復盤
+   紀錄（時間軸）
    ========================================================= */
-let bingoView = {userId:null, cycleId:null, flip:-1};
-function pageBingo(){
+let F = {q:'', user:'', status:'', from:'', to:''};
+function filtered(){
+  let a = S.logs.slice();
+  if(F.user) a = a.filter(l=>l.userId===F.user);
+  if(F.status==='todo') a = a.filter(l=>!reviewed(l));
+  else if(F.status==='done') a = a.filter(reviewed);
+  else if(F.status==='help') a = a.filter(l=>l.help && l.help!=='無');
+  if(F.from) a = a.filter(l=>l.date>=F.from);
+  if(F.to) a = a.filter(l=>l.date<=F.to);
+  if(F.q){ const q = F.q.toLowerCase(); a = a.filter(l=>[member(l.userId).name,l.result,l.caseProgress,l.tomorrow,l.help,l.helpNote,l.review.comment].join(' ').toLowerCase().includes(q)); }
+  return a.sort((x,y)=> x.date===y.date ? (x.submittedAt<y.submittedAt?1:-1) : (x.date<y.date?1:-1));
+}
+function pageJournal(){
+  let h = mast('Archive · '+S.logs.length+' entries', '日報紀錄', 'Journal Archive');
+  h += '<div class="field" style="position:relative"><input class="inp" id="fq" placeholder="搜尋姓名、成果、案件、回饋" value="'+esc(F.q)+'" style="padding-left:38px"><span style="position:absolute;left:14px;top:12px;color:var(--muted-2)">'+ic('search')+'</span></div>';
+  h += '<div class="chips" id="fUser"><button class="chip'+(F.user===''?' on':'')+'" data-v="">全部</button>'+S.members.map(m=>'<button class="chip'+(F.user===m.id?' on':'')+'" data-v="'+m.id+'">'+esc(m.name)+'</button>').join('')+'</div>';
+  h += '<div class="chips" id="fStatus">'+[['','全部狀態'],['todo','待回饋'],['done','已回饋'],['help','需要協助']].map(([v,t])=>'<button class="chip'+(F.status===v?' on':'')+'" data-v="'+v+'">'+t+'</button>').join('')+'</div>';
+  h += '<div class="grid2"><div class="field" style="margin:0"><label>起</label><input type="date" class="inp" id="fFrom" value="'+F.from+'"></div><div class="field" style="margin:0"><label>迄</label><input type="date" class="inp" id="fTo" value="'+F.to+'"></div></div>';
+  h += '<div class="row between" style="margin:14px 0 0"><span class="small muted" id="fCount"></span><div class="row"><button class="linkbtn" onclick="App.resetF()">清除篩選</button><button class="linkbtn" onclick="App.exportCsv()">'+ic('down')+'匯出 CSV</button></div></div>';
+  return h + '<div id="tl"></div>';
+}
+function renderTL(){
+  const a = filtered();
+  $('#fCount').textContent = '共 '+a.length+' 筆・面談合計 '+a.reduce((s,l)=>s+(+l.meetings||0),0)+' 次';
+  if(!a.length){ $('#tl').innerHTML = '<div class="card empty" style="margin-top:20px"><span class="kick">No entries</span><span class="serif">找不到符合條件的日報</span>試著調整篩選條件。</div>'; return; }
+  let h = '', mon = '';
+  a.slice(0,200).forEach(l=>{
+    const mm = l.date.slice(0,7);
+    if(mm!==mon){ if(mon) h += '</div>'; mon = mm; h += '<div class="month-h">'+mm.replace('-',' · ')+'</div><div class="tl">'; }
+    const u = member(l.userId), d = parseD(l.date), acts = entryActions(l);
+    h += '<div class="tl-item'+(reviewed(l)?' reviewed':'')+'"><span class="pin"></span><div class="card pad"><div class="rec-top"><div class="rec-date"><div class="dd">'+pad(d.getDate())+'</div><div class="mm">週'+WD[d.getDay()]+'</div></div><div class="rec-main">';
+    h += '<div class="row between"><div class="rec-cat">'+esc(u.name)+'<span class="en">Daily Log</span></div>'+gradeBadge(l)+'</div>';
+    h += entryBody(l) + '</div></div><div class="entry-foot"><span class="muted">'+fmtTime(l.submittedAt)+' 送出'+(l.updatedAt?'・已修改':'')+'</span><div class="row">'+acts+'</div></div></div></div>';
+  });
+  h += '</div>';
+  if(a.length>200) h += '<div class="hint" style="text-align:center">僅顯示前 200 筆，請用篩選縮小範圍</div>';
+  $('#tl').innerHTML = h;
+}
+function bindJournal(){
+  $('#fq').oninput = e => { F.q = e.target.value.trim(); renderTL(); };
+  const group = (sel, key) => $(sel).onclick = e => { const b = e.target.closest('.chip'); if(!b) return; F[key] = b.dataset.v; $$(sel+' .chip').forEach(x=>x.classList.toggle('on', x===b)); renderTL(); };
+  group('#fUser','user'); group('#fStatus','status');
+  $('#fFrom').onchange = e => { F.from = e.target.value; renderTL(); };
+  $('#fTo').onchange = e => { F.to = e.target.value; renderTL(); };
+  renderTL();
+}
+
+/* =========================================================
+   雙週目標與復盤
+   ========================================================= */
+let G = {cycleId:null, userId:null};
+function pageGoals(){
   const m = me();
-  if(!S.cycles.length) return '<div class="page-head"><div><h1>🎯 雙週陣圖</h1></div></div><div class="card empty"><div class="e">🗺️</div>主管還沒有設定本期賓果'+(isLeader()?'<div style="margin-top:12px"><a class="btn primary" href="#hq/bingo">前往設定</a></div>':'')+'</div>';
-  const cyc = S.cycles.find(c=>c.id===bingoView.cycleId) || currentCycle();
-  bingoView.cycleId = cyc.id;
-  let viewId = bingoView.userId || (m.role==='leader' ? (teamMembers()[0]||m).id : m.id);
-  if(!isLeader()) viewId = m.id;
-  bingoView.userId = viewId;
-  const owner = member(viewId);
-  const card = cardOf(viewId, cyc.id);
-  const editable = viewId === m.id;
-  const lines = linesOf(card.done), lc = lineCells(card.done), cnt = card.done.filter(Boolean).length;
+  if(!S.cycles.length) return mast('Bi-weekly', '雙週目標', 'Goals & Review') + '<div class="card empty"><span class="kick">Not set</span><span class="serif">尚未設定本期目標</span>'+(isLeader()?'<div style="margin-top:16px"><button class="btn-line" onclick="location.hash=\'#desk/goals\'">前往設定</button></div>':'請主管到工作台設定')+'</div>';
+  const cyc = S.cycles.find(c=>c.id===G.cycleId) || currentCycle(); G.cycleId = cyc.id;
+  const vid = isLeader() ? (G.userId || (team()[0]||m).id) : m.id; G.userId = vid;
+  const owner = member(vid), editable = vid===m.id;
+  const card = cardOf(vid, cyc.id) || emptyCard();
+  const cnt = card.done.filter(Boolean).length, lines = linesOf(card.done), lc = lineCells(card.done);
 
-  let h = '<div class="page-head"><div><h1>🎯 雙週陣圖</h1><p>'+esc(cyc.label)+'・'+fmtDate(cyc.start)+' – '+fmtDate(cyc.end)+'</p></div><div class="row">';
-  h += '<select class="input" style="width:auto" onchange="App.bingoCycle(this.value)">'+S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1).map(c=>'<option value="'+c.id+'"'+(c.id===cyc.id?' selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select>';
-  if(isLeader()) h += '<select class="input" style="width:auto" onchange="App.bingoUser(this.value)">'+S.members.map(x=>'<option value="'+x.id+'"'+(x.id===viewId?' selected':'')+'>'+esc(x.avatar+' '+x.name)+'</option>').join('')+'</select>';
-  h += '<button class="btn ghost sm" onclick="App.meetingMode()">📽️ 復盤會議模式</button></div></div>';
+  let h = mast(cyc.label+' · '+fmtDate(cyc.start)+' – '+fmtDate(cyc.end), '雙週目標', 'Goals & Review');
+  h += '<div class="row" style="margin-bottom:16px"><select class="inline" onchange="App.gCycle(this.value)">'+S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1).map(c=>'<option value="'+c.id+'"'+(c.id===cyc.id?' selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select>';
+  if(isLeader()) h += '<select class="inline" onchange="App.gUser(this.value)">'+S.members.map(x=>'<option value="'+x.id+'"'+(x.id===vid?' selected':'')+'>'+esc(x.name)+'</option>').join('')+'</select><button class="linkbtn no-print" style="margin-left:auto" onclick="App.meeting()">'+ic('journal')+'復盤會議總覽</button>';
+  h += '</div>';
 
-  h += '<div class="split">';
-  h += '<div class="card"><div class="card-title"><h3>'+esc(owner.avatar)+' '+esc(owner.name)+' 的成就賓果卡</h3><span class="tag blue">'+cnt+'/9 格</span></div>';
-  if(!editable) h += '<div class="xs muted" style="margin-bottom:8px">👀 檢視模式（只有本人可以勾選）</div>';
-  else h += '<div class="xs muted" style="margin-bottom:8px">點格子翻牌蓋上 CLEAR 章；再點一次可取消</div>';
-  h += '<div class="bingo">';
+  h += '<div class="card idc"><div class="idc-band"><span class="k">GOAL GRID</span><span class="small muted">'+esc(owner.name)+'</span></div><div class="ggrid">';
   cyc.goals.forEach((g,i)=>{
-    const d = card.done[i];
-    h += '<button class="cell'+(d?' done':'')+(lc.has(i)?' inline':'')+'" '+(editable?'onclick="App.toggleCell('+i+')"':'disabled')+' aria-pressed="'+d+'" aria-label="'+esc(g)+'">';
-    h += '<div class="face front"><div class="n">#'+(i+1)+'</div><div class="t">'+esc(g||'（未設定）')+'</div></div>';
-    h += '<div class="face back"><div class="clear">CLEAR</div><div class="t">'+esc(g)+'</div></div></button>';
+    const d = !!card.done[i];
+    h += '<button class="gcell'+(d?' done':'')+(lc.has(i)?' inline':'')+'" '+(editable?'onclick="App.toggleGoal('+i+')"':'disabled')+' aria-pressed="'+d+'"><span class="n">No. '+(i+1)+'</span><span class="ck">'+(d?ic('check'):'')+'</span><span class="t">'+esc(g||'（未設定）')+'</span></button>';
   });
-  h += '</div></div>';
+  h += '</div><div class="kpis" style="padding-top:0">'+kpi(cnt+'<small>/9</small>','已完成')+kpi(lines+'<small>條</small>','連線數')+kpi(Math.round(cnt/9*100)+'<small>%</small>','完成率')+kpi(reviewDone(card.review)?'✓':'—','復盤')+'</div></div>';
+  h += '<div class="hint no-print">'+(editable?'點選格子標記完成，再點一次可取消；橫、直、斜三格皆完成即為一條連線。':'檢視模式：只有本人可以標記完成。')+'</div>';
 
-  h += '<div class="stack">';
-  h += '<div class="card streak-card"><div class="row" style="gap:14px"><div class="lines-badge">'+lines+'</div><div><b>條連線</b><div class="small muted">'+(lines? '已解鎖 '+lines+' 條，繼續衝下一條！' : '完成 3 格連成一線就能解鎖獎勵')+'</div></div></div></div>';
-  h += '<div class="card"><div class="card-title"><h3>🎁 獎勵解鎖進度</h3></div>';
-  const rw = cyc.rewards || [];
-  if(!rw.length) h += '<div class="muted small">本期尚未設定獎勵</div>';
-  rw.forEach(r=>{
-    const p = rewardProgress(r, viewId, cyc), rt = REWARD_TYPES[r.type]||{label:r.type,unit:'',scope:''};
-    h += '<div class="reward'+(p.ok?' unlocked':'')+'"><div class="ico">'+esc(r.icon||'🎁')+'</div><div style="flex:1;min-width:0"><div class="row between"><b class="small">'+esc(r.name)+'</b><span class="tag '+(p.ok?'gold':'')+'">'+(p.ok?'🔓 已解鎖':'🔒 '+rt.scope)+'</span></div>';
-    h += '<div class="xs muted">'+rt.label+' '+Math.min(p.cur,p.target)+' / '+p.target+' '+rt.unit+'</div><div class="pbar"><i style="width:'+clamp(p.cur/p.target*100,0,100)+'%"></i></div></div></div>';
-  });
-  h += '</div></div></div>';
-
-  // 復盤
   const r = card.review || {};
-  h += '<div class="card print-area" style="margin-top:16px" id="reviewCard"><div class="card-title"><h3>📝 成長復盤卡・'+esc(owner.name)+'</h3><div class="row no-print">';
-  h += '<button class="btn sm ghost" onclick="App.copyReview()">📋 複製</button><button class="btn sm ghost" onclick="window.print()">🖨️ 列印 / PDF</button></div></div>';
-  h += '<div class="xs muted" style="margin-bottom:10px">'+esc(cyc.label)+'・賓果 '+cnt+'/9 格、'+lines+' 連線'+(reviewComplete(r)?'・✅ 復盤完成 +40 EXP':'・四格都填完可得 +40 EXP')+'</div>';
-  h += '<div class="dims">';
-  [['exp','d1','🌈 體驗上','這兩週印象最深的一個經驗？'],['learn','d2','📖 學習上','學到了什麼新方法或觀念？'],['improve','d3','🔧 再提升','哪裡可以做得更好？'],['next','d4','🚀 我的下一步','接下來兩週具體要做的一件事']].forEach(([k,c,t,ph])=>{
-    h += '<div class="dim '+c+'"><h4>'+t+'</h4>';
-    if(editable) h += '<textarea class="input" data-k="'+k+'" placeholder="'+ph+'" oninput="App.reviewInput(this)">'+esc(r[k]||'')+'</textarea>';
-    else h += '<div class="small">'+(r[k]?nl2br(r[k]):'<span class="muted">尚未填寫</span>')+'</div>';
+  h += '<div class="sec">'+sech('成長復盤','Bi-weekly Review', reviewDone(r)?'已完成':'')+'<div class="card pad">';
+  DIMS.forEach(([k,zh,en,ph])=>{
+    h += '<div class="field"><label class="flabel">'+zh+'<span class="en">'+en+'</span></label>';
+    h += editable ? '<textarea class="inp" data-k="'+k+'" placeholder="'+ph+'" oninput="App.revInput(this)">'+esc(r[k]||'')+'</textarea>'
+                  : '<div style="font-size:14px;white-space:pre-wrap">'+(r[k]?esc(r[k]):'<span class="muted">尚未填寫</span>')+'</div>';
     h += '</div>';
   });
-  h += '</div>';
-  if(editable) h += '<div class="row no-print" style="margin-top:12px;justify-content:flex-end"><span class="xs muted" id="revSaved"></span><button class="btn primary" onclick="App.saveReview()">💾 儲存復盤</button></div>';
-  h += '</div>';
-  return h;
+  h += '<div class="row between no-print"><div class="row"><button class="linkbtn" onclick="App.copyReview()">'+ic('copy')+'複製文字</button><button class="linkbtn" onclick="window.print()">'+ic('print')+'列印 / PDF</button></div>';
+  if(editable) h += '<div class="row"><span class="xs muted" id="revSaved"></span><button class="btn dark" onclick="App.saveReview()">儲存復盤</button></div>';
+  return h + '</div></div></div>';
 }
 
 /* =========================================================
-   頁面：戰報清單
+   主管工作台
    ========================================================= */
-let LF = {q:'', user:'', status:'', help:'', from:'', to:''};
-function filteredLogs(){
-  let arr = S.logs.slice();
-  if(!isLeader() && LF.user==='') {/* 同仁預設看全部（透明） */}
-  if(LF.user) arr = arr.filter(l=>l.userId===LF.user);
-  if(LF.status) arr = arr.filter(l=>(l.review||{}).status===LF.status);
-  if(LF.help==='need') arr = arr.filter(l=>l.help && l.help!=='無');
-  else if(LF.help) arr = arr.filter(l=>l.help===LF.help);
-  if(LF.from) arr = arr.filter(l=>l.date>=LF.from);
-  if(LF.to) arr = arr.filter(l=>l.date<=LF.to);
-  if(LF.q){
-    const q = LF.q.toLowerCase();
-    arr = arr.filter(l=>[member(l.userId).name,l.result,l.caseProgress,l.tomorrow,l.help,l.helpNote,(l.review||{}).comment].join(' ').toLowerCase().includes(q));
-  }
-  return arr.sort((a,b)=> a.date===b.date ? (a.submittedAt<b.submittedAt?1:-1) : (a.date<b.date?1:-1));
+let D = {date:null, cycleId:null, editing:null};
+function pageDesk(tab){
+  if(!isLeader()) return mast('Leader', '主管工作台', 'Leader Desk') + '<div class="card empty"><span class="kick">Restricted</span><span class="serif">此頁面僅供主管使用</span><div style="margin-top:16px"><button class="btn-line" onclick="App.switchSheet()">切換身分</button></div></div>';
+  tab = tab || 'review';
+  const tabs = [['review','回饋'],['dinner','晚餐統計'],['notice','公告'],['goals','目標設定'],['team','成員與規則']];
+  let h = mast('Leader Desk · '+kickDate(D.date||today()), '主管工作台', 'Review & Coordination');
+  h += '<div class="chips">'+tabs.map(([k,t])=>'<button class="chip'+(k===tab?' on':'')+'" onclick="location.hash=\'#desk/'+k+'\'">'+t+'</button>').join('')+'</div>';
+  return h + ({review:deskReview, dinner:deskDinner, notice:deskNotice, goals:deskGoals, team:deskTeam}[tab] || deskReview)();
 }
-function pageList(){
-  let h = '<div class="page-head"><div><h1>📚 戰報清單</h1><p>搜尋、篩選所有日戰報，也能匯出 CSV</p></div><div class="row"><a class="btn primary sm" href="#log">＋ 新增戰報</a><button class="btn ghost sm" onclick="App.exportCsv()">⬇️ 匯出 CSV</button></div></div>';
-  h += '<div class="card" style="margin-bottom:16px"><div class="filters">';
-  h += '<input class="input search" id="lfQ" placeholder="🔍 搜尋姓名、成果、案件、評語…" value="'+esc(LF.q)+'">';
-  h += '<select class="input" id="lfUser"><option value="">全部同仁</option>'+S.members.map(m=>'<option value="'+m.id+'"'+(LF.user===m.id?' selected':'')+'>'+esc(m.avatar+' '+m.name)+'</option>').join('')+'</select>';
-  h += '<select class="input" id="lfStatus"><option value="">批改狀態</option><option'+(LF.status==='未看'?' selected':'')+'>未看</option><option'+(LF.status==='已批改'?' selected':'')+'>已批改</option></select>';
-  h += '<select class="input" id="lfHelp"><option value="">需要協助</option><option value="need"'+(LF.help==='need'?' selected':'')+'>有求助（全部）</option>'+HELP_OPTS.map(o=>'<option'+(LF.help===o?' selected':'')+'>'+o+'</option>').join('')+'</select>';
-  h += '<div class="row" style="flex-wrap:nowrap;gap:4px"><input type="date" class="input" id="lfFrom" value="'+esc(LF.from)+'" title="起"><input type="date" class="input" id="lfTo" value="'+esc(LF.to)+'" title="迄"></div>';
-  h += '</div><div class="row" style="margin-top:10px"><span class="small muted" id="lfCount"></span><button class="btn sm ghost" style="margin-left:auto" onclick="App.resetFilters()">清除篩選</button></div></div>';
-  h += '<div id="listBody"></div>';
-  return h;
+const dateBar = () => '<div class="row" style="margin:6px 0 16px"><input type="date" class="inp" style="width:auto;min-height:38px;padding:6px 12px;font-size:14px" value="'+(D.date||today())+'" onchange="App.dDate(this.value)"></div>';
+function reviewForm(l){
+  const r = l.review||{}, g = r.stamp||'優秀';
+  let h = '<div class="field" style="margin-bottom:12px"><label>回饋類別</label><div class="opts">'+GRADES.map(x=>'<label class="opt"><input type="radio" name="g_'+l.id+'" value="'+x+'"'+(x===g?' checked':'')+'><span>'+x+'</span></label>').join('')+'</div></div>';
+  h += '<div class="chips wrapc" style="margin-bottom:8px">'+PHRASES.map(p=>'<button type="button" class="chip" onclick="App.phrase(\''+l.id+'\',this)">'+esc(p)+'</button>').join('')+'</div>';
+  return h + '<textarea class="inp" id="c_'+l.id+'" rows="2" placeholder="給同仁的一句話（選填）">'+esc(r.comment||'')+'</textarea>';
 }
-function renderListBody(){
-  const arr = filteredLogs();
-  $('#lfCount').textContent = '共 '+arr.length+' 筆・面談合計 '+arr.reduce((a,l)=>a+(+l.meetings||0),0)+' 次';
-  if(!arr.length){ $('#listBody').innerHTML = '<div class="card empty"><div class="e">🔎</div>找不到符合條件的戰報</div>'; return; }
-  const show = arr.slice(0,200);
-  const canEdit = l => isLeader() || l.userId===me().id;
-  const stampTag = r => r.status==='已批改' ? '<span class="tag '+(r.stamp==='神隊友'?'orange':r.stamp==='優秀'?'gold':'blue')+'">'+(STAMPS[r.stamp]||{}).emoji+' '+esc(r.stamp)+' '+'⭐'.repeat(r.stars||0)+'</span>' : '<span class="tag">未看</span>';
-  let h = '<div class="card tbl-wrap resp" style="padding:6px 8px"><table class="tbl"><thead><tr><th>日期</th><th>同仁</th><th>聯/約/面</th><th>今日成果</th><th>案件進度</th><th>協助</th><th>批改</th><th></th></tr></thead><tbody>';
-  show.forEach(l=>{
-    const u = member(l.userId);
-    h += '<tr><td style="white-space:nowrap">'+fmtDate(l.date)+'<div class="xs muted">'+fmtTime(l.submittedAt)+'</div></td><td style="white-space:nowrap">'+esc(u.avatar+' '+u.name)+'</td>';
-    h += '<td style="white-space:nowrap"><b>'+(+l.contacts||0)+'</b> / <b>'+(+l.appointments||0)+'</b> / <b>'+(+l.meetings||0)+'</b></td>';
-    h += '<td><div class="clip">'+esc(l.result)+'</div></td><td><div class="clip">'+esc(l.caseProgress)+'</div></td>';
-    h += '<td>'+(l.help&&l.help!=='無'?'<span class="tag orange">'+esc(l.help)+'</span>':'<span class="muted xs">—</span>')+'</td><td>'+stampTag(l.review||{})+'</td>';
-    h += '<td style="white-space:nowrap">'+actions(l)+'</td></tr>';
-  });
-  h += '</tbody></table></div><div class="list-cards">';
-  show.forEach(l=>{
-    const u = member(l.userId);
-    h += '<div class="card"><div class="row between"><b>'+esc(u.avatar+' '+u.name)+'</b><span class="xs muted">'+fmtDate(l.date)+' '+fmtTime(l.submittedAt)+'</span></div>';
-    h += '<div class="small" style="margin:6px 0">📞 '+(+l.contacts||0)+'・📅 '+(+l.appointments||0)+'・🤝 '+(+l.meetings||0)+'</div>';
-    if(l.result) h += '<div class="small"><b>成果：</b>'+esc(l.result)+'</div>';
-    if(l.caseProgress) h += '<div class="small"><b>進度：</b>'+esc(l.caseProgress)+'</div>';
-    h += '<div class="row" style="margin-top:8px">'+stampTag(l.review||{})+(l.help&&l.help!=='無'?'<span class="tag orange">'+esc(l.help)+'</span>':'')+'<span style="margin-left:auto">'+actions(l)+'</span></div></div>';
-  });
-  h += '</div>';
-  if(arr.length>200) h += '<div class="xs muted" style="text-align:center;margin-top:8px">僅顯示前 200 筆，請用篩選縮小範圍</div>';
-  $('#listBody').innerHTML = h;
-  function actions(l){
-    let a = '<button class="btn sm ghost" onclick="App.viewLog(\''+l.id+'\')">看</button> ';
-    if(canEdit(l)) a += '<a class="btn sm ghost" href="#log/'+l.id+'">改</a> <button class="btn sm danger" onclick="App.delLog(\''+l.id+'\')">刪</button>';
-    return a;
-  }
-}
-function bindList(){
-  const upd = () => {
-    LF.q = $('#lfQ').value.trim(); LF.user = $('#lfUser').value; LF.status = $('#lfStatus').value;
-    LF.help = $('#lfHelp').value; LF.from = $('#lfFrom').value; LF.to = $('#lfTo').value;
-    renderListBody();
-  };
-  $('#lfQ').oninput = upd;
-  ['#lfUser','#lfStatus','#lfHelp','#lfFrom','#lfTo'].forEach(s=>$(s).onchange = upd);
-  renderListBody();
-}
-
-/* =========================================================
-   頁面：主管指揮台
-   ========================================================= */
-let hqDate = null;
-function pageHQ(tab){
-  if(!isLeader()) return '<div class="card empty"><div class="e">🔒</div>這裡是主管專區。<div style="margin-top:10px"><button class="btn primary" onclick="App.openSwitch()">切換身分</button></div></div>';
-  tab = tab || 'grade';
-  const tabs = [['grade','🖋️ 批改'],['dinner','🍱 晚餐統計'],['announce','📢 公告'],['bingo','🎯 賓果設定'],['team','👥 成員與規則']];
-  let h = '<div class="page-head"><div><h1>🧭 戰術指揮台</h1><p>像改作業一樣輕鬆：蓋章、給星、送一句話</p></div></div>';
-  h += '<div class="seg" style="margin-bottom:16px">'+tabs.map(([k,t])=>'<button class="'+(k===tab?'on':'')+'" onclick="location.hash=\'#hq/'+k+'\'">'+t+'</button>').join('')+'</div>';
-  h += ({grade:hqGrade, dinner:hqDinner, announce:hqAnnounce, bingo:hqBingo, team:hqTeam}[tab] || hqGrade)();
-  return h;
-}
-function hqGrade(){
-  const d = hqDate || today();
-  const logs = S.logs.filter(l=>l.date===d).sort((a,b)=>(a.review.status==='已批改')-(b.review.status==='已批改') || (a.submittedAt<b.submittedAt?-1:1));
-  const missing = teamMembers().filter(m=>!logOf(m.id,d));
-  const pend = logs.filter(l=>l.review.status!=='已批改').length;
-  let h = '<div class="grid g4" style="margin-bottom:16px">';
-  h += kpi('📝','已送出', logs.length+'<span class="small muted">/'+teamMembers().length+'</span>', fmtDate(d));
-  h += kpi('🖋️','待批改', pend, pend?'加油，快改完了':'全部改完 🎉');
-  h += kpi('🤝','面談合計', logs.reduce((a,l)=>a+(+l.meetings||0),0), '約訪 '+logs.reduce((a,l)=>a+(+l.appointments||0),0));
-  h += kpi('🙋','需要協助', logs.filter(l=>l.help&&l.help!=='無').length, '優先回應');
-  h += '</div>';
-  h += '<div class="row" style="margin-bottom:12px"><input type="date" class="input" style="width:auto" value="'+d+'" onchange="App.hqDate(this.value)">';
-  if(pend) h += '<button class="btn sm gold" onclick="App.bulkPass()">✅ 其餘全部蓋「合格」</button>';
-  h += '</div>';
-  if(missing.length){
-    h += '<div class="card tint" style="margin-bottom:16px"><div class="row between"><div><b>🌙 尚未送出（'+missing.length+'）</b><div class="small">'+missing.map(m=>esc(m.avatar+' '+m.name)).join('、')+'</div></div>';
-    h += '<button class="btn sm" onclick="App.nudge(\''+d+'\')">💌 送出溫和提醒</button></div></div>';
-  }
-  if(!logs.length) return h + '<div class="card empty"><div class="e">📭</div>這天還沒有戰報</div>';
-  h += '<div class="stack">';
+function deskReview(){
+  const d = D.date || today();
+  const logs = S.logs.filter(l=>l.date===d).sort((a,b)=>(reviewed(a)-reviewed(b)) || (a.submittedAt<b.submittedAt?-1:1));
+  const miss = team().filter(m=>!logOf(m.id,d)), pend = logs.filter(l=>!reviewed(l)).length;
+  let h = dateBar();
+  h += '<div class="card"><div class="kpis" style="padding:16px">'+kpi(logs.length+'<small>/'+team().length+'</small>','已回報')+kpi(pend,'待回饋')+kpi(logs.reduce((a,l)=>a+(+l.meetings||0),0),'面談合計')+kpi(logs.filter(l=>l.help&&l.help!=='無').length,'需要協助')+'</div></div>';
+  if(miss.length) h += '<div class="today-box" style="margin-top:16px"><div class="today-h"><span class="bell">'+ic('bell')+'</span><b>尚未回報</b></div><div class="today-row"><div class="t">'+esc(miss.map(m=>m.name).join('、'))+'<span class="muted">系統會在 '+S.settings.remindTime+' 自動發送提醒</span></div><button class="btn sm" onclick="App.nudge(\''+d+'\')">'+ic('send')+'現在提醒</button></div></div>';
+  h += '<div class="sec">'+sech('日報回饋','Feedback', pend?'<button class="linkbtn" onclick="App.bulkPass()">其餘皆標記為「合格」</button>':'');
+  if(!logs.length) return h + '<div class="card empty"><span class="kick">Empty</span><span class="serif">這天沒有日報</span></div></div>';
   logs.forEach(l=>{
-    const u = member(l.userId), r = l.review, done = r.status==='已批改';
-    h += '<div class="card hq-log" id="g_'+l.id+'"><div>';
-    h += '<div class="post-head"><div class="av">'+esc(u.avatar)+'</div><div><div class="who">'+esc(u.name)+' '+(done?'<span class="tag sage">已批改</span>':'<span class="tag pink">未看</span>')+'</div><div class="xs muted">'+fmtTime(l.submittedAt)+' 送出・連勝 🔥'+streakOf(u.id)+' 天</div></div></div>';
-    h += '<div class="nums"><span class="num-pill">📞 聯絡<b>'+(+l.contacts||0)+'</b></span><span class="num-pill">📅 約訪<b>'+(+l.appointments||0)+'</b></span><span class="num-pill">🤝 面談<b>'+(+l.meetings||0)+'</b></span></div>';
-    if(l.help && l.help!=='無') h += '<div class="help-flag" style="margin-bottom:8px">🙋 '+esc(l.help)+(l.helpNote?'：'+esc(l.helpNote):'')+'</div>';
-    h += '<div class="small post-body">';
-    if(l.result) h += '<p><span class="k">🏆 成果</span>'+nl2br(l.result)+'</p>';
-    if(l.caseProgress) h += '<p><span class="k">📂 進度</span>'+nl2br(l.caseProgress)+'</p>';
-    if(l.tomorrow) h += '<p><span class="k">🎯 明日</span>'+nl2br(l.tomorrow)+'</p>';
-    h += '</div></div>';
-    if(done){
-      const sd = STAMPS[r.stamp]||STAMPS['合格'];
-      h += '<div class="grade-panel row" style="align-content:flex-start"><div class="stamp sm '+sd.cls+'">'+esc(r.stamp)+'</div><div style="flex:1;min-width:0"><div class="stars">'+'⭐'.repeat(r.stars||0)+'</div><div class="small">'+esc(r.comment||'')+'</div></div><button class="btn sm ghost block" onclick="App.gradeModal(\''+l.id+'\')">✏️ 修改批註</button></div>';
-    } else h += gradePanel(l);
+    const u = member(l.userId), editing = D.editing===l.id || !reviewed(l);
+    h += '<div class="card entry"><div class="entry-top">'+avatar(u)+'<div style="flex:1;min-width:0"><div class="entry-name">'+esc(u.name)+'</div><div class="entry-meta">'+fmtTime(l.submittedAt)+' 送出・連續回報 '+streakOf(u.id)+' 天</div></div>'+gradeBadge(l)+'</div>';
+    h += entryBody(l, editing);
+    if(editing){
+      h += '<div class="hr" style="margin:16px 0"></div>'+reviewForm(l);
+      h += '<div class="row" style="justify-content:flex-end;margin-top:10px">'+(reviewed(l)?'<button class="btn-text" onclick="App.cancelEdit()">取消</button>':'')+'<button class="btn dark" onclick="App.sendReview(\''+l.id+'\')">送出回饋</button></div>';
+    } else {
+      h += '<div class="entry-foot"><span class="muted">回饋於 '+fmtTime(l.review.reviewedAt)+'</span><button class="linkbtn" onclick="App.editReview(\''+l.id+'\')">'+ic('pen')+'修改回饋</button></div>';
+    }
     h += '</div>';
   });
-  h += '</div>';
-  return h;
+  return h + '</div>';
 }
-function gradePanel(l){
-  const r = l.review || {};
-  const st = r.stamp || '優秀', stars = r.stars || 2;
-  let h = '<div class="grade-panel" data-log="'+l.id+'" data-stamp="'+esc(st)+'" data-stars="'+stars+'">';
-  h += '<div class="xs muted" style="margin-bottom:6px">選擇印章</div><div class="stamp-pick">'+Object.keys(STAMPS).map(k=>'<button type="button" class="'+STAMPS[k].cls+(k===st?' on':'')+'" data-stamp="'+k+'">'+STAMPS[k].emoji+' '+k+'</button>').join('')+'</div>';
-  h += '<div class="row between" style="margin:8px 0"><span class="xs muted">星號</span><span class="star-pick">'+[1,2,3].map(n=>'<button type="button" class="'+(n<=stars?'on':'')+'" data-star="'+n+'">⭐</button>').join('')+'</span></div>';
-  h += '<div class="chips" style="margin-bottom:6px">'+QUICK_COMMENTS.slice(0,4).map(c=>'<button type="button" class="chip" style="font-size:12px;padding:3px 9px" data-qc="'+esc(c)+'">'+esc(c)+'</button>').join('')+'</div>';
-  h += '<textarea class="input" rows="2" style="min-height:56px" placeholder="一句話評語（可留白，會以印章名稱代替）">'+esc(r.comment||'')+'</textarea>';
-  h += '<button type="button" class="btn gold block" style="margin-top:8px" data-go="1">🖋️ '+(r.status==='已批改'?'更新批註':'蓋章送出')+'</button></div>';
-  return h;
+function deskDinner(){
+  const d = D.date || today(), s = dinnerSummary(d);
+  let h = dateBar();
+  h += '<div class="card"><div class="kpis" style="padding:16px">'+kpi(s.eat.length+'<small>份</small>','訂餐')+kpi(s.no.length,'不吃')+kpi(s.notReplied.length,'未登記')+kpi(s.eat.filter(x=>x.late).length,'晚登記')+'</div></div>';
+  h += '<div class="row" style="margin:14px 0 0"><button class="btn dark" onclick="App.copyDinner(\''+d+'\')">'+ic('copy')+'複製名單給負責人</button><button class="btn" onclick="App.dinnerCsv(\''+d+'\')">'+ic('down')+'CSV</button>'+(s.notReplied.length?'<button class="btn" onclick="App.nudgeDinner(\''+d+'\')">'+ic('send')+'提醒未登記</button>':'')+'</div>';
+  h += '<div class="hint">每天 '+S.settings.dinnerCutoff+' 系統自動統計並通知主管。</div>';
+  const items = Object.entries(s.items).sort((a,b)=>b[1]-a[1]), mx = Math.max(1,...items.map(x=>x[1]));
+  h += '<div class="sec">'+sech('品項統計','Summary')+'<div class="card pad">'+(items.length?items.map(([k,v])=>'<div class="leg-row"><div class="row between"><span>'+esc(k)+'</span><span class="v">'+v+'</span></div><div class="bar"><span style="width:'+(v/mx*100)+'%"></span></div></div>').join(''):'<div class="empty" style="padding:10px">目前沒有人訂餐</div>')+'</div></div>';
+  h += '<div class="sec">'+sech('訂餐名單','Order List', s.eat.length+' 份');
+  h += '<div class="card">'+(s.eat.length?s.eat.map((x,i)=>{ const u = member(x.userId); return '<div class="list-item"><span class="num" style="width:16px;color:var(--muted-2)">'+(i+1)+'</span>'+avatar(u)+'<div class="grow"><div class="nm">'+esc(u.name)+'</div><div class="xs muted">'+esc(x.item||'未指定')+(x.note?'・'+esc(x.note):'')+'</div></div>'+(x.late?'<span class="st warn">晚登記</span>':'<span class="xs muted">'+fmtTime(x.at)+'</span>')+'</div>'; }).join(''):'<div class="empty">—</div>')+'</div>';
+  if(s.notReplied.length) h += '<div class="hint">未登記：'+esc(s.notReplied.map(m=>m.name).join('、'))+'</div>';
+  return h + '</div>';
 }
-function bindGradePanels(root){
-  (root||document).querySelectorAll('.grade-panel').forEach(p=>{
-    p.onclick = e => {
-      const b = e.target.closest('button'); if(!b) return;
-      if(b.dataset.stamp){ p.dataset.stamp = b.dataset.stamp; p.querySelectorAll('[data-stamp]').forEach(x=>{ if(x.tagName==='BUTTON') x.classList.toggle('on', x===b); }); }
-      else if(b.dataset.star){ p.dataset.stars = b.dataset.star; p.querySelectorAll('[data-star]').forEach(x=>x.classList.toggle('on', +x.dataset.star <= +b.dataset.star)); }
-      else if(b.dataset.qc){ p.querySelector('textarea').value = b.dataset.qc; }
-      else if(b.dataset.go){ applyGrade(p.dataset.log, p.dataset.stamp, +p.dataset.stars, p.querySelector('textarea').value.trim()); }
-    };
-  });
-}
-function applyGrade(logId, stamp, stars, comment){
-  const l = S.logs.find(x=>x.id===logId); if(!l) return;
-  const was = l.review && l.review.status==='已批改';
-  l.review = {status:'已批改', stamp, stars, comment: comment || (stamp==='神隊友'?'你是團隊的神隊友！':stamp==='優秀'?'表現優秀，繼續保持！':'穩穩完成，今天辛苦了！'), reviewedAt:new Date().toISOString(), by:me().id};
-  notify(l.userId, '🖋️', '主管已為你'+(l.date===today()?'的今日':' '+fmtDate(l.date)+' 的')+'戰報'+(was?'更新簽章':'簽章')+'：「'+stamp+' '+'⭐'.repeat(stars)+'」『'+l.review.comment+'』');
-  save();
-  toast('🖋️ 已蓋上「'+stamp+'」並通知 '+esc(member(l.userId).name), {gold:true});
-  closeModal();
-  route();
-}
-function hqDinner(){
-  const d = hqDate || today();
-  const s = dinnerSummary(d);
-  let h = '<div class="row" style="margin-bottom:12px"><input type="date" class="input" style="width:auto" value="'+d+'" onchange="App.hqDate(this.value)"><span class="small muted">每天 '+S.settings.dinnerCutoff+' 系統自動統計並通知你</span></div>';
-  h += '<div class="grid g3" style="margin-bottom:16px">';
-  h += kpi('🍱','訂餐份數', s.eat.length, '晚鳥 '+s.eat.filter(x=>x.late).length+' 份');
-  h += kpi('🙅','不吃', s.no.length, '');
-  h += kpi('❔','未登記', s.notReplied.length, s.notReplied.map(m=>m.name).join('、')||'全部都登記了');
-  h += '</div><div class="split"><div class="card"><div class="card-title"><h3>📋 訂餐名單</h3><div class="row"><button class="btn sm primary" onclick="App.copyDinner(\''+d+'\')">📋 一鍵複製給負責人</button><button class="btn sm ghost" onclick="App.dinnerCsv(\''+d+'\')">⬇️ CSV</button></div></div>';
-  if(!s.eat.length) h += '<div class="empty"><div class="e">🍽️</div>目前沒有人訂餐</div>';
-  else {
-    h += '<div class="tbl-wrap"><table class="tbl dinner-table"><thead><tr><th>#</th><th>同仁</th><th>品項</th><th>備註</th><th>登記時間</th></tr></thead><tbody>';
-    s.eat.forEach((x,i)=>{ const u = member(x.userId); h += '<tr><td>'+(i+1)+'</td><td>'+esc(u.avatar+' '+u.name)+'</td><td>'+esc(x.item||'未指定')+'</td><td>'+esc(x.note||'')+'</td><td class="xs muted">'+fmtTime(x.at)+(x.late?' <span class="tag orange">晚鳥</span>':'')+'</td></tr>'; });
-    h += '</tbody></table></div>';
-  }
-  h += '</div><div class="card"><div class="card-title"><h3>🧮 品項統計</h3></div>';
-  const items = Object.entries(s.items).sort((a,b)=>b[1]-a[1]);
-  const mx = Math.max(1,...items.map(x=>x[1]));
-  h += items.length ? items.map(([k,v])=>'<div style="margin-bottom:10px"><div class="row between small"><span>'+esc(k)+'</span><b>'+v+'</b></div><div class="pbar"><i style="width:'+(v/mx*100)+'%;background:var(--orange)"></i></div></div>').join('') : '<div class="muted small">—</div>';
-  if(s.notReplied.length) h += '<hr class="sep"><button class="btn sm block" onclick="App.nudgeDinner(\''+d+'\')">💌 提醒未登記的人</button>';
-  h += '</div></div>';
-  return h;
-}
-function hqAnnounce(){
+function deskNotice(){
   const t = today();
-  let h = '<div class="split"><div class="card"><div class="card-title"><h3>📢 發布公告</h3></div>';
-  h += '<div class="field"><label class="f">日期</label><input type="date" class="input" id="anDate" value="'+t+'"></div>';
-  h += '<div class="field"><label class="f">標籤</label><div class="chips" id="anIcon">'+['📢','🎯','📍','⏰','🎉','🍱'].map((e,i)=>'<button type="button" class="chip'+(i===0?' on':'')+'" data-v="'+e+'">'+e+'</button>').join('')+'</div></div>';
-  h += '<div class="field"><label class="f">內容</label><textarea class="input" id="anText" placeholder="例：明早 09:00 早會｜12F 大會議室"></textarea></div>';
-  h += '<div class="row"><button class="btn primary" onclick="App.addAnnounce()">發布並通知全員</button></div></div>';
-  h += '<div class="card"><div class="card-title"><h3>🗂️ 公告列表</h3></div>';
-  const list = S.announcements.slice().sort((a,b)=>a.date<b.date?1:-1).slice(0,30);
-  h += list.length ? list.map(a=>'<div class="row" style="padding:8px 0;border-bottom:1px dashed var(--line);flex-wrap:nowrap;align-items:flex-start"><span>'+esc(a.icon)+'</span><div style="flex:1"><div class="xs muted">'+fmtDate(a.date)+(a.date===t?' <span class="tag blue">今日</span>':'')+'</div><div class="small">'+nl2br(a.text)+'</div></div><button class="btn sm danger" onclick="App.delAnnounce(\''+a.id+'\')">刪</button></div>').join('') : '<div class="muted small">尚無公告</div>';
-  h += '</div></div>';
-  return h;
+  let h = '<div class="card pad" style="margin-top:6px"><div class="field"><label>日期</label><input type="date" class="inp" id="anDate" value="'+t+'"></div><div class="field"><label>內容</label><textarea class="inp" id="anText" placeholder="例：明早 09:00 早會｜12F 大會議室"></textarea></div><button class="btn dark block" onclick="App.addNotice()">發布並通知全員</button></div>';
+  const list = S.announcements.slice().sort((a,b)=>a.date<b.date?1:-1).slice(0,40);
+  h += '<div class="sec">'+sech('公告列表','Notices')+'<div class="card">'+(list.length?list.map(a=>'<div class="list-item"><div class="grow"><div class="xs muted">'+fmtDate(a.date)+(a.date===t?'・今日':'')+'</div><div style="font-size:14px">'+esc(a.text)+'</div></div><button class="linkbtn warn" onclick="App.delNotice(\''+a.id+'\')">刪除</button></div>').join(''):'<div class="empty">尚無公告</div>')+'</div>';
+  return h + '</div>';
 }
-let hqCycleId = null;
-function hqBingo(){
-  const cyc = S.cycles.find(c=>c.id===hqCycleId) || currentCycle();
-  let h = '<div class="row" style="margin-bottom:12px">';
-  if(S.cycles.length) h += '<select class="input" style="width:auto" onchange="App.hqCycle(this.value)">'+S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1).map(c=>'<option value="'+c.id+'"'+(cyc&&c.id===cyc.id?' selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select>';
-  h += '<button class="btn sm primary" onclick="App.newCycle()">＋ 建立新一期</button></div>';
-  if(!cyc) return h + '<div class="card empty"><div class="e">🗺️</div>還沒有任何一期，點上方建立</div>';
-  hqCycleId = cyc.id;
-  h += '<div class="split"><div class="card"><div class="card-title"><h3>🗺️ 本期設定</h3></div>';
-  h += '<div class="grid g3" style="gap:10px"><div><label class="f">週期批次</label><input class="input" id="cyLabel" value="'+esc(cyc.label)+'"></div><div><label class="f">開始</label><input type="date" class="input" id="cyStart" value="'+cyc.start+'"></div><div><label class="f">結束</label><input type="date" class="input" id="cyEnd" value="'+cyc.end+'"></div></div>';
-  h += '<label class="f" style="margin-top:14px">九宮格目標</label><div class="grid g3" style="gap:8px">';
-  cyc.goals.forEach((g,i)=>{ h += '<input class="input goal-in" data-i="'+i+'" value="'+esc(g)+'" placeholder="#'+(i+1)+' 目標">'; });
-  h += '</div><div class="xs muted" style="margin-top:6px">建議：中間格放最關鍵的行為目標，四角放較容易達成的暖身任務</div></div>';
-  h += '<div class="card"><div class="card-title"><h3>🎁 獎勵解鎖門檻</h3><button class="btn sm" onclick="App.addReward()">＋ 新增</button></div><div id="rwList">';
-  (cyc.rewards||[]).forEach(r=>{
-    h += '<div class="rw-row" data-id="'+r.id+'" style="border-bottom:1px dashed var(--line);padding:8px 0"><div class="row" style="flex-wrap:nowrap"><input class="input rw-icon" style="width:52px;text-align:center" value="'+esc(r.icon||'🎁')+'"><input class="input rw-name" value="'+esc(r.name)+'" placeholder="獎勵名稱"><button class="btn sm danger" onclick="App.delReward(\''+r.id+'\')">刪</button></div>';
-    h += '<div class="row" style="margin-top:6px;flex-wrap:nowrap"><select class="input rw-type">'+Object.entries(REWARD_TYPES).map(([k,v])=>'<option value="'+k+'"'+(k===r.type?' selected':'')+'>'+v.scope+'｜'+v.label+'</option>').join('')+'</select><span class="small">達</span><input type="number" min="1" class="input rw-target" style="width:80px" value="'+esc(r.target)+'"></div></div>';
-  });
-  h += '</div></div></div>';
-  h += '<div class="row" style="margin-top:16px;justify-content:flex-end"><button class="btn danger" onclick="App.delCycle(\''+cyc.id+'\')">刪除這一期</button><button class="btn primary" onclick="App.saveCycle()">💾 儲存賓果設定</button></div>';
-  // 全區進度
-  h += '<div class="card" style="margin-top:16px"><div class="card-title"><h3>📈 全區賓果進度</h3></div><div class="tbl-wrap"><table class="tbl"><thead><tr><th>同仁</th><th>陣圖</th><th>格數</th><th>連線</th><th>復盤</th></tr></thead><tbody>';
-  teamMembers().forEach(m=>{
-    const c = S.cards.find(x=>x.userId===m.id && x.cycleId===cyc.id);
-    const done = c ? c.done : Array(9).fill(false);
-    h += '<tr><td>'+esc(m.avatar+' '+m.name)+'</td><td><div class="mini-bingo">'+done.map(x=>'<i class="'+(x?'on':'')+'"></i>').join('')+'</div></td><td>'+done.filter(Boolean).length+'/9</td><td><b>'+linesOf(done)+'</b></td><td>'+(c&&reviewComplete(c.review)?'<span class="tag sage">已完成</span>':'<span class="tag">未完成</span>')+'</td></tr>';
-  });
-  h += '</tbody></table></div></div>';
-  return h;
+function deskGoals(){
+  const cyc = S.cycles.find(c=>c.id===D.cycleId) || currentCycle();
+  let h = '<div class="row" style="margin:6px 0 16px">';
+  if(S.cycles.length) h += '<select class="inline" onchange="App.dCycle(this.value)">'+S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1).map(c=>'<option value="'+c.id+'"'+(cyc&&c.id===cyc.id?' selected':'')+'>'+esc(c.label)+'</option>').join('')+'</select>';
+  h += '<button class="btn sm" onclick="App.newCycle()">＋ 建立新一期</button></div>';
+  if(!cyc) return h + '<div class="card empty"><span class="serif">尚未建立任何一期</span></div>';
+  D.cycleId = cyc.id;
+  h += '<div class="card pad"><div class="field"><label>週期批次</label><input class="inp" id="cyLabel" value="'+esc(cyc.label)+'"></div>';
+  h += '<div class="grid2"><div class="field"><label>開始</label><input type="date" class="inp" id="cyStart" value="'+cyc.start+'"></div><div class="field"><label>結束</label><input type="date" class="inp" id="cyEnd" value="'+cyc.end+'"></div></div>';
+  h += '<div class="divider-t">Nine Goals</div><div class="grid3" style="gap:8px">'+cyc.goals.map((g,i)=>'<input class="inp goal-in" style="font-size:14px;padding:10px" data-i="'+i+'" value="'+esc(g)+'" placeholder="No. '+(i+1)+'">').join('')+'</div>';
+  h += '<div class="hint">建議把最關鍵的行為目標放在中間格。</div>';
+  h += '<div class="row" style="justify-content:flex-end;margin-top:14px"><button class="btn-text warn" onclick="App.delCycle(\''+cyc.id+'\')">刪除這一期</button><button class="btn dark" onclick="App.saveCycle()">儲存設定</button></div></div>';
+  h += '<div class="sec">'+sech('全區進度','Progress')+'<div class="card">'+team().map(m=>{ const c = cardOf(m.id,cyc.id) || emptyCard(); return '<div class="list-item"><div class="mini">'+c.done.map(x=>'<i class="'+(x?'on':'')+'"></i>').join('')+'</div><div class="grow"><div class="nm">'+esc(m.name)+'</div><div class="xs muted">'+c.done.filter(Boolean).length+'/9 格・'+linesOf(c.done)+' 條連線</div></div>'+(reviewDone(c.review)?'<span class="st done">已復盤</span>':'<span class="st">未復盤</span>')+'</div>'; }).join('')+'</div>';
+  return h + '</div>';
 }
-function hqTeam(){
+function deskTeam(){
   const s = S.settings;
-  let h = '<div class="split"><div class="card"><div class="card-title"><h3>👥 成員</h3><button class="btn sm primary" onclick="App.memberModal()">＋ 新增成員</button></div>';
-  h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>成員</th><th>角色</th><th>連勝</th><th>EXP</th><th></th></tr></thead><tbody>';
-  S.members.forEach(m=>{
-    const ex = expOf(m.id).total;
-    h += '<tr><td>'+esc(m.avatar+' '+m.name)+'</td><td>'+(m.role==='leader'?'<span class="tag gold">主管</span>':'<span class="tag blue">同仁</span>')+'</td><td>🔥'+streakOf(m.id)+'</td><td>'+ex+'<div class="xs muted">Lv.'+levelOf(ex).lv+' '+levelOf(ex).title+'</div></td><td style="white-space:nowrap"><button class="btn sm ghost" onclick="App.memberModal(\''+m.id+'\')">編輯</button></td></tr>';
-  });
-  h += '</tbody></table></div></div>';
-  h += '<div class="card"><div class="card-title"><h3>⚙️ 團隊規則</h3></div>';
-  h += '<div class="field"><label class="f">團隊名稱</label><input class="input" id="stName" value="'+esc(s.teamName)+'"></div>';
-  h += '<div class="grid g2" style="gap:10px"><div class="field"><label class="f">🍱 晚餐統計時間</label><input type="time" class="input" id="stCut" value="'+esc(s.dinnerCutoff)+'"></div><div class="field"><label class="f">🌙 溫和提醒時間</label><input type="time" class="input" id="stRemind" value="'+esc(s.remindTime)+'"></div></div>';
-  h += '<div class="field"><label class="f">每份戰報 EXP</label><input type="number" min="0" class="input" id="stExp" value="'+esc(s.expPerLog)+'"></div>';
-  h += '<div class="field"><label class="f">晚餐菜單（每行一項）</label><textarea class="input" id="stMenu" rows="4">'+esc(s.dinnerMenu.join('\n'))+'</textarea></div>';
-  h += '<label class="row small" style="margin-bottom:14px"><input type="checkbox" id="stWeekend"'+(s.skipWeekend?' checked':'')+'> 週末沒回報不中斷連勝</label>';
-  h += '<button class="btn primary block" onclick="App.saveSettings()">💾 儲存規則</button></div></div>';
-  return h;
+  let h = '<div class="sec" style="margin-top:6px">'+sech('成員','Members','<button class="linkbtn" onclick="App.memberSheet()">＋ 新增成員</button>');
+  h += '<div class="card">'+S.members.map(m=>'<div class="list-item">'+avatar(m)+'<div class="grow"><div class="nm">'+esc(m.name)+'</div><div class="xs muted">'+(m.role==='leader'?'主管':'同仁')+'・連續回報 '+streakOf(m.id)+' 天・共 '+S.logs.filter(l=>l.userId===m.id).length+' 份</div></div><button class="linkbtn" onclick="App.memberSheet(\''+m.id+'\')">編輯</button></div>').join('')+'</div></div>';
+  h += '<div class="sec">'+sech('團隊規則','Rules')+'<div class="card pad"><div class="field"><label>團隊名稱</label><input class="inp" id="stName" value="'+esc(s.teamName)+'"></div>';
+  h += '<div class="grid2"><div class="field"><label>晚餐統計時間</label><input type="time" class="inp" id="stCut" value="'+s.dinnerCutoff+'"></div><div class="field"><label>未回報提醒時間</label><input type="time" class="inp" id="stRemind" value="'+s.remindTime+'"></div></div>';
+  h += '<div class="field"><label>晚餐菜單（每行一項）</label><textarea class="inp" id="stMenu" rows="5">'+esc(s.dinnerMenu.join('\n'))+'</textarea></div>';
+  h += '<div class="field"><label>週末未回報</label><div class="opts two"><label class="opt"><input type="radio" name="wk" value="1"'+(s.skipWeekend?' checked':'')+'><span>不中斷連續天數</span></label><label class="opt"><input type="radio" name="wk" value="0"'+(!s.skipWeekend?' checked':'')+'><span>視為中斷</span></label></div></div>';
+  return h + '<button class="btn dark block" onclick="App.saveRules()">儲存規則</button></div></div>';
 }
 
 /* =========================================================
-   頁面：設定與備份
+   設定
    ========================================================= */
 function pageSettings(){
-  const m = me();
-  const perm = ('Notification' in window) ? Notification.permission : 'unsupported';
-  let h = '<div class="page-head"><div><h1>⚙️ 設定與備份</h1><p>資料只存在這台裝置的瀏覽器裡，記得定期備份</p></div></div>';
-  h += '<div class="grid g2">';
-  h += '<div class="card"><div class="card-title"><h3>🙋 我的檔案</h3></div><div class="row" style="margin-bottom:12px"><div class="av" style="width:56px;height:56px;font-size:30px">'+esc(m.avatar)+'</div><div><b>'+esc(m.name)+'</b><div class="small muted">'+(m.role==='leader'?'主管':'同仁')+'</div></div><button class="btn sm ghost" style="margin-left:auto" onclick="App.memberModal(\''+m.id+'\')">編輯</button></div>';
-  h += '<button class="btn block" onclick="App.openSwitch()">🔄 切換身分</button></div>';
-  h += '<div class="card"><div class="card-title"><h3>🔔 自動提醒</h3></div><div class="small" style="margin-bottom:10px">網頁開著時，系統會在 <b>'+esc(S.settings.dinnerCutoff)+'</b> 自動統計晚餐、<b>'+esc(S.settings.remindTime)+'</b> 送出溫和提醒。允許瀏覽器通知後，切到其他分頁也看得到。</div>';
-  h += '<div class="row"><span class="tag '+(perm==='granted'?'sage':'')+'">目前：'+({granted:'已允許',denied:'已封鎖（請到瀏覽器設定開啟）','default':'尚未設定',unsupported:'此瀏覽器不支援'}[perm])+'</span>';
-  if(perm==='default') h += '<button class="btn sm primary" onclick="App.askPerm()">允許通知</button>';
-  h += '<button class="btn sm ghost" onclick="App.runAuto(true)">立即測試</button></div></div>';
-  h += '<div class="card"><div class="card-title"><h3>💾 匯出 / 匯入備份</h3></div>';
-  h += '<p class="small">匯出成 JSON 檔，可以在換手機、清瀏覽器之前保存；也能拿來在主管與同仁之間交換資料。</p>';
-  h += '<div class="row"><button class="btn primary" onclick="App.exportJson()">⬇️ 匯出備份</button><label class="btn ghost" style="cursor:pointer">⬆️ 匯入備份<input type="file" accept=".json,application/json" class="hidden" onchange="App.importJson(this)"></label></div>';
-  h += '<details class="small" style="margin-top:12px"><summary style="cursor:pointer;font-weight:700">多人一起用的建議流程</summary><ol style="padding-left:18px;margin:8px 0 0">';
-  h += '<li>主管在指揮台建好成員、賓果與規則後，「匯出備份」傳到群組。</li><li>同仁用自己的手機打開本頁 →「匯入備份」→ 切換成自己的身分。</li><li>需要彙整時，同仁匯出檔案給主管，主管用「合併匯入」收齊大家的戰報。</li></ol></details></div>';
-  h += '<div class="card"><div class="card-title"><h3>🧹 資料管理</h3></div><p class="small">目前共有 '+S.logs.length+' 份戰報、'+S.members.length+' 位成員、'+S.cycles.length+' 期賓果。</p>';
-  h += '<div class="row"><button class="btn danger" onclick="App.resetData(false)">清空，從零開始</button><button class="btn ghost" onclick="App.resetData(true)">重新載入示範資料</button></div></div>';
-  h += '</div>';
+  const m = me(), perm = ('Notification' in window) ? Notification.permission : 'unsupported';
+  let h = mast('Settings', '設定', 'Profile, Reminders & Backup');
+  h += '<div class="sec" style="margin-top:10px">'+sech('我的身分','Profile');
+  h += '<div class="card"><div class="list-item">'+avatar(m)+'<div class="grow"><div class="nm">'+esc(m.name)+'</div><div class="xs muted">'+(m.role==='leader'?'主管':'同仁')+'</div></div><button class="linkbtn" onclick="App.memberSheet(\''+m.id+'\')">編輯</button></div>';
+  h += '<div class="list-item"><div class="grow small">在這台裝置上切換為其他成員</div><button class="btn sm" onclick="App.switchSheet()">切換身分</button></div></div></div>';
+  h += '<div class="sec">'+sech('自動提醒','Reminders');
+  h += '<div class="card"><div class="list-item"><div class="grow"><div class="nm">晚餐統計</div><div class="xs muted">每天 '+S.settings.dinnerCutoff+' 自動彙整並通知主管</div></div></div>';
+  h += '<div class="list-item"><div class="grow"><div class="nm">未回報提醒</div><div class="xs muted">每天 '+S.settings.remindTime+' 提醒尚未送出日報的同仁</div></div></div>';
+  h += '<div class="list-item"><div class="grow"><div class="nm">瀏覽器通知</div><div class="xs muted">'+({granted:'已允許',denied:'已封鎖，請到瀏覽器設定開啟','default':'尚未設定',unsupported:'此瀏覽器不支援'}[perm])+'</div></div>'+(perm==='default'?'<button class="btn sm dark" onclick="App.askPerm()">允許</button>':'')+'<button class="btn sm" onclick="App.runAuto(true)">測試</button></div></div>';
+  h += '<div class="hint">提醒需在此網頁開啟時才會觸發；允許瀏覽器通知後，切換到其他分頁也能收到。</div></div>';
+  h += '<div class="sec">'+sech('資料備份','Backup');
+  h += '<div class="card pad"><div class="grid2"><button class="btn" style="height:44px" onclick="App.exportJson()">'+ic('down')+'匯出備份</button><button class="btn" style="height:44px" onclick="document.getElementById(\'importFile\').click()">'+ic('up')+'匯入備份</button></div>';
+  h += '<div class="hint" style="margin-top:12px">目前共 '+S.logs.length+' 份日報、'+S.members.length+' 位成員、'+S.cycles.length+' 期目標。資料只存在這台裝置的瀏覽器中，換裝置或清除瀏覽器資料前請先匯出。</div></div>';
+  h += '<div class="note">'+ic('info')+'<div><b>多人使用建議流程</b><br>1. 主管建好成員與目標後匯出備份，傳給同仁。<br>2. 同仁在自己的手機匯入，並切換為自己的身分。<br>3. 彙整時，同仁匯出檔案給主管，主管選「合併」匯入即可。</div></div></div>';
+  h += '<div class="sec">'+sech('資料管理','Data');
+  h += '<div class="card"><div class="list-item"><div class="grow"><div class="nm">重新載入示範資料</div><div class="xs muted">以範例資料取代目前內容</div></div><button class="btn sm" onclick="App.reset(true)">載入</button></div>';
+  h += '<div class="list-item"><div class="grow"><div class="nm">清空所有資料</div><div class="xs muted">從零開始，只保留一位主管</div></div><button class="btn sm" style="color:var(--warn-ink)" onclick="App.reset(false)">清空</button></div></div></div>';
   return h;
 }
 
 /* =========================================================
    路由
    ========================================================= */
-function route(){
-  const hash = (location.hash||'#home').slice(1);
-  const [page, param] = hash.split('/');
-  const r = ['home','log','bingo','list','hq','settings'].includes(page) ? page : 'home';
-  renderShell(r);
-  const app = $('#app');
-  const y = window.scrollY, sameView = app.dataset.view === hash;
-  app.dataset.view = hash;
-  if(r==='home'){ app.innerHTML = pageHome(); const fs = $('#feedSeg'); if(fs) fs.onclick = e=>{ const b = e.target.closest('button'); if(!b) return; feedFilter = b.dataset.f; route(); }; }
-  else if(r==='log'){ app.innerHTML = pageLog(param); bindLog(); }
-  else if(r==='bingo'){ app.innerHTML = pageBingo(); }
-  else if(r==='list'){ app.innerHTML = pageList(); bindList(); }
-  else if(r==='hq'){ app.innerHTML = pageHQ(param); bindGradePanels(app); const ic = $('#anIcon'); if(ic) ic.onclick = e=>{ const b=e.target.closest('.chip'); if(!b) return; ic.querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b)); }; }
-  else if(r==='settings'){ app.innerHTML = pageSettings(); }
-  window.scrollTo(0, sameView ? y : 0);
+function route(keepScroll){
+  const [page, param] = (location.hash||'#home').slice(1).split('/');
+  const r = ['home','journal','goals','desk','settings'].includes(page) ? page : 'home';
+  renderNav(r);
+  const v = $('#view'), y = window.scrollY;
+  if(r==='home') v.innerHTML = pageHome();
+  else if(r==='journal'){ v.innerHTML = pageJournal(); bindJournal(); }
+  else if(r==='goals') v.innerHTML = pageGoals();
+  else if(r==='desk') v.innerHTML = pageDesk(param);
+  else v.innerHTML = pageSettings();
+  $('#fab').classList.toggle('hidden', r==='settings' || r==='desk');
+  window.scrollTo(0, keepScroll ? y : 0);
 }
+const refresh = () => route(true);
+window.addEventListener('hashchange', ()=>route(false));
 
 /* =========================================================
-   自動化排程（網頁開著時每 30 秒檢查一次）
+   自動化（網頁開著時每 30 秒檢查）
    ========================================================= */
-function browserNotify(title, body){
-  try{ if('Notification' in window && Notification.permission==='granted') new Notification(title, {body}); }catch(e){}
-}
+function browserNotify(title, body){ try{ if('Notification' in window && Notification.permission==='granted') new Notification(title,{body}); }catch(e){} }
 function runAuto(force){
   const t = today(), hm = nowHM();
-  S.runs[t] = S.runs[t] || {};
-  const run = S.runs[t];
+  const run = S.runs[t] = S.runs[t] || {};
   let changed = false;
-  // 1) 16:00 晚餐統計
-  if((force || (hm >= S.settings.dinnerCutoff && !run.dinner))){
-    if(!run.dinner){
-      const s = dinnerSummary(t);
-      S.members.filter(m=>m.role==='leader').forEach(l=>notify(l.id,'🍱','今日晚餐已自動統計：共 '+s.eat.length+' 份（'+(Object.entries(s.items).map(([k,v])=>k+'×'+v).join('、')||'無')+'），到指揮台一鍵複製名單'));
+  if(force || (hm >= S.settings.dinnerCutoff && !run.dinner)){
+    const s = dinnerSummary(t);
+    if(!run.dinner && hm >= S.settings.dinnerCutoff){
+      S.members.filter(m=>m.role==='leader').forEach(l=>notify(l.id,'dinner','今日晚餐已統計：共 '+s.eat.length+' 份'+(Object.keys(s.items).length?'（'+Object.entries(s.items).map(([k,v])=>k+' '+v).join('、')+'）':'')+'。'));
       run.dinner = true; changed = true;
     }
     if(isLeader()){
-      const s = dinnerSummary(t);
-      const el = toast('<b>🍱 '+S.settings.dinnerCutoff+' 晚餐統計完成</b><br>共 '+s.eat.length+' 份・'+s.notReplied.length+' 人未登記<br><button class="btn sm gold">📋 複製名單給負責人</button>', {ms:9000});
-      el.querySelector('.btn').onclick = () => copyText(dinnerText(t));
-      browserNotify('🍱 晚餐統計完成', '今晚共 '+s.eat.length+' 份，點開複製名單');
+      notice('晚餐統計完成', '今晚共 '+s.eat.length+' 份，'+s.notReplied.length+' 人未登記。', '複製名單', ()=>copyText(dinnerText(t)));
+      browserNotify('晚餐統計完成','今晚共 '+s.eat.length+' 份');
     }
   }
-  // 2) 20:00 溫和提醒
-  if((force || (hm >= S.settings.remindTime && !run.remind))){
-    if(!run.remind){
-      teamMembers().filter(m=>!logOf(m.id,t)).forEach(m=>notify(m.id,'🌙','今日戰報尚未送出，快來領取今日經驗值！🎁'));
+  if(force || (hm >= S.settings.remindTime && !run.remind)){
+    if(!run.remind && hm >= S.settings.remindTime){
+      team().filter(m=>!logOf(m.id,t)).forEach(m=>notify(m.id,'remind','今日日報尚未送出，有空時記得花一兩分鐘填寫。'));
       run.remind = true; changed = true;
     }
     const m = me();
     if(m.role==='member' && !logOf(m.id,t)){
-      const el = toast('<b>🌙 今日戰報尚未送出</b><br>快來領取今日經驗值！🔥 連勝 '+streakOf(m.id)+' 天等你延續<br><button class="btn sm gold">✍️ 現在填寫</button>', {ms:9000, gold:true});
-      el.querySelector('.btn').onclick = () => { location.hash = '#log'; el.remove(); };
-      browserNotify('🌙 今日戰報尚未送出', '快來領取今日經驗值！');
-    } else if(force && !isLeader()) toast('✅ 你今天已經送出戰報，提醒不會打擾你');
+      notice('今日日報尚未送出', '有空時記得花一兩分鐘記錄今天的工作。', '現在填寫', ()=>App.openLog());
+      browserNotify('今日日報尚未送出','有空時記得填寫今天的日報。');
+    } else if(force && m.role==='member') toast('你今天已送出日報，不會收到提醒');
   }
-  // 清掉 30 天前的排程紀錄
   Object.keys(S.runs).forEach(k=>{ if(k < addDays(t,-30)) delete S.runs[k]; });
-  if(changed){ save(); renderShell((location.hash||'#home').slice(1).split('/')[0]); }
+  if(changed){ save(); refresh(); }
 }
 
 /* =========================================================
-   動作（給 onclick 使用）
+   動作
    ========================================================= */
 const App = window.App = {
-  openSwitch(){
-    let h = '<div class="modal-head"><h3>🔄 你是誰？</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<div class="grid g2" style="gap:10px">'+S.members.map(m=>'<button class="card row" style="text-align:left;cursor:pointer;'+(m.id===S.currentUserId?'outline:2px solid var(--primary)':'')+'" onclick="App.switchTo(\''+m.id+'\')"><div class="av">'+esc(m.avatar)+'</div><div><b>'+esc(m.name)+'</b><div class="xs muted">'+(m.role==='leader'?'主管':'同仁')+'・🔥'+streakOf(m.id)+'</div></div></button>').join('')+'</div>';
-    h += '<div class="xs muted" style="margin-top:12px">這是單機版：每台裝置選一次自己的身分即可。</div>';
-    openModal(h);
+  closeSheet,
+  switchSheet(){
+    const b = '<div class="card">'+S.members.map(m=>'<button class="list-item" style="width:100%;text-align:left" onclick="App.switchTo(\''+m.id+'\')">'+avatar(m)+'<div class="grow"><div class="nm">'+esc(m.name)+'</div><div class="xs muted">'+(m.role==='leader'?'主管':'同仁')+'</div></div>'+(m.id===S.currentUserId?'<span class="st done">目前</span>':'')+'</button>').join('')+'</div><div class="hint">單機版：每台裝置選擇一次自己的身分即可。</div>';
+    openSheet({en:'Switch Profile', title:'切換身分', body:b});
   },
-  switchTo(id){ S.currentUserId = id; bingoView.userId = null; save(); closeModal(); toast('👋 嗨，'+esc(me().name)+'！'); route(); },
-  close: closeModal,
-  openInbox(){
-    const m = me();
-    const list = S.notifications.filter(n=>n.userId===m.id).slice(0,50);
-    let h = '<div class="modal-head"><h3>🔔 我的通知</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += list.length ? list.map(n=>'<div class="notif'+(n.read?'':' unread')+'"><div class="ic">'+esc(n.icon)+'</div><div><div class="small">'+esc(n.text)+'</div><div class="xs muted">'+new Date(n.time).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</div></div></div>').join('') : '<div class="empty"><div class="e">📭</div>目前沒有通知</div>';
-    openModal(h);
-    list.forEach(n=>n.read=true); save(); renderShell((location.hash||'#home').slice(1).split('/')[0]);
+  switchTo(id){ S.currentUserId = id; G.userId = null; save(); closeSheet(); toast('已切換為 '+me().name); if(!isLeader() && location.hash.startsWith('#desk')) location.hash = '#home'; else route(false); },
+  inbox(){
+    const list = S.notifications.filter(n=>n.userId===me().id).slice(0,50);
+    const icon = {review:'quote', remind:'bell', dinner:'meal', notice:'mega', goal:'grid'};
+    const b = list.length ? list.map(n=>'<div class="notif'+(n.read?'':' unread')+'">'+ic(icon[n.type]||'bell')+'<div><div>'+esc(n.text)+'</div><div class="tm">'+new Date(n.time).toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})+'</div></div></div>').join('') : '<div class="empty"><span class="kick">All clear</span>目前沒有通知</div>';
+    openSheet({en:'Notifications', title:'通知', body:b});
+    list.forEach(n=>n.read = true); save(); refresh();
   },
-  expRules(){
-    const ex = expOf(me().id);
-    const rows = [['每份日戰報','+'+S.settings.expPerLog,ex.b.logs],['主管蓋章（合格/優秀/神隊友）','+5 / +10 / +20',ex.b.stamps],['每顆星號','+2',ex.b.stars],['賓果每格 / 每條連線','+5 / +30',ex.b.bingo],['完成雙週復盤四格','+40',ex.b.review],['每連勝 5 天','+25',ex.b.streak]];
-    let h = '<div class="modal-head"><h3>✨ EXP 怎麼算？</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<table class="tbl"><thead><tr><th>行動</th><th>獎勵</th><th>我已獲得</th></tr></thead><tbody>'+rows.map(r=>'<tr><td>'+r[0]+'</td><td>'+r[1]+'</td><td><b>'+r[2]+'</b></td></tr>').join('')+'</tbody></table>';
-    h += '<div style="margin-top:12px" class="small">等級：'+LEVELS.map((l,i)=>'Lv.'+(i+1)+' '+l[0]+'（'+l[1]+'）').join('、')+'</div>';
-    h += '<div class="xs muted" style="margin-top:8px">經驗值全部由系統依紀錄自動計算，公開透明 🙌</div>';
-    openModal(h);
-  },
-  dinnerModal(){
-    const m = me(), t = today();
-    const dn = (S.dinners[t]||{})[m.id] || {};
-    let h = '<div class="modal-head"><h3>🍱 今晚夜訓晚餐</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<div class="dinner-opt" id="mdOpt"><button data-v="1" class="'+(dn.eat===true?'on':'')+'">🍱 要吃</button><button data-v="0" class="'+(dn.eat===false?'on':'')+'">🙅 不吃</button></div>';
-    h += '<div id="mdMore" class="'+(dn.eat?'':'hidden')+'" style="margin-top:12px"><div class="chips" id="mdMenu">'+S.settings.dinnerMenu.map(x=>'<button class="chip'+(dn.item===x?' on':'')+'" data-v="'+esc(x)+'">'+esc(x)+'</button>').join('')+'</div>';
-    h += '<input class="input" id="mdNote" style="margin-top:8px" placeholder="備註：口味、飯量、其他品項…" value="'+esc(dn.note||'')+'"></div>';
-    const s = dinnerSummary(t);
-    h += '<div class="small muted" style="margin-top:12px">目前 '+s.eat.length+' 人要吃'+(Object.keys(s.items).length?'（'+Object.entries(s.items).map(([k,v])=>esc(k)+'×'+v).join('、')+'）':'')+'・'+S.settings.dinnerCutoff+' 自動統計</div>';
-    h += '<button class="btn primary block" style="margin-top:14px" id="mdSave">送出</button>';
-    openModal(h);
-    let eat = dn.eat, item = dn.item||'';
-    $('#mdOpt').onclick = e=>{ const b=e.target.closest('button'); if(!b) return; eat = b.dataset.v==='1'; $('#mdOpt').querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===b)); $('#mdMore').classList.toggle('hidden',!eat); };
-    $('#mdMenu').onclick = e=>{ const b=e.target.closest('.chip'); if(!b) return; item = item===b.dataset.v?'':b.dataset.v; $('#mdMenu').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x.dataset.v===item)); };
-    $('#mdSave').onclick = ()=>{
-      if(eat==null){ toast('請先選擇要吃或不吃'); return; }
-      setDinner(m.id, t, eat, item, $('#mdNote').value.trim()); save(); closeModal();
-      toast(eat?'🍱 已登記：'+esc(item||'未指定品項'):'👌 已登記今晚不吃'); route();
-    };
-  },
-  step(k,d){ const i = $('#f_'+k); i.value = Math.max(0,(+i.value||0)+d); App.syncRange(k); },
-  syncRange(k){ const i = $('#f_'+k), r = $('#r_'+k); const v = Math.max(0, +i.value||0); if(v > +r.max) r.max = v; r.value = v; },
-  syncNum(k){ $('#f_'+k).value = $('#r_'+k).value; },
+  openLog(id){ logForm(id); },
+  step(k,d){ const i = $('#f_'+k); i.value = Math.max(0,(+i.value||0)+d); },
+  helpToggle(){ const v = document.querySelector('input[name="help"]:checked').value; $('#fHelpNote').classList.toggle('hidden', v==='無'); },
+  eatToggle(p){ const r = document.querySelector('input[name="'+p+'eat"]:checked'); $('#'+p+'DinnerMore').classList.toggle('hidden', !r || r.value!=='1'); },
   submitLog(){
-    const m = me();
     const d = $('#fDate').value || today();
-    const data = {
-      date:d, contacts:Math.max(0,+$('#f_contacts').value||0), appointments:Math.max(0,+$('#f_appointments').value||0), meetings:Math.max(0,+$('#f_meetings').value||0),
-      result:$('#fResult').value.trim(), caseProgress:$('#fProgress').value.trim(), help:logDraft.help, helpNote:logDraft.help==='無'?'':$('#fHelpNote').value.trim(), tomorrow:$('#fTomorrow').value.trim()
-    };
-    if(!data.result && !data.caseProgress && !data.contacts && !data.appointments && !data.meetings){ toast('至少填一個數字或寫一句今日成果喔 🙂'); return; }
-    const ownerId = logDraft.userId;
-    let log = logDraft.id ? S.logs.find(l=>l.id===logDraft.id) : null;
-    const dup = S.logs.find(l=>l.userId===ownerId && l.date===d && (!log || l.id!==log.id));
-    if(dup){ toast('⚠️ '+fmtDate(d)+' 已經有一份戰報了，請到清單修改那一份'); return; }
-    const isNew = !log;
-    const streakBefore = streakOf(ownerId), expBefore = expOf(ownerId).total, lvBefore = levelOf(expBefore).lv;
-    if(isNew){
-      log = Object.assign({id:uid(), userId:ownerId, submittedAt:new Date().toISOString(), review:{status:'未看'}, reactions:{}}, data);
-      S.logs.push(log);
-    } else {
-      Object.assign(log, data); log.updatedAt = new Date().toISOString();
-    }
-    if(logDraft.dinnerEat!=null) setDinner(ownerId, d, logDraft.dinnerEat, logDraft.dinnerItem, $('#fDinnerNote').value.trim());
-    save();
-    if(isNew && ownerId===m.id){
-      const st = streakOf(ownerId), ex = expOf(ownerId).total, lv = levelOf(ex);
-      celebrate('<div class="stamp s-great">DONE</div><div class="big">📝</div><h2>改作業完成！</h2><div class="small muted">'+fmtDate(d)+' 的戰報已送出</div><div class="gain">+'+(ex-expBefore)+' EXP</div>'
-        + '<div class="small">🔥 連續打卡 <b>'+st+'</b> 天'+(st>streakBefore?'（+1）':'')+'</div>'
-        + (lv.lv>lvBefore?'<div class="small" style="margin-top:6px">🎉 升級為 <b>Lv.'+lv.lv+' '+lv.title+'</b>！</div>':'')
-        + '<div class="exp-bar" style="margin-top:12px"><i style="width:'+lv.pct+'%"></i></div>');
-      location.hash = '#home';
-    } else {
-      toast('💾 戰報已儲存');
-      location.hash = isNew ? '#home' : '#list';
-    }
+    const n = k => Math.max(0, +$('#f_'+k).value||0);
+    const help = (document.querySelector('input[name="help"]:checked')||{value:'無'}).value;
+    const data = {date:d, contacts:n('contacts'), appointments:n('appointments'), meetings:n('meetings'),
+      result:$('#fResult').value.trim(), caseProgress:$('#fProgress').value.trim(), help, helpNote: help==='無'?'':$('#fHelpNote').value.trim(), tomorrow:$('#fTomorrow').value.trim()};
+    if(!data.result && !data.caseProgress && !data.contacts && !data.appointments && !data.meetings){ toast('請至少填寫一項數據或今日成果'); return; }
+    let log = draft.id ? S.logs.find(l=>l.id===draft.id) : null;
+    if(S.logs.find(l=>l.userId===draft.userId && l.date===d && (!log || l.id!==log.id))){ toast(fmtDate(d)+' 已有一份日報，請改為編輯該筆'); return; }
+    if(log){ Object.assign(log, data); log.updatedAt = new Date().toISOString(); }
+    else { log = Object.assign({id:uid(), userId:draft.userId, submittedAt:new Date().toISOString(), review:{status:'未看'}}, data); S.logs.push(log); }
+    const dn = readDinner('f'); if(dn) setDinner(draft.userId, d, dn.eat, dn.item, dn.note);
+    save(); closeSheet(); toast(draft.id ? '已儲存修改' : '日報已送出'); refresh();
   },
-  react(id, e){
+  async delLog(id){
     const l = S.logs.find(x=>x.id===id); if(!l) return;
-    l.reactions = l.reactions || {}; const arr = l.reactions[e] = l.reactions[e] || [];
-    const i = arr.indexOf(me().id);
-    if(i>=0) arr.splice(i,1); else { arr.push(me().id); if(l.userId!==me().id) notify(l.userId, e, esc(me().name)+' 給你的戰報按了 '+e); }
-    save(); route();
+    if(!await ask('確定刪除 '+member(l.userId).name+' '+fmtDate(l.date)+' 的日報？', '刪除')) return;
+    S.logs = S.logs.filter(x=>x.id!==id); save(); closeSheet(); toast('已刪除'); refresh();
   },
-  gradeModal(id){
-    const l = S.logs.find(x=>x.id===id); if(!l) return;
-    const u = member(l.userId);
-    let h = '<div class="modal-head"><h3>🖋️ 批改 '+esc(u.name)+' 的戰報</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<div class="small" style="margin-bottom:10px">'+fmtDate(l.date)+'・📞'+(+l.contacts||0)+' 📅'+(+l.appointments||0)+' 🤝'+(+l.meetings||0)+(l.result?'<br>🏆 '+esc(l.result):'')+'</div>';
-    h += gradePanel(l);
-    openModal(h); bindGradePanels($('#layer'));
+  dinnerSheet(){
+    const t = today(), dn = (S.dinners[t]||{})[me().id], s = dinnerSummary(t);
+    const b = dinnerFields(dn, 'd') + '<div class="hint">目前 '+s.eat.length+' 人訂餐'+(Object.keys(s.items).length?'（'+Object.entries(s.items).map(([k,v])=>esc(k)+' '+v).join('、')+'）':'')+'，'+S.settings.dinnerCutoff+' 自動統計。</div>';
+    openSheet({en:'Dinner', title:'今晚夜訓晚餐', body:b, actions:'<button class="btn-text" onclick="App.closeSheet()">取消</button><button class="btn-save" onclick="App.saveDinner()">送出</button>'});
   },
-  viewLog(id){
-    const l = S.logs.find(x=>x.id===id); if(!l) return;
-    openModal('<div class="modal-head"><h3>📄 戰報內容</h3><button class="icon-btn" onclick="App.close()">✕</button></div>'+postCard(l)+(isLeader()?'':'')+'<div class="xs muted" style="margin-top:8px">'+(l.updatedAt?'最後修改：'+new Date(l.updatedAt).toLocaleString('zh-TW'):'')+'</div>');
-  },
-  delLog(id){
-    const l = S.logs.find(x=>x.id===id); if(!l) return;
-    if(!confirm('確定要刪除 '+member(l.userId).name+' '+fmtDate(l.date)+' 的戰報嗎？')) return;
-    S.logs = S.logs.filter(x=>x.id!==id); save(); toast('🗑️ 已刪除'); route();
-  },
-  resetFilters(){ LF = {q:'',user:'',status:'',help:'',from:'',to:''}; route(); },
+  saveDinner(){ const dn = readDinner('d'); if(!dn){ toast('請選擇要吃或不吃'); return; } setDinner(me().id, today(), dn.eat, dn.item, dn.note); save(); closeSheet(); toast('已登記'); refresh(); },
+  resetF(){ F = {q:'',user:'',status:'',from:'',to:''}; refresh(); },
   exportCsv(){
-    const arr = filteredLogs();
-    const head = ['日期','填寫人','提交時間','聯絡','約訪','面談','案件進度','今日成果','需要協助','協助說明','明日重點','夜訓晚餐','晚餐備註','批改狀態','批改章','星號','主管評語'];
-    const rows = arr.map(l=>{ const dn = (S.dinners[l.date]||{})[l.userId]; const r = l.review||{};
-      return [l.date, member(l.userId).name, new Date(l.submittedAt).toLocaleString('zh-TW'), l.contacts, l.appointments, l.meetings, l.caseProgress, l.result, l.help, l.helpNote, l.tomorrow, dn?(dn.eat?'吃・'+(dn.item||''):'不吃'):'', dn?dn.note:'', r.status, r.stamp||'', r.stars||'', r.comment||''].map(csvCell).join(','); });
-    download('戰報_'+today()+'.csv', '﻿'+head.map(csvCell).join(',')+'\n'+rows.join('\n'), 'text/csv;charset=utf-8');
+    const head = ['日期','填寫人','提交時間','聯絡','約訪','面談','案件進度','今日成果','需要協助','協助說明','明日重點','夜訓晚餐','晚餐備註','批改狀態','回饋類別','主管評語'];
+    const rows = filtered().map(l=>{ const dn = (S.dinners[l.date]||{})[l.userId], r = l.review||{};
+      return [l.date, member(l.userId).name, new Date(l.submittedAt).toLocaleString('zh-TW'), l.contacts, l.appointments, l.meetings, l.caseProgress, l.result, l.help, l.helpNote, l.tomorrow, dn?(dn.eat?'吃 '+(dn.item||''):'不吃'):'', dn?dn.note:'', r.status, r.stamp||'', r.comment||''].map(csvCell).join(','); });
+    download('日報_'+today()+'.csv', '﻿'+head.map(csvCell).join(',')+'\n'+rows.join('\n'), 'text/csv;charset=utf-8');
   },
-  bingoCycle(id){ bingoView.cycleId = id; route(); },
-  bingoUser(id){ bingoView.userId = id; route(); },
-  toggleCell(i){
-    const cyc = S.cycles.find(c=>c.id===bingoView.cycleId); if(!cyc) return;
-    const card = cardOf(me().id, cyc.id);
-    const before = linesOf(card.done);
-    const unlockedBefore = (cyc.rewards||[]).filter(r=>rewardProgress(r, me().id, cyc).ok).map(r=>r.id);
+  gCycle(id){ G.cycleId = id; refresh(); },
+  gUser(id){ G.userId = id; refresh(); },
+  toggleGoal(i){
+    const cyc = S.cycles.find(c=>c.id===G.cycleId); if(!cyc) return;
+    const card = cardOf(me().id, cyc.id, true), before = linesOf(card.done);
     card.done[i] = !card.done[i]; card.updatedAt = new Date().toISOString();
     const after = linesOf(card.done);
-    const newly = (cyc.rewards||[]).filter(r=>rewardProgress(r, me().id, cyc).ok && !unlockedBefore.includes(r.id));
-    save();
-    // 先翻牌，再重畫
-    const cells = document.querySelectorAll('.bingo .cell');
-    if(cells[i]) cells[i].classList.toggle('done', card.done[i]);
-    setTimeout(()=>{
-      route();
-      if(after > before){
-        newly.forEach(r=>{ notify(me().id,'🎁','你解鎖了獎勵「'+r.name+'」！'); S.members.filter(x=>x.role==='leader').forEach(l=>notify(l.id,'🎯',me().name+' 解鎖了「'+r.name+'」')); });
-        S.members.filter(x=>x.role==='leader').forEach(l=>notify(l.id,'🎯',me().name+' 的賓果達成 '+after+' 條連線！'));
-        save(); renderShell('bingo');
-        celebrate('<div class="big">🎯</div><h2>BINGO！</h2><div class="small muted">你完成了第 '+after+' 條連線</div><div class="gain">+30 EXP</div>'+(newly.length?'<div class="small" style="margin-top:6px">🔓 解鎖獎勵：<b>'+newly.map(r=>esc(r.icon+' '+r.name)).join('、')+'</b></div>':''));
-      } else if(newly.length){
-        newly.forEach(r=>notify(me().id,'🎁','你解鎖了獎勵「'+r.name+'」！')); save(); renderShell('bingo');
-        celebrate('<div class="big">🎁</div><h2>獎勵解鎖！</h2><div class="gain">'+newly.map(r=>esc(r.icon+' '+r.name)).join('、')+'</div>');
-      }
-    }, 560);
+    if(after > before){
+      S.members.filter(x=>x.role==='leader').forEach(l=>notify(l.id,'goal',me().name+' 的雙週目標完成第 '+after+' 條連線。'));
+      toast('完成第 '+after+' 條連線');
+    }
+    save(); refresh();
   },
-  reviewInput(el){
-    const cyc = S.cycles.find(c=>c.id===bingoView.cycleId); if(!cyc) return;
-    const card = cardOf(me().id, cyc.id);
+  revInput(el){
+    const card = cardOf(me().id, G.cycleId, true);
     card.review = card.review || {}; card.review[el.dataset.k] = el.value; card.updatedAt = new Date().toISOString();
-    clearTimeout(App._rt); App._rt = setTimeout(()=>{ save(); const s = $('#revSaved'); if(s) s.textContent = '✓ 已自動儲存 '+nowHM(); }, 600);
+    clearTimeout(App._rt); App._rt = setTimeout(()=>{ save(); const s = $('#revSaved'); if(s) s.textContent = '已自動儲存 '+nowHM(); }, 600);
   },
   saveReview(){
-    const cyc = S.cycles.find(c=>c.id===bingoView.cycleId); const card = cardOf(me().id, cyc.id);
-    document.querySelectorAll('.dim textarea').forEach(t=>card.review[t.dataset.k] = t.value);
-    const wasComplete = card._reviewNotified;
-    save();
-    if(reviewComplete(card.review) && !wasComplete){
-      card._reviewNotified = true;
-      S.members.filter(x=>x.role==='leader').forEach(l=>notify(l.id,'📝',me().name+' 完成了 '+cyc.label+' 的成長復盤'));
-      save();
-      celebrate('<div class="big">📝</div><h2>復盤完成！</h2><div class="small muted">看見自己的成長，就是最好的獎勵</div><div class="gain">+40 EXP</div>');
-    } else toast('💾 復盤已儲存');
-    route();
+    const cyc = S.cycles.find(c=>c.id===G.cycleId), card = cardOf(me().id, cyc.id, true);
+    card.review = card.review || {};
+    $$('textarea[data-k]').forEach(t=>card.review[t.dataset.k] = t.value);
+    if(reviewDone(card.review) && !card.notified){
+      card.notified = true;
+      S.members.filter(x=>x.role==='leader').forEach(l=>notify(l.id,'goal',me().name+' 已完成 '+cyc.label+' 的復盤。'));
+    }
+    save(); toast('復盤已儲存'); refresh();
   },
   copyReview(){
-    const cyc = S.cycles.find(c=>c.id===bingoView.cycleId);
-    const card = cardOf(bingoView.userId, cyc.id), r = card.review||{}, u = member(bingoView.userId);
-    const t = '📝 '+u.name+'｜'+cyc.label+' 成長復盤卡\n🎯 賓果 '+card.done.filter(Boolean).length+'/9 格、'+linesOf(card.done)+' 條連線\n'
-      + '完成：'+cyc.goals.filter((g,i)=>card.done[i]).join('、')+'\n\n'
-      + '🌈 體驗上：'+(r.exp||'')+'\n📖 學習上：'+(r.learn||'')+'\n🔧 再提升：'+(r.improve||'')+'\n🚀 我的下一步：'+(r.next||'');
-    copyText(t);
+    const cyc = S.cycles.find(c=>c.id===G.cycleId), card = cardOf(G.userId, cyc.id) || emptyCard(), r = card.review||{}, u = member(G.userId);
+    copyText(u.name+'｜'+cyc.label+' 成長復盤\n雙週目標：'+card.done.filter(Boolean).length+'/9 格、'+linesOf(card.done)+' 條連線\n已完成：'+(cyc.goals.filter((g,i)=>card.done[i]).join('、')||'—')+'\n\n'+DIMS.map(([k,zh])=>'【'+zh+'】'+(r[k]||'')).join('\n'));
   },
-  meetingMode(){
-    const cyc = S.cycles.find(c=>c.id===bingoView.cycleId) || currentCycle();
-    let h = '<div class="modal-head"><h3>📽️ 復盤會議｜'+esc(cyc.label)+'</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<div class="grid g2">';
-    teamMembers().forEach(m=>{
-      const c = S.cards.find(x=>x.userId===m.id && x.cycleId===cyc.id);
-      const done = c ? c.done : Array(9).fill(false), r = (c&&c.review)||{};
-      h += '<div class="review-card"><div class="row" style="margin-bottom:8px"><div class="av">'+esc(m.avatar)+'</div><div><b>'+esc(m.name)+'</b><div class="xs muted">'+done.filter(Boolean).length+'/9 格・'+linesOf(done)+' 連線</div></div><div class="mini-bingo" style="margin-left:auto">'+done.map(x=>'<i class="'+(x?'on':'')+'"></i>').join('')+'</div></div>';
-      [['🌈 體驗上','exp'],['📖 學習上','learn'],['🔧 再提升','improve'],['🚀 我的下一步','next']].forEach(([t,k])=>{ h += '<div class="small" style="margin-top:4px"><b>'+t+'</b>　'+(r[k]?esc(r[k]):'<span class="muted">—</span>')+'</div>'; });
-      h += '</div>';
-    });
-    h += '</div>';
-    openModal(h, true);
+  meeting(){
+    const cyc = S.cycles.find(c=>c.id===G.cycleId) || currentCycle();
+    const b = team().map(m=>{ const c = cardOf(m.id,cyc.id) || emptyCard(), r = c.review||{};
+      return '<div class="card pad" style="margin-bottom:12px"><div class="row" style="flex-wrap:nowrap">'+avatar(m)+'<div style="flex:1;min-width:0"><div class="entry-name">'+esc(m.name)+'</div><div class="entry-meta">'+c.done.filter(Boolean).length+'/9 格・'+linesOf(c.done)+' 條連線</div></div><div class="mini">'+c.done.map(x=>'<i class="'+(x?'on':'')+'"></i>').join('')+'</div></div><dl class="kv">'+DIMS.map(([k,zh])=>'<dt>'+zh+'</dt><dd>'+(r[k]?esc(r[k]):'<span class="muted">—</span>')+'</dd>').join('')+'</dl></div>'; }).join('');
+    openSheet({en:'Review Meeting · '+cyc.label, title:'復盤會議總覽', body:b, wide:true});
   },
-  hqDate(d){ hqDate = d; route(); },
-  hqCycle(id){ hqCycleId = id; route(); },
-  bulkPass(){
-    const d = hqDate || today();
-    const pend = S.logs.filter(l=>l.date===d && l.review.status!=='已批改');
-    if(!pend.length || !confirm('將 '+pend.length+' 份未批改的戰報蓋上「合格 ⭐」並通知同仁？')) return;
-    pend.forEach(l=>{ l.review = {status:'已批改', stamp:'合格', stars:1, comment:'穩穩完成，今天辛苦了！', reviewedAt:new Date().toISOString(), by:me().id};
-      notify(l.userId,'🖋️','主管已為你的戰報簽章：「合格 ⭐」『穩穩完成，今天辛苦了！』'); });
-    save(); toast('✅ 已批改 '+pend.length+' 份'); route();
+  dDate(d){ D.date = d; D.editing = null; refresh(); },
+  dCycle(id){ D.cycleId = id; refresh(); },
+  phrase(id, el){ $('#c_'+id).value = el.textContent; },
+  editReview(id){ D.editing = id; refresh(); },
+  cancelEdit(){ D.editing = null; refresh(); },
+  reviewSheet(id){
+    const l = S.logs.find(x=>x.id===id); if(!l) return;
+    openSheet({en:'Feedback', title:member(l.userId).name+'・'+fmtDate(l.date), body: entryBody(l, true)+'<div class="hr"></div>'+reviewForm(l),
+      actions:'<button class="btn-text" onclick="App.closeSheet()">取消</button><button class="btn-save" onclick="App.sendReview(\''+id+'\')">送出回饋</button>'});
   },
-  nudge(d){
-    const miss = teamMembers().filter(m=>!logOf(m.id,d));
-    miss.forEach(m=>notify(m.id,'💌','今日戰報尚未送出，快來領取今日經驗值！🎁 有任何卡關也可以在戰報裡勾「需要協助」'));
-    save(); toast('💌 已送出 '+miss.length+' 則溫和提醒'); renderShell('hq');
+  sendReview(id){
+    const l = S.logs.find(x=>x.id===id); if(!l) return;
+    const g = (document.querySelector('input[name="g_'+id+'"]:checked')||{value:'合格'}).value;
+    const c = ($('#c_'+id).value||'').trim(), was = reviewed(l);
+    l.review = {status:'已批改', stamp:g, comment:c, reviewedAt:new Date().toISOString(), by:me().id};
+    notify(l.userId,'review','主管已'+(was?'更新對':'回覆')+'你'+(l.date===today()?'今日':' '+fmtDate(l.date)+' ')+'的日報：「'+g+'」'+c);
+    D.editing = null; save(); closeSheet(); toast('已送出回饋給 '+member(l.userId).name); refresh();
   },
-  nudgeDinner(d){
-    const s = dinnerSummary(d);
-    s.notReplied.forEach(m=>notify(m.id,'🍱','今晚夜訓要不要一起吃晚餐？記得在 '+S.settings.dinnerCutoff+' 前登記喔'));
-    save(); toast('💌 已提醒 '+s.notReplied.length+' 人'); renderShell('hq');
+  async bulkPass(){
+    const d = D.date || today(), p = S.logs.filter(l=>l.date===d && !reviewed(l));
+    if(!p.length || !await ask('將 '+p.length+' 份待回饋的日報標記為「合格」並通知同仁？')) return;
+    p.forEach(l=>{ l.review = {status:'已批改', stamp:'合格', comment:'', reviewedAt:new Date().toISOString(), by:me().id}; notify(l.userId,'review','主管已回覆你的日報：「合格」'); });
+    save(); toast('已回饋 '+p.length+' 份'); refresh();
   },
+  nudge(d){ const miss = team().filter(m=>!logOf(m.id,d)); miss.forEach(m=>notify(m.id,'remind','今日日報尚未送出，有空時記得花一兩分鐘填寫。')); save(); toast('已提醒 '+miss.length+' 位同仁'); },
+  nudgeDinner(d){ const s = dinnerSummary(d); s.notReplied.forEach(m=>notify(m.id,'dinner','今晚夜訓晚餐請於 '+S.settings.dinnerCutoff+' 前登記。')); save(); toast('已提醒 '+s.notReplied.length+' 人'); },
   copyDinner(d){ copyText(dinnerText(d)); },
-  dinnerCsv(d){
-    const s = dinnerSummary(d);
-    const rows = [['#','同仁','品項','備註','登記時間']].concat(s.eat.map((x,i)=>[i+1, member(x.userId).name, x.item||'未指定', x.note||'', fmtTime(x.at)]));
-    download('晚餐_'+d+'.csv', '﻿'+rows.map(r=>r.map(csvCell).join(',')).join('\n'), 'text/csv;charset=utf-8');
-  },
-  addAnnounce(){
+  dinnerCsv(d){ const s = dinnerSummary(d); download('晚餐_'+d+'.csv', '﻿'+[['#','同仁','品項','備註','登記時間']].concat(s.eat.map((x,i)=>[i+1,member(x.userId).name,x.item||'未指定',x.note||'',fmtTime(x.at)])).map(r=>r.map(csvCell).join(',')).join('\n'), 'text/csv;charset=utf-8'); },
+  addNotice(){
     const text = $('#anText').value.trim(); if(!text){ toast('請輸入公告內容'); return; }
-    const icon = ($('#anIcon .chip.on')||{dataset:{v:'📢'}}).dataset.v;
     const date = $('#anDate').value || today();
-    S.announcements.push({id:uid(), date, icon, text});
-    S.members.filter(m=>m.id!==me().id).forEach(m=>notify(m.id, icon, '新公告（'+fmtDate(date)+'）：'+text));
-    save(); toast('📢 公告已發布'); route();
+    S.announcements.push({id:uid(), date, text});
+    S.members.filter(m=>m.id!==me().id).forEach(m=>notify(m.id,'notice','公告（'+fmtDate(date)+'）：'+text));
+    save(); toast('公告已發布'); refresh();
   },
-  delAnnounce(id){ if(!confirm('刪除這則公告？')) return; S.announcements = S.announcements.filter(a=>a.id!==id); save(); route(); },
+  async delNotice(id){ if(!await ask('刪除這則公告？','刪除')) return; S.announcements = S.announcements.filter(a=>a.id!==id); save(); refresh(); },
   newCycle(){
     const last = S.cycles.slice().sort((a,b)=>a.start<b.start?1:-1)[0];
     const start = last ? addDays(last.end,1) : mondayOf(today());
-    const c = {id:uid(), label:cycleLabel(start), start, end:addDays(start,13),
-      goals: last ? last.goals.slice() : Array(9).fill(''), rewards: last ? last.rewards.map(r=>Object.assign({},r,{id:uid()})) : []};
-    S.cycles.push(c); hqCycleId = c.id; save(); toast('🗺️ 已建立 '+esc(c.label)+'（沿用上一期目標，可直接修改）'); route();
-  },
-  collectCycle(){
-    const cyc = S.cycles.find(c=>c.id===hqCycleId); if(!cyc) return null;
-    cyc.label = $('#cyLabel').value.trim() || cyc.label;
-    cyc.start = $('#cyStart').value || cyc.start; cyc.end = $('#cyEnd').value || cyc.end;
-    document.querySelectorAll('.goal-in').forEach(inp=>cyc.goals[+inp.dataset.i] = inp.value.trim());
-    cyc.rewards = Array.from(document.querySelectorAll('.rw-row')).map(row=>({
-      id:row.dataset.id, icon:row.querySelector('.rw-icon').value.trim()||'🎁', name:row.querySelector('.rw-name').value.trim()||'未命名獎勵',
-      type:row.querySelector('.rw-type').value, target:Math.max(1, +row.querySelector('.rw-target').value||1)
-    }));
-    return cyc;
+    const c = {id:uid(), label:cycleLabel(start), start, end:addDays(start,13), goals: last ? last.goals.slice() : Array(9).fill('')};
+    S.cycles.push(c); D.cycleId = c.id; save(); toast('已建立 '+c.label+'，沿用上一期目標'); refresh();
   },
   saveCycle(){
-    const cyc = App.collectCycle(); if(!cyc) return;
-    if(cyc.end < cyc.start){ toast('⚠️ 結束日期不能早於開始日期'); return; }
-    save(); toast('💾 賓果設定已儲存'); route();
+    const cyc = S.cycles.find(c=>c.id===D.cycleId); if(!cyc) return;
+    const st = $('#cyStart').value, en = $('#cyEnd').value;
+    if(st && en && en < st){ toast('結束日期不能早於開始日期'); return; }
+    cyc.label = $('#cyLabel').value.trim() || cyc.label; cyc.start = st || cyc.start; cyc.end = en || cyc.end;
+    $$('.goal-in').forEach(i=>cyc.goals[+i.dataset.i] = i.value.trim());
+    save(); toast('目標設定已儲存'); refresh();
   },
-  addReward(){ const cyc = App.collectCycle(); cyc.rewards.push({id:uid(), icon:'🎁', name:'', type:'personal-lines', target:1}); save(); route(); },
-  delReward(id){ const cyc = App.collectCycle(); cyc.rewards = cyc.rewards.filter(r=>r.id!==id); save(); route(); },
-  delCycle(id){
-    if(S.cycles.length<=1){ toast('至少要保留一期'); return; }
-    if(!confirm('刪除這一期會一併刪除所有人在這期的賓果與復盤，確定嗎？')) return;
-    S.cycles = S.cycles.filter(c=>c.id!==id); S.cards = S.cards.filter(c=>c.cycleId!==id); hqCycleId = null; save(); route();
+  async delCycle(id){
+    if(S.cycles.length<=1){ toast('至少需保留一期'); return; }
+    if(!await ask('刪除這一期會一併刪除所有人在此期的目標勾選與復盤，確定嗎？','刪除')) return;
+    S.cycles = S.cycles.filter(c=>c.id!==id); S.cards = S.cards.filter(c=>c.cycleId!==id); D.cycleId = null; G.cycleId = null; save(); refresh();
   },
-  memberModal(id){
-    const m = id ? member(id) : {name:'', avatar:AVATARS[S.members.length % AVATARS.length], role:'member'};
-    const canRole = isLeader();
-    let h = '<div class="modal-head"><h3>'+(id?'✏️ 編輯成員':'＋ 新增成員')+'</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-    h += '<div class="field"><label class="f">名字</label><input class="input" id="mmName" value="'+esc(m.name)+'" placeholder="例：小安"></div>';
-    h += '<div class="field"><label class="f">頭像</label><div class="chips" id="mmAv">'+AVATARS.map(a=>'<button type="button" class="chip'+(a===m.avatar?' on':'')+'" data-v="'+a+'" style="font-size:18px">'+a+'</button>').join('')+'</div></div>';
-    if(canRole) h += '<div class="field"><label class="f">角色</label><select class="input" id="mmRole"><option value="member"'+(m.role==='member'?' selected':'')+'>同仁</option><option value="leader"'+(m.role==='leader'?' selected':'')+'>主管</option></select></div>';
-    h += '<div class="row" style="justify-content:flex-end">'+(id&&canRole&&id!==me().id?'<button class="btn danger" style="margin-right:auto" onclick="App.delMember(\''+id+'\')">移除成員</button>':'')+'<button class="btn primary" id="mmSave">儲存</button></div>';
-    openModal(h);
-    let av = m.avatar;
-    $('#mmAv').onclick = e=>{ const b=e.target.closest('.chip'); if(!b) return; av = b.dataset.v; $('#mmAv').querySelectorAll('.chip').forEach(x=>x.classList.toggle('on',x===b)); };
-    $('#mmSave').onclick = ()=>{
-      const name = $('#mmName').value.trim(); if(!name){ toast('請輸入名字'); return; }
-      const role = canRole ? $('#mmRole').value : m.role;
-      if(id){
-        const t = S.members.find(x=>x.id===id);
-        if(t.role==='leader' && role!=='leader' && S.members.filter(x=>x.role==='leader').length<=1){ toast('⚠️ 至少需要一位主管'); return; }
-        Object.assign(t,{name, avatar:av, role});
-      } else S.members.push({id:uid(), name, avatar:av, role});
-      save(); closeModal(); toast('✅ 已儲存'); route();
-    };
+  memberSheet(id){
+    const m = id ? member(id) : {name:'', role:'member'}, canRole = isLeader();
+    let b = '<div class="field"><label>姓名</label><input class="inp" id="mmName" value="'+esc(m.name)+'" placeholder="例：林小安"></div>';
+    if(canRole) b += '<div class="field"><label>角色</label><div class="opts two"><label class="opt"><input type="radio" name="mmRole" value="member"'+(m.role!=='leader'?' checked':'')+'><span>同仁</span></label><label class="opt"><input type="radio" name="mmRole" value="leader"'+(m.role==='leader'?' checked':'')+'><span>主管</span></label></div></div>';
+    const acts = (id && canRole && id!==me().id ? '<button class="btn-text warn" onclick="App.delMember(\''+id+'\')">移除</button>' : '<button class="btn-text" onclick="App.closeSheet()">取消</button>') + '<button class="btn-save" onclick="App.saveMember(\''+(id||'')+'\')">儲存</button>';
+    openSheet({en:id?'Edit Member':'New Member', title:id?'編輯成員':'新增成員', body:b, actions:acts});
   },
-  delMember(id){
-    if(!confirm('移除成員不會刪除他過去的戰報，確定移除？')) return;
-    S.members = S.members.filter(m=>m.id!==id); save(); closeModal(); route();
+  saveMember(id){
+    const name = $('#mmName').value.trim(); if(!name){ toast('請輸入姓名'); return; }
+    const rr = document.querySelector('input[name="mmRole"]:checked');
+    if(id){
+      const t = S.members.find(x=>x.id===id), role = rr ? rr.value : t.role;
+      if(t.role==='leader' && role!=='leader' && S.members.filter(x=>x.role==='leader').length<=1){ toast('至少需要一位主管'); return; }
+      Object.assign(t, {name, role});
+    } else S.members.push({id:uid(), name, role: rr ? rr.value : 'member'});
+    save(); closeSheet(); toast('已儲存'); refresh();
   },
-  saveSettings(){
+  async delMember(id){ if(!await ask('移除成員不會刪除過去的日報，確定移除？','移除')) return; S.members = S.members.filter(m=>m.id!==id); save(); closeSheet(); refresh(); },
+  saveRules(){
     const s = S.settings;
-    s.teamName = $('#stName').value.trim() || '業務營地';
-    s.dinnerCutoff = $('#stCut').value || '16:00';
-    s.remindTime = $('#stRemind').value || '20:00';
-    s.expPerLog = Math.max(0, +$('#stExp').value || 0);
+    s.teamName = $('#stName').value.trim() || '業務日誌';
+    s.dinnerCutoff = $('#stCut').value || '16:00'; s.remindTime = $('#stRemind').value || '20:00';
     s.dinnerMenu = $('#stMenu').value.split('\n').map(x=>x.trim()).filter(Boolean);
-    s.skipWeekend = $('#stWeekend').checked;
-    save(); toast('💾 規則已儲存'); route();
+    s.skipWeekend = (document.querySelector('input[name="wk"]:checked')||{value:'1'}).value==='1';
+    save(); toast('規則已儲存'); refresh();
   },
-  askPerm(){ if('Notification' in window) Notification.requestPermission().then(()=>route()); },
-  runAuto(force){ runAuto(force); },
+  askPerm(){ if('Notification' in window) Notification.requestPermission().then(refresh); },
+  runAuto(f){ runAuto(f); },
   exportJson(){
-    download('業務營地備份_'+today()+'_'+nowHM().replace(':','')+'.json', JSON.stringify(Object.assign({_app:'ling-camp', _exportedAt:new Date().toISOString()}, S), null, 2), 'application/json');
-    toast('⬇️ 備份已下載');
+    download(S.settings.teamName+'_備份_'+today()+'_'+nowHM().replace(':','')+'.json', JSON.stringify(Object.assign({_app:'ling-camp', _exportedAt:new Date().toISOString()}, S), null, 2), 'application/json');
+    toast('備份已下載');
   },
-  importJson(input){
-    const f = input.files && input.files[0]; if(!f) return;
-    const rd = new FileReader();
-    rd.onload = () => {
-      let data;
-      try{ data = JSON.parse(rd.result); }catch(e){ toast('⚠️ 檔案格式錯誤，無法讀取'); return; }
-      if(!data || !Array.isArray(data.members) || !Array.isArray(data.logs)){ toast('⚠️ 這不是本工具的備份檔'); return; }
-      let h = '<div class="modal-head"><h3>⬆️ 匯入備份</h3><button class="icon-btn" onclick="App.close()">✕</button></div>';
-      h += '<p class="small">檔案內有 <b>'+data.logs.length+'</b> 份戰報、<b>'+data.members.length+'</b> 位成員。要怎麼匯入？</p>';
-      h += '<div class="stack"><button class="btn primary block" id="imMerge">🔀 合併（保留現有資料，加入/更新檔案內容）</button><button class="btn danger block" id="imReplace">♻️ 覆蓋（以檔案完全取代目前資料）</button></div>';
-      openModal(h);
-      $('#imMerge').onclick = ()=>{ mergeData(data); save(); closeModal(); toast('🔀 合併完成'); route(); };
-      $('#imReplace').onclick = ()=>{ if(!confirm('目前資料會被完全取代，確定？')) return; const cur = S.currentUserId; delete data._app; delete data._exportedAt; S = data; load2(cur); save(); closeModal(); toast('♻️ 已覆蓋匯入'); route(); };
-    };
-    rd.readAsText(f);
-    input.value = '';
-  },
-  resetData(demo){
-    if(!confirm(demo?'重新載入示範資料？目前資料會被取代（建議先匯出備份）':'清空所有資料，從零開始？（建議先匯出備份）')) return;
-    S = seed(demo); save(); toast(demo?'🎪 已載入示範資料':'🧹 已清空，先到指揮台新增成員吧'); location.hash = demo?'#home':'#hq/team'; route();
+  async reset(demo){
+    if(!await ask(demo?'以示範資料取代目前內容？建議先匯出備份。':'清空所有資料？建議先匯出備份。', demo?'載入':'清空')) return;
+    S = seed(demo); save(); toast(demo?'已載入示範資料':'已清空，請先到主管工作台新增成員');
+    const target = demo ? '#home' : '#desk/team';
+    if(location.hash===target) route(false); else location.hash = target;
   }
 };
-function load2(cur){
-  S.settings = Object.assign(defaultSettings(), S.settings||{});
-  ['announcements','logs','cycles','cards','notifications','members'].forEach(k=>{ if(!Array.isArray(S[k])) S[k]=[]; });
-  S.dinners = S.dinners || {}; S.runs = S.runs || {};
-  if(S.members.find(m=>m.id===cur)) S.currentUserId = cur;
-  if(!S.members.find(m=>m.id===S.currentUserId)) S.currentUserId = (S.members[0]||{}).id;
-}
-function mergeData(d){
-  const byId = (a, b, newer) => { const map = new Map(a.map(x=>[x.id,x])); (b||[]).forEach(x=>{ const cur = map.get(x.id); if(!cur || !newer || newer(x,cur)) map.set(x.id, x); }); return Array.from(map.values()); };
+
+$('#importFile').onchange = function(){
+  const f = this.files && this.files[0]; if(!f) return;
+  const rd = new FileReader();
+  rd.onload = () => {
+    let data; try{ data = JSON.parse(rd.result); }catch(e){ toast('檔案格式錯誤'); return; }
+    if(!data || !Array.isArray(data.members) || !Array.isArray(data.logs)){ toast('這不是本工具的備份檔'); return; }
+    const b = '<p style="font-size:14px;margin-top:0">檔案內含 <span class="num" style="font-size:18px">'+data.logs.length+'</span> 份日報、<span class="num" style="font-size:18px">'+data.members.length+'</span> 位成員。</p>'
+      + '<div class="card"><button class="list-item" style="width:100%;text-align:left" id="imMerge"><div class="grow"><div class="nm">合併</div><div class="xs muted">保留目前資料，加入或更新檔案中的內容</div></div></button>'
+      + '<button class="list-item" style="width:100%;text-align:left" id="imReplace"><div class="grow"><div class="nm" style="color:var(--warn-ink)">覆蓋</div><div class="xs muted">以檔案完全取代目前資料</div></div></button></div>';
+    openSheet({en:'Import', title:'匯入備份', body:b});
+    $('#imMerge').onclick = () => { merge(data); normalize(S.currentUserId); save(); closeSheet(); toast('合併完成'); refresh(); };
+    $('#imReplace').onclick = async () => { if(!await ask('目前資料將被完全取代，確定？','覆蓋')) return; const cur = S.currentUserId; delete data._app; delete data._exportedAt; S = data; normalize(cur); save(); closeSheet(); toast('已覆蓋匯入'); refresh(); };
+  };
+  rd.readAsText(f); this.value = '';
+};
+function merge(d){
+  const byId = (a, b, newer) => { const mp = new Map(a.map(x=>[x.id,x])); (b||[]).forEach(x=>{ const c = mp.get(x.id); if(!c || !newer || newer(x,c)) mp.set(x.id,x); }); return Array.from(mp.values()); };
   const stamp = x => x.updatedAt || (x.review&&x.review.reviewedAt) || x.submittedAt || '';
+  const dedupe = (arr, key, ts) => { const mp = new Map(); arr.forEach(x=>{ const k = key(x), c = mp.get(k); if(!c || ts(x) > ts(c)) mp.set(k,x); }); return Array.from(mp.values()); };
   S.members = byId(S.members, d.members);
-  S.logs = byId(S.logs, d.logs, (inc,cur)=> stamp(inc) >= stamp(cur));
-  // 同一人同一天只保留一份
-  const seen = new Map();
-  S.logs.forEach(l=>{ const k = l.userId+'|'+l.date; const c = seen.get(k); if(!c || stamp(l) > stamp(c)) seen.set(k,l); });
-  S.logs = Array.from(seen.values());
+  S.logs = dedupe(byId(S.logs, d.logs, (i,c)=>stamp(i)>=stamp(c)), l=>l.userId+'|'+l.date, stamp);
   S.announcements = byId(S.announcements, d.announcements);
   S.cycles = byId(S.cycles, d.cycles);
-  S.cards = byId(S.cards, d.cards, (inc,cur)=> (inc.updatedAt||'') >= (cur.updatedAt||''));
-  const seenC = new Map();
-  S.cards.forEach(c=>{ const k = c.userId+'|'+c.cycleId; const o = seenC.get(k); if(!o || (c.updatedAt||'') > (o.updatedAt||'')) seenC.set(k,c); });
-  S.cards = Array.from(seenC.values());
+  S.cards = dedupe(byId(S.cards, d.cards, (i,c)=>(i.updatedAt||'')>=(c.updatedAt||'')), c=>c.userId+'|'+c.cycleId, c=>c.updatedAt||'');
   S.notifications = byId(S.notifications, d.notifications);
-  Object.entries(d.dinners||{}).forEach(([day,obj])=>{ S.dinners[day] = S.dinners[day] || {}; Object.entries(obj).forEach(([u,v])=>{ const c = S.dinners[day][u]; if(!c || (v.at||'') >= (c.at||'')) S.dinners[day][u] = v; }); });
+  Object.entries(d.dinners||{}).forEach(([day,o])=>{ S.dinners[day] = S.dinners[day] || {}; Object.entries(o).forEach(([u,v])=>{ const c = S.dinners[day][u]; if(!c || (v.at||'')>=(c.at||'')) S.dinners[day][u] = v; }); });
 }
 
 /* =========================================================
    啟動
    ========================================================= */
 load();
-window.addEventListener('hashchange', route);
-route();
+route(false);
 setTimeout(()=>runAuto(false), 800);
 setInterval(()=>runAuto(false), 30000);
-// 跨日自動刷新
 let lastDay = today();
-setInterval(()=>{ if(today()!==lastDay){ lastDay = today(); route(); } }, 60000);
+setInterval(()=>{ if(today()!==lastDay){ lastDay = today(); refresh(); } }, 60000);
 })();
 </script>
 </body>
